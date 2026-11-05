@@ -524,7 +524,7 @@ function vFinder(){
 }
 function wordingCheck(txt){
  const bad=[[/guarante/i,'guarantee'],[/\breturns?\b/i,'returns'],[/outperform/i,'outperform'],[/risk[- ]free/i,'risk-free'],[/\bbeat the market\b/i,'beat the market']];
- const hits=bad.filter(([re])=>re.test(txt)).map(b=>b[1]);
+ const t2=txt.replace(/\btax returns?\b/ig,'tax filings');const hits=bad.filter(([re])=>re.test(t2)).map(b=>b[1]);
  if(!txt.trim())return '';
  return hits.length?`<div class="check bad"><b>Fix before sending.</b> Found: ${hits.map(h=>`"${esc(h)}"`).join(', ')}. Rephrase around planning and process instead.</div>`:'<div class="check ok"><b>Looks clean.</b> No flagged wording found. Your compliance contact still has the final say.</div>';
 }
@@ -778,7 +778,7 @@ function vTasks(){
 
 /* ---------- settings ---------- */
 function vSettings(){
- const plan=[['LinkedIn outreach, 2 senders','Each of you sends from your own LinkedIn, with Sales Navigator searches feeding your lists. Draft-only until compliance confirms.'],['Shared pipeline for both of you','One login each, same pipeline, in the pilot.'],['Outlook email and calendar sync','In the pilot.'],['Autopilot app for iPhone','Hot leads, approvals and tap-to-call in your pocket. Home Screen today, App Store next.'],['Social Studio','Facebook, Instagram and TikTok posts planned and scheduled for Silver Oak.'],['RightCapital link on each household','In the pilot.'],['Compliance archiving of outreach','To confirm with your compliance contact before any outreach goes live.']];
+ const plan=[['LinkedIn outreach, 2 senders','Each of you sends from your own LinkedIn, with Sales Navigator searches feeding your lists. Draft-only until compliance confirms.'],['Shared pipeline for both of you','One login each, same pipeline, in the pilot.'],['Outlook email and calendar sync','In the pilot.'],['Autopilot app for iPhone','Hot leads, approvals and tap-to-call in your pocket. Home Screen today, App Store next.'],['Social Studio','Facebook, Instagram and TikTok posts planned and scheduled for Silver Oak.'],['RightCapital link on each household','In the pilot.'],['Compliance archiving of outreach','To confirm with your compliance contact before any outreach goes live.'],['Fact Finder, Meetings, Pilot scorecard and Compliance archive','In this draft with sample data. Live records arrive in the pilot.'],['Booking page for new clients','A link they use to pick a time. It lands on both calendars.'],['E-signature for agreements','Send, sign and file in the household record.'],['Secure document vault','Clients upload statements and tax returns safely, instead of by email.'],['Review reminders by email and text','Annual reviews and birthdays, drafted for you to approve.'],['Plan link-out to RightCapital','One click from the household to the plan you already use.']];
  return topbar('Settings')+`<div class="grid2">
   <div class="card pad"><h3>What is real in this draft</h3><p class="sub" style="margin-top:-6px">Stages, fields, reminders, sources and the Prospect Finder layout follow your intake answers. Data is stored in this browser only, so this draft is one person on one device.</p>
    <div class="list">${plan.map(([a,b])=>`<div class="li"><div class="grow"><div style="font-weight:900">${esc(a)}</div><div class="sub">${esc(b)}</div></div><span class="pill warn">Planned</span></div>`).join('')}</div></div>
@@ -1220,6 +1220,272 @@ document.addEventListener('change',e=>{
 });
 load();renderNav();renderMain();renderTick();
 </script>
+<script>
+/* TAZ pro pages v0.1: Pilot scorecard, Meetings (prep + follow-up), Fact Finder, Compliance archive. Sample data only; nothing is sent. */
+(function(){
+  var FXK='taz_pro1', FFK='taz_ff_submissions';
+  function lsGet(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+  function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+  var FX=lsGet(FXK,{goals:{meetings:5,clients:5,ontime:90},archive:[],ffSent:{},prepTab:'before',prepHH:'h1',notes:'',built:null});
+  if(!FX.goals)FX.goals={meetings:5,clients:5,ontime:90};
+  function sv(){lsSet(FXK,FX)}
+  var ICO={
+    score:'<svg viewBox="0 0 24 24"><path d="M5 9h3v10H5zm5-5h3v15h-3zm5 8h3v7h-3z"/></svg>',
+    meet:'<svg viewBox="0 0 24 24"><path d="M17 12a3 3 0 1 0-3-3 3 3 0 0 0 3 3zM7 12a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm0 2c-2.3 0-7 1.2-7 3.5V20h14v-2.5C14 15.2 9.3 14 7 14zm10 0c-.3 0-.6 0-1 .1 1.2.8 2 1.9 2 3.4V20h6v-2.5c0-2.3-4.7-3.5-7-3.5z"/></svg>',
+    form:'<svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zm8 1.5V8h4.5zM8 12h10v2H8zm0 4h10v2H8z"/></svg>',
+    lock:'<svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 0-5 5v3H5v12h14V10h-2V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3z"/></svg>'
+  };
+  var st=document.createElement('style');st.textContent='.pl{margin:0 0 0 18px;padding:0;font-size:13.5px}.pl li{margin:4px 0}.side{overflow-y:auto}.side .nav{padding-top:7px;padding-bottom:7px}.check{padding:9px 11px;border-radius:9px;font-size:13px}.check.ok{background:var(--oks);color:var(--ok)}.check.bad{background:var(--bads);color:var(--bad)}';document.head.appendChild(st);
+  /* ---------- helpers ---------- */
+  function hhName(id){var h=DB.hh.find(function(x){return x.id===id});return h?h.name:''}
+  function dealsFor(id){return DB.deals.filter(function(d){return d.hh===id})}
+  function stg(d){var s=DB.stages.find(function(x){return x.id===d.stage});return s?s.name:''}
+  function daysTo(s){return Math.round((new Date(s+'T12:00:00')-new Date(today()+'T12:00:00'))/864e5)}
+  function fmtDT(ms){return new Date(ms).toLocaleDateString('en-US',{month:'short',day:'numeric'})+', '+new Date(ms).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}
+  function csv(rows){return rows.map(function(r){return r.map(function(c){c=String(c==null?'':c).replace(/"/g,'""');return /[",\n]/.test(c)?'"'+c+'"':c}).join(',')}).join('\n')}
+  function download(name,text,type){var b=new Blob([text],{type:type||'text/csv'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},400)}
+
+  /* ---------- Fact finder data ---------- */
+  var FF_SAMPLE={h1:{status:'Complete',at:Date.now()-2*864e5,a:{
+    about:'Tom (61) and Anne (59), Mt. Lebanon, PA. Married 32 years.',
+    income:'Household income about $240k to $260k. Tom plans to retire at 63, Anne at 62.',
+    assets:'401(k) and IRA accounts, a taxable brokerage account, a home with a small mortgage, and cash reserves of about 8 months.',
+    goals:'Retire in about 2 years, travel, help the grandkids with college, keep the house.',
+    comfort:'Moderate. Would not want to see the accounts fall more than about 15% in a bad year.',
+    questions:'When should each of us claim Social Security? How do we pay for healthcare before Medicare?',
+    docs:'Latest statements, last two tax returns, estate documents'}},
+    h2:{status:'In progress',at:Date.now()-1*864e5,a:{about:'Dev, 44, owns a small design shop in Shadyside.',goals:'Plan for selling or handing off the business in about 8 years.'}}};
+  function ffAll(){
+    var out={},k;for(k in FF_SAMPLE)out[k]=FF_SAMPLE[k];
+    var subs=lsGet(FFK,[]);
+    subs.forEach(function(s){ if(s.hh){out[s.hh]={status:'Complete',at:s.at,a:s.a,live:true}} else {out['live_'+s.at]={status:'Complete',at:s.at,a:s.a,live:true,name:(s.a&&s.a.about?s.a.about.split(/[.,;]/)[0]:'New client')+' (from your test)'}} });
+    return out;
+  }
+  function ffStatus(id,all){var r=all[id];if(r)return r.status;return FX.ffSent[id]?'Sent':'Not sent'}
+
+  /* ---------- Pilot scorecard ---------- */
+  var PILOT_START='2026-11-17', PILOT_END='2026-12-01', DECISION='2026-12-02';
+  window.vScore=function(){
+    var g=FX.goals, deals=DB.deals, ym=today().slice(0,7), cutoff=addDays(-90);
+    var meetings=deals.filter(function(d){return (d.firstMeeting||'').slice(0,7)===ym}).length;
+    var clients=deals.filter(function(d){var s=DB.stages.find(function(x){return x.id===d.stage});return s&&s.type==='won'&&(d.wonAt||'')>=cutoff}).length;
+    var open=DB.tasks.filter(function(t){return !t.done});
+    var done=DB.tasks.filter(function(t){return t.done}).length;
+    var late=open.filter(function(t){return t.due&&t.due<today()}).length;
+    var total=Math.max(1,open.length+done); var ontime=Math.round(100*(total-late)/total);
+    var hot=DB.prospects?DB.prospects.filter(function(p){return !p.dnc}).length:0;
+    var calls=(DB.calls||[]).length;
+    var dStart=daysTo(PILOT_START), dEnd=daysTo(PILOT_END), dDec=daysTo(DECISION);
+    var phase=dStart>0?'Pilot starts in '+dStart+' day'+(dStart===1?'':'s'):(dEnd>=0?'Pilot day '+(14-dEnd)+' of 14':'Pilot complete');
+    var pct=dStart>0?0:Math.max(0,Math.min(100,Math.round(100*(14-dEnd)/14)));
+    function tile(l,v,goal,sub){var p=goal?Math.min(100,Math.round(100*v/goal)):0;return '<div class="card pad kpi"><div class="l">'+l+'</div><div class="v">'+v+(goal?' <span class="sub">of '+goal+'</span>':'')+'</div>'+(goal?'<div class="meter"><div style="width:'+p+'%"></div></div>':'')+'<div class="s">'+(sub||'')+'</div></div>'}
+    var src={};deals.forEach(function(d){var k=d.source||'Other';src[k]=src[k]||{n:0,won:0};src[k].n++;var s=DB.stages.find(function(x){return x.id===d.stage});if(s&&s.type==='won')src[k].won++});
+    var smx=Math.max(1,Math.max.apply(null,Object.keys(src).map(function(k){return src[k].n}).concat([1])));
+    var srcRows=Object.keys(src).sort(function(a,b){return src[b].n-src[a].n}).map(function(k){return '<div class="hbar"><span>'+esc(k)+'</span><div class="track"><div class="fill g" style="width:'+Math.round(100*src[k].n/smx)+'%"></div></div><span class="n">'+src[k].n+'</span></div>'}).join('')||'<div class="empty">No deals yet</div>';
+    var partners=[['The Okafor Family','Client referral','2 introductions'],['Brennan estate attorney','CPA / attorney','1 introduction'],['Local CPA (sample)','CPA / attorney','Thank-you note due']];
+    var pr=partners.map(function(p){return '<div class="li"><div class="grow"><b>'+esc(p[0])+'</b><div class="sub">'+esc(p[1])+'</div></div><span class="pill">'+esc(p[2])+'</span></div>'}).join('');
+    var crit=[
+      ['First meetings this month',meetings+' of '+g.meetings,meetings>=g.meetings],
+      ['New clients',clients+' of '+g.clients,clients>=g.clients],
+      ['Follow-ups on time',ontime+'% (goal '+g.ontime+'%)',ontime>=g.ontime]
+    ].map(function(c){return '<div class="li"><span class="pill '+(c[2]?'ok':'warn')+'">'+(c[2]?'On track':'Not yet')+'</span><div class="grow"><b>'+c[0]+'</b></div><span>'+c[1]+'</span></div>'}).join('');
+    return topbar('Pilot scorecard',ownerPills())+
+    '<div class="card pad" style="margin-bottom:14px"><div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><div class="grow"><h3 style="margin:0">'+phase+'</h3><div class="sub">Pilot runs '+fdate(PILOT_START)+' to '+fdate(PILOT_END)+'. You decide on '+fdate(DECISION)+'.</div></div><div style="flex:1;min-width:220px"><div class="meter"><div style="width:'+pct+'%"></div></div><div class="sub" style="display:flex;justify-content:space-between;margin-top:4px"><span>Nov 17</span><span>Dec 1</span><span>Decide Dec 2</span></div></div></div></div>'+
+    '<div class="kpis">'+tile('First meetings this month',meetings,g.meetings,'Goal for the pilot')+tile('New clients',clients,g.clients,'Won in the last 90 days')+tile('Follow-ups on time',ontime+'%',0,late+' overdue right now')+tile('Calls logged',calls,0,'In the Call Desk')+'</div>'+
+    '<div class="grid2"><div class="card pad"><h3>Your decision checklist</h3>'+crit+'<div class="sub" style="margin-top:10px">Change the goals below. They are saved in this browser.</div>'+
+    '<div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap"><label class="sub">Meetings<input class="inp" style="width:90px" id="g-m" type="number" min="1" value="'+g.meetings+'"></label><label class="sub">Clients<input class="inp" style="width:90px" id="g-c" type="number" min="1" value="'+g.clients+'"></label><label class="sub">On time %<input class="inp" style="width:90px" id="g-o" type="number" min="1" max="100" value="'+g.ontime+'"></label></div></div>'+
+    '<div class="card pad"><h3>Where business is coming from</h3>'+srcRows+'</div></div>'+
+    '<div class="grid2"><div class="card pad"><h3>People sending you business</h3><div class="list">'+pr+'</div><div class="sub" style="margin-top:8px">Sample names. In the live version this fills from your records, and a thank-you draft is waiting when a referral turns into a client.</div></div>'+
+    '<div class="card pad"><h3>Share this with your team</h3><p class="sub" style="margin-top:0">A one-page summary you can send before the decision date.</p><button class="btn pri" data-act="pro-score-export">Download summary (CSV)</button></div></div>';
+  };
+
+  /* ---------- Meetings: prep + follow-up ---------- */
+  function prepBrief(hid){
+    var h=DB.hh.find(function(x){return x.id===hid}); if(!h)return '<div class="empty">Pick a household.</div>';
+    var ds=dealsFor(hid), notes=(DB.notes||[]).filter(function(n){return ds.some(function(d){return d.id===n.deal})}).sort(function(a,b){return b.when-a.when});
+    var tasks=DB.tasks.filter(function(t){return !t.done&&ds.some(function(d){return d.id===t.deal})});
+    var all=ffAll(), fs=ffStatus(hid,all);
+    var last=notes[0];
+    var topics=[];
+    var txt=(h.notes+' '+(last?last.text:'')).toLowerCase();
+    if(/retire/.test(txt))topics.push('Walk through the retirement timeline and the order of the big decisions.');
+    if(/social security/.test(txt))topics.push('Show Social Security claiming scenarios side by side.');
+    if(/college|grandkid|kids/.test(txt))topics.push('Ask how much they want to set aside for family, and by when.');
+    if(/succession|business/.test(txt))topics.push('Ask what a good outcome for the business looks like in 5 to 10 years.');
+    if(/estate|attorney/.test(txt))topics.push('Check the estate documents are current and who the attorney is.');
+    if(h.type==='Client')topics.push('Review what changed since the last annual review.');
+    if(!topics.length)topics.push('Ask what prompted them to reach out and what a good first year looks like.');
+    var qs=['What would make this meeting worth your time?','Anything that changed in your family, work or health since we last spoke?','What worries you most about money right now?'];
+    var due=tasks.map(function(t){return '<li>'+esc(t.title)+(t.due?' <span class="sub">('+(t.due<today()?'overdue, ':'due ')+fdate(t.due)+')</span>':'')+'</li>'}).join('')||'<li class="sub">Nothing open.</li>';
+    var fsPill=fs==='Complete'?'<span class="pill ok">Fact finder complete</span>':fs==='In progress'?'<span class="pill warn">Fact finder in progress</span>':fs==='Sent'?'<span class="pill">Fact finder sent</span>':'<span class="pill bad">Fact finder not sent</span>';
+    return '<div class="card pad"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><h3 style="margin:0">'+esc(h.name)+'</h3><span class="pill acc">'+esc(h.type)+'</span>'+fsPill+'</div><div class="sub" style="margin:4px 0 10px">'+esc(h.members||'')+(h.city?' &middot; '+esc(h.city):'')+'</div>'+
+      '<div class="grid2" style="margin-bottom:0"><div><h4 style="margin:6px 0">Where things stand</h4><ul class="pl">'+(ds.map(function(d){return '<li><b>'+esc(d.title)+'</b> <span class="sub">'+esc(stg(d))+' &middot; '+esc(d.owner)+'</span></li>'}).join('')||'<li class="sub">No open deals.</li>')+'</ul>'+
+      '<h4 style="margin:10px 0 6px">Last touch</h4><div class="sub" style="font-size:13.5px">'+(last?esc(last.text)+' <span>('+fdate(iso(last.when))+')</span>':esc(h.notes||'No notes yet.'))+'</div>'+
+      '<h4 style="margin:10px 0 6px">Open items</h4><ul class="pl">'+due+'</ul></div>'+
+      '<div><h4 style="margin:6px 0">Suggested talking points</h4><ul class="pl">'+topics.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul>'+
+      '<h4 style="margin:10px 0 6px">Good questions to ask</h4><ul class="pl">'+qs.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul>'+
+      '<div class="check ok" style="margin-top:10px"><b>Reminder.</b> Talk about planning and process. No promises about returns.</div></div></div></div>';
+  }
+  var SAMPLE_NOTES='Met with Tom and Anne Whitaker. They want to retire in about 2 years. Tom will send the last two tax returns and the latest 401(k) statements. We agreed to look at Social Security timing for both of them. I will send the claiming scenarios by Friday. Anne is worried about healthcare costs before Medicare. I will schedule a second planning meeting for two weeks from now.';
+  function buildFollow(notes,hid){
+    var h=DB.hh.find(function(x){return x.id===hid})||{name:'there',members:''};
+    var sents=notes.replace(/\s+/g,' ').split(/(?<=[.!?])\s+/);
+    var mine=[],theirs=[];
+    sents.forEach(function(s){
+      if(/\b(I will|I'll|I am going to|we will look|we'll look)\b/i.test(s))mine.push(s.replace(/^.*?\b(I will|I'll|I am going to|we will|we'll)\b\s*/i,function(m,x){return ''}).replace(/\.$/,''));
+      else if(/\b(will send|will bring|will gather|to send)\b/i.test(s)&&!/\bI will\b/i.test(s))theirs.push(s.replace(/\.$/,''));
+    });
+    var first=(h.members||'').split(',')[0]||'there';
+    var mineL=mine.map(function(m){return m.charAt(0).toUpperCase()+m.slice(1)}).filter(Boolean);
+    var email='Hi '+first+',\n\nThank you for your time today. I enjoyed learning more about your plans.\n\nHere is what we agreed on:\n'+
+      (mineL.length?'\nOn my side:\n'+mineL.map(function(m){return '- '+m}).join('\n'):'')+
+      (theirs.length?'\n\nOn your side:\n'+theirs.map(function(m){return '- '+m}).join('\n'):'')+
+      '\n\nIf anything above is off, tell me and I will fix it. Otherwise I will be in touch before our next meeting.';
+    var tasks=mineL.map(function(m){var due=/friday/i.test(m)?nextDow(5):/two weeks/i.test(m)?addDays(14):addDays(3);return {title:m.slice(0,90),due:due}});
+    return {email:email,tasks:tasks,note:notes.trim().slice(0,600),hid:hid};
+  }
+  function nextDow(dow){var d=new Date();var diff=(dow-d.getDay()+7)%7||7;d.setDate(d.getDate()+diff);return iso(d)}
+  window.vMeet=function(){
+    var tab=FX.prepTab||'before';
+    var opts=DB.hh.map(function(h){return '<option value="'+h.id+'"'+(FX.prepHH===h.id?' selected':'')+'>'+esc(h.name)+'</option>'}).join('');
+    var tabs='<div class="chips" style="margin:0 0 14px"><button class="chip '+(tab==='before'?'on':'')+'" data-act="pro-tab" data-id="before">Before the meeting</button><button class="chip '+(tab==='after'?'on':'')+'" data-act="pro-tab" data-id="after">After the meeting</button></div>';
+    var pick='<div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap"><label class="sub">Household <select id="pro-hh" class="inp" style="min-width:240px">'+opts+'</select></label></div>';
+    var body='';
+    if(tab==='before'){ body=pick+prepBrief(FX.prepHH); }
+    else{
+      var b=FX.built;
+      body=pick+'<div class="card pad"><h3>Meeting notes</h3><p class="sub" style="margin-top:0">Type or paste your notes. TAZ drafts the follow-up email, a CRM note and your to-dos. You approve before anything is saved, and nothing is sent.</p><textarea class="inp" id="pro-notes" rows="6" placeholder="What was discussed, what you promised, what they promised">'+esc(FX.notes||'')+'</textarea><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn pri" data-act="pro-build">Build follow-up</button><button class="btn" data-act="pro-sample">Use sample notes</button></div></div>';
+      if(b){
+        var tl=b.tasks.map(function(t,i){return '<div class="li"><div class="grow">'+esc(t.title)+'</div><span class="pill">'+fdate(t.due)+'</span></div>'}).join('')||'<div class="empty">No to-dos found in the notes.</div>';
+        body+='<div class="grid2" style="margin-top:14px"><div class="card pad"><h3>Draft follow-up email</h3><textarea class="inp" id="pro-email" rows="12">'+esc(b.email)+'</textarea><div id="pro-wc" style="margin-top:6px">'+wordingCheck(b.email)+'</div></div>'+
+          '<div class="card pad"><h3>To-dos TAZ found</h3><div class="list">'+tl+'</div><h3 style="margin-top:14px">CRM note</h3><div class="sub" style="font-size:13.5px">'+esc(b.note)+'</div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" data-act="pro-approve">Approve and save</button><span class="sub" style="align-self:center">Saves the note and tasks, files the draft in the archive. Sends nothing.</span></div></div></div>';
+      }
+    }
+    return topbar('Meetings',ownerPills())+tabs+body;
+  };
+
+  /* ---------- Fact Finder (advisor side) ---------- */
+  var FF_URL=function(id){var base=location.href.replace(/[^\/]*(\?.*)?(#.*)?$/,'');return base+'factfinder.html'+(id?'?hh='+id:'')};
+  window.vFact=function(){
+    var all=ffAll(), rows=DB.hh.map(function(h){
+      var s=ffStatus(h.id,all);
+      var pill=s==='Complete'?'<span class="pill ok">Complete</span>':s==='In progress'?'<span class="pill warn">In progress</span>':s==='Sent'?'<span class="pill acc">Sent</span>':'<span class="pill">Not sent</span>';
+      var act=s==='Complete'||s==='In progress'?'<button class="btn sm" data-act="pro-ff-view" data-id="'+h.id+'">View answers</button>':'<button class="btn sm" data-act="pro-ff-send" data-id="'+h.id+'">Send link</button>';
+      return '<tr><td><b>'+esc(h.name)+'</b><div class="sub">'+esc(h.members||'')+'</div></td><td class="hide-m">'+esc(h.type)+'</td><td>'+pill+'</td><td style="text-align:right">'+act+'</td></tr>';
+    }).join('');
+    var extra=Object.keys(all).filter(function(k){return /^live_/.test(k)}).map(function(k){var r=all[k];return '<tr><td><b>'+esc(r.name)+'</b><div class="sub">Submitted '+fmtDT(r.at)+'</div></td><td class="hide-m">Test submission</td><td><span class="pill ok">Complete</span></td><td style="text-align:right"><button class="btn sm" data-act="pro-ff-view" data-id="'+k+'">View answers</button></td></tr>'}).join('');
+    var counts={Complete:0,'In progress':0,Sent:0,'Not sent':0};DB.hh.forEach(function(h){counts[ffStatus(h.id,all)]++});
+    var extraN=Object.keys(all).filter(function(k){return /^live_/.test(k)}).length;
+    return topbar('Fact Finder')+
+    '<div class="kpis"><div class="card pad kpi"><div class="l">Complete</div><div class="v">'+(counts.Complete+extraN)+'</div></div><div class="card pad kpi"><div class="l">In progress</div><div class="v">'+counts['In progress']+'</div></div><div class="card pad kpi"><div class="l">Sent, waiting</div><div class="v">'+counts.Sent+'</div></div><div class="card pad kpi"><div class="l">Not sent yet</div><div class="v">'+counts['Not sent']+'</div></div></div>'+
+    '<div class="card pad" style="margin-bottom:14px"><div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><div class="grow"><h3 style="margin:0">Try it as a client</h3><div class="sub">Open the client view, fill it in with made-up details, submit it, then come back. It shows up here as a new complete form.</div></div><a class="btn pri" href="'+FF_URL('')+'" target="_blank" rel="noopener">Open the client view</a></div></div>'+
+    '<div class="card"><div class="tablewrap"><table><thead><tr><th>Household</th><th class="hide-m">Type</th><th>Status</th><th></th></tr></thead><tbody>'+rows+extra+'</tbody></table></div></div>'+
+    '<div class="sub" style="margin-top:10px">The client form asks for ranges and goals only. It never asks for Social Security numbers or account numbers.</div>';
+  };
+  var FF_LABELS={about:'About you',income:'Income',assets:'Assets and debts',goals:'Goals',comfort:'Comfort with ups and downs',questions:'Questions for you',docs:'Documents they can share'};
+  function ffModal(id){
+    var all=ffAll(), r=all[id]; if(!r)return;
+    var name=id.indexOf('live_')===0?r.name:hhName(id);
+    var rows=Object.keys(FF_LABELS).filter(function(k){return r.a&&r.a[k]}).map(function(k){return '<div style="margin:10px 0"><div class="sub" style="font-weight:700">'+FF_LABELS[k]+'</div><div>'+esc(r.a[k])+'</div></div>'}).join('')||'<div class="empty">Nothing filled in yet.</div>';
+    var m=document.getElementById('taz-modal');
+    m.innerHTML='<div class="tz-box" style="max-width:560px;max-height:84vh;overflow:auto"><h3>'+esc(name)+'</h3><p class="tz-sub">'+esc(r.status)+(r.at?' &middot; '+fmtDT(r.at):'')+'</p>'+rows+'<div class="tz-row"><button class="tz-btn ghost" id="pro-mc">Close</button>'+(r.status==='Complete'&&id.indexOf('live_')!==0?'<button class="tz-btn" id="pro-ms">Add to household notes</button>':'')+'</div></div>';
+    m.classList.add('on');
+    document.getElementById('pro-mc').onclick=function(){m.classList.remove('on')};
+    var ms=document.getElementById('pro-ms'); if(ms)ms.onclick=function(){
+      var h=DB.hh.find(function(x){return x.id===id});
+      if(h){var d=dealsFor(id)[0];DB.notes=DB.notes||[];DB.notes.push({id:uid(),deal:d?d.id:'',when:Date.now(),text:'Fact finder completed. '+((r.a.goals)||'')});refresh();}
+      m.classList.remove('on');toast('Added to the household notes');
+    };
+  }
+
+  /* ---------- Compliance archive ---------- */
+  var CH={email:'Email',linkedin:'LinkedIn',social:'Social post',call:'Call note',note:'Meeting follow-up'};
+  function archSeed(){
+    var D=864e5,n=Date.now();
+    return [
+      {ch:'email',who:'Jesse',to:'Tom and Anne Whitaker',subj:'Social Security timing scenarios',body:'Hi Tom and Anne, attached are three claiming scenarios side by side. Happy to walk through them Thursday.',at:n-1*D,st:'Sent'},
+      {ch:'linkedin',who:'Aidan',to:'Dev Raman',subj:'LinkedIn message',body:'Hi Dev, saw your post on the design shop. If succession planning is on your mind, I am glad to share how other owners approach it.',at:n-2*D,st:'Sent'},
+      {ch:'email',who:'Aidan',to:'Lena Hartmann',subj:'Thanks for reaching out',body:'Hi Lena, thanks for reaching out through the website. Would a short intro call work this week?',at:n-3*D,st:'Sent'},
+      {ch:'linkedin',who:'Aidan',to:'Prospect (sample)',subj:'LinkedIn message',body:'Our approach has delivered strong returns and we guarantee you will be pleased.',at:n-4*D,st:'Blocked before sending'},
+      {ch:'social',who:'Jesse',to:'LinkedIn page',subj:'Post',body:'Three questions to ask before you retire. Planning beats guessing.',at:n-5*D,st:'Published'},
+      {ch:'call',who:'Jesse',to:'The Brennan Household',subj:'Call note',body:'Estate attorney is updating the trust. Will check back after they finish. Annual review in six weeks.',at:n-6*D,st:'Logged'}
+    ];
+  }
+  function archAll(){return FX.archive.concat(archSeed()).sort(function(a,b){return b.at-a.at})}
+  function flagsFor(txt){txt=String(txt).replace(/\btax returns?\b/ig,'tax filings');var bad=[[/guarante/i,'guarantee'],[/\breturns?\b/i,'returns'],[/outperform/i,'outperform'],[/risk[- ]free/i,'risk-free'],[/\bbeat the market\b/i,'beat the market']];return bad.filter(function(b){return b[0].test(txt)}).map(function(b){return b[1]})}
+  var AQ={q:'',ch:'All',flag:false};
+  window.vArch=function(){
+    var rows=archAll().filter(function(r){
+      if(AQ.ch!=='All'&&r.ch!==AQ.ch)return false;
+      var fl=flagsFor(r.body); if(AQ.flag&&!fl.length)return false;
+      var s=(AQ.q||'').toLowerCase(); if(s&&(r.body+' '+r.to+' '+r.subj+' '+r.who).toLowerCase().indexOf(s)<0)return false;
+      return true;
+    });
+    var chips=['All'].concat(Object.keys(CH)).map(function(k){return '<button class="chip '+(AQ.ch===k?'on':'')+'" data-act="pro-ach" data-id="'+k+'">'+(k==='All'?'All':CH[k])+'</button>'}).join('');
+    var list=rows.map(function(r){var fl=flagsFor(r.body);return '<tr><td style="white-space:nowrap">'+fmtDT(r.at)+'</td><td><span class="pill acc">'+CH[r.ch]+'</span></td><td>'+esc(r.who)+'</td><td><b>'+esc(r.to)+'</b><div class="sub">'+esc(r.subj)+'</div><div style="margin-top:4px;font-size:13.5px">'+esc(r.body)+'</div>'+(fl.length?'<div class="check bad" style="margin-top:6px"><b>Flagged:</b> '+fl.map(function(f){return '"'+esc(f)+'"'}).join(', ')+'. '+(r.st==='Blocked before sending'?'Held back before it went out.':'Review this one.')+'</div>':'')+'</td><td><span class="pill '+(r.st==='Blocked before sending'?'bad':r.st==='Draft (not sent)'?'warn':'ok')+'">'+esc(r.st)+'</span></td></tr>'}).join('')||'<tr><td colspan="5"><div class="empty">Nothing matches.</div></td></tr>';
+    var flagged=archAll().filter(function(r){return flagsFor(r.body).length}).length;
+    return topbar('Compliance archive',' <button class="btn pri" data-act="pro-aexport">Export CSV</button>')+
+    '<div class="card pad" style="margin-bottom:14px"><div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center"><div class="grow"><h3 style="margin:0">One searchable record of what goes out</h3><div class="sub">Every email, LinkedIn message, post, call note and follow-up lands here, with the date, who sent it and what was said. Risky wording is flagged and blocked before it leaves.</div></div><div style="text-align:right"><div style="font-size:26px;font-weight:800">'+archAll().length+'</div><div class="sub">records &middot; '+flagged+' flagged</div></div></div></div>'+
+    '<div class="card pad" style="margin-bottom:14px"><b>One thing to settle together.</b> <span class="sub">Does the firm already use an archiving service for email and social? If yes, TAZ sends a copy there. If not, this page is the record. How long to keep records is a call for your compliance contact. Common practice is five to six years.</span></div>'+
+    '<div class="toolbar" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px"><input id="pro-aq" class="inp" style="max-width:320px" placeholder="Search the archive" value="'+esc(AQ.q)+'"><div class="chips">'+chips+'<button class="chip '+(AQ.flag?'on':'')+'" data-act="pro-aflag">Flagged only</button></div></div>'+
+    '<div class="card"><div class="tablewrap"><table><thead><tr><th>When</th><th>Channel</th><th>By</th><th>What was said</th><th>Status</th></tr></thead><tbody>'+list+'</tbody></table></div></div>';
+  };
+
+  /* ---------- actions ---------- */
+  var A={
+    'pro-tab':function(id){FX.prepTab=id;sv();renderMain()},
+    'pro-sample':function(){FX.notes=SAMPLE_NOTES;FX.prepHH='h1';sv();renderMain()},
+    'pro-build':function(){var el=document.getElementById('pro-notes');var t=el?el.value.trim():'';if(!t){toast('Add some notes first');return}FX.notes=t;FX.built=buildFollow(t,FX.prepHH);sv();renderMain();toast('Follow-up built. Review it below')},
+    'pro-approve':function(){var b=FX.built;if(!b)return;var em=document.getElementById('pro-email');var text=em?em.value:b.email;
+      var d=dealsFor(b.hid)[0];DB.notes=DB.notes||[];DB.notes.push({id:uid(),deal:d?d.id:'',when:Date.now(),text:b.note});
+      b.tasks.forEach(function(t){DB.tasks.push({id:uid(),title:t.title,due:t.due,owner:(d&&d.owner)||'Jesse',deal:d?d.id:'',done:false})});
+      FX.archive.push({ch:'note',who:(d&&d.owner)||'Jesse',to:hhName(b.hid),subj:'Follow-up email',body:text.replace(/\n+/g,' ').slice(0,400),at:Date.now(),st:'Draft (not sent)'});
+      FX.built=null;FX.notes='';sv();refresh();toast('Saved. Note and tasks added, draft filed in the archive. Nothing was sent')},
+    'pro-ff-send':function(id){FX.ffSent[id]=true;sv();var link=FF_URL(id);try{navigator.clipboard.writeText(link)}catch(e){}renderMain();toast('Link copied. In the live version this goes to the client by email')},
+    'pro-ff-view':function(id){ffModal(id)},
+    'pro-ach':function(id){AQ.ch=id;renderMain()},
+    'pro-aflag':function(){AQ.flag=!AQ.flag;renderMain()},
+    'pro-aexport':function(){var rows=[['When','Channel','By','To','Subject','Body','Status','Flags']].concat(archAll().map(function(r){return [new Date(r.at).toISOString(),CH[r.ch],r.who,r.to,r.subj,r.body,r.st,flagsFor(r.body).join('; ')]}));download('silver-oak-archive-sample.csv',csv(rows));toast('Downloaded')},
+    'pro-score-export':function(){var g=FX.goals;var rows=[['Pilot scorecard (sample data)',''],['Pilot window',PILOT_START+' to '+PILOT_END],['Decision date',DECISION],['Meetings goal',g.meetings],['Clients goal',g.clients],['On-time goal %',g.ontime],['First meetings booked this month',DB.deals.filter(function(d){return (d.firstMeeting||'').slice(0,7)===today().slice(0,7)}).length],['Open tasks',DB.tasks.filter(function(t){return !t.done}).length]];download('silver-oak-pilot-scorecard.csv',csv(rows));toast('Downloaded')}
+  };
+  Object.keys(A).forEach(function(k){ACT[k]=A[k]});
+  /* change handlers for inputs that live on these pages */
+  document.addEventListener('change',function(e){
+    var t=e.target;
+    if(t.id==='pro-hh'){FX.prepHH=t.value;FX.built=null;sv();renderMain()}
+    if(t.id==='g-m'||t.id==='g-c'||t.id==='g-o'){var v=Math.max(1,parseInt(t.value,10)||1);if(t.id==='g-m')FX.goals.meetings=v;if(t.id==='g-c')FX.goals.clients=v;if(t.id==='g-o')FX.goals.ontime=Math.min(100,v);sv();renderMain()}
+  });
+  document.addEventListener('input',function(e){
+    var t=e.target;
+    if(t.id==='pro-aq'){AQ.q=t.value;var pos=t.selectionStart;renderMain();var n=document.getElementById('pro-aq');if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}}
+    if(t.id==='pro-email'){var w=document.getElementById('pro-wc');if(w)w.innerHTML=wordingCheck(t.value)}
+  });
+  /* hook into nav + router */
+  var seen=NAV.some(function(n){return n[0]==='score'});
+  if(!seen){
+    var map={};NAV.forEach(function(n,i){map[n[0]]=i});
+    NAV.splice(map.dashboard+1,0,['score','Pilot Scorecard',ICO.score]);
+    var pi=NAV.findIndex(function(n){return n[0]==='households'});
+    NAV.splice(pi+1,0,['meet','Meetings',ICO.meet],['fact','Fact Finder',ICO.form]);
+    var ti=NAV.findIndex(function(n){return n[0]==='tasks'});
+    NAV.splice(ti+1,0,['arch','Compliance',ICO.lock]);
+  }
+  var oldMain=renderMain;
+  renderMain=function(){
+    var ext={score:vScore,meet:vMeet,fact:vFact,arch:vArch}[UI.view];
+    if(!ext)return oldMain();
+    document.getElementById('main').innerHTML=ext()+'<div class="taz-foot">Silver Oak by TAZ &middot; demo build &middot; Powered by <b>TAZ</b></div>';
+  };
+  var oldDash=vDash;
+  vDash=function(){
+    var q=[['score','Pilot scorecard','Goals and results for Dec 2'],['meet','Meetings','Prep before, follow-up after'],['fact','Fact Finder','Send clients the intake form'],['arch','Compliance','Every message, searchable']].map(function(x){return '<button class="btn" style="flex:1;min-width:200px;flex-direction:column;align-items:flex-start;white-space:normal;padding:12px 14px" data-nav="'+x[0]+'"><b>'+x[1]+'</b><span class="sub" style="font-weight:400">'+x[2]+'</span></button>'}).join('');
+    return oldDash()+'<div class="card pad"><h3>More in your portal</h3><div style="display:flex;gap:10px;flex-wrap:wrap">'+q+'</div></div>';
+  };
+  window.TAZPRO={go:function(v){go(v)},FX:FX};
+  renderNav();
+})();
+
+</script>
 <script>window.TAZ_DEMO={workspace:"silver-oak",pricing:false,requestsWebhook:"https://cloud.activepieces.com/api/v1/webhooks/8unh4SJmaRyIrOit64AeN"};</script>
 <script>
 /* TAZ layer v0.3: dollar wallet with margin shown, Ask TAZ, Request a change, Guided demo. One self-contained script; drop it in before </body>.
@@ -1258,7 +1524,7 @@ load();renderNav();renderMain();renderTick();
   };
 
   /* ---------- Ask TAZ ---------- */
-  var PAGES={dashboard:['dashboard','home','overview'],radar:['radar','lead radar','hot leads'],social:['social','posts'],finder:['finder','prospect','prospects'],calls:['call desk','calls','call'],outreach:['outreach','emails'],pipeline:['pipeline','deals'],households:['households','clients','household'],tasks:['tasks','to do','todo'],settings:['settings']};
+  var PAGES={score:['scorecard','pilot','results'],meet:['meeting','prep','brief','follow-up notes'],fact:['fact finder','factfinder','questionnaire'],arch:['compliance','archive'],dashboard:['dashboard','home','overview'],radar:['radar','lead radar','hot leads'],social:['social','posts'],finder:['finder','prospect','prospects'],calls:['call desk','calls','call'],outreach:['outreach','emails'],pipeline:['pipeline','deals'],households:['households','clients','household'],tasks:['tasks','to do','todo'],settings:['settings']};
   function demoAnswer(q){
     var l=q.toLowerCase();
     var nav=/\b(go to|open|show me|take me|navigate)\b/.test(l);
@@ -1321,6 +1587,10 @@ load();renderNav();renderMain();renderTick();
    ['pipeline','Pipeline','Every conversation by stage, with the next step always visible.'],
    ['households','Households','Client households and review dates in one place.'],
    ['tasks','Tasks','Follow-ups created automatically from calls and replies.'],
+   ['score','Pilot scorecard','Your decision page. The pilot goals, where you stand against them, and who is sending you business, ready for Dec 2.'],
+   ['meet','Meetings','Before a meeting: a one-page brief. After: paste your notes and get the follow-up email, a CRM note and your to-dos. You approve, nothing sends itself.'],
+   ['fact','Fact Finder','Send clients a short, safe form. Answers land here and in their household. It asks for ranges and goals, never account numbers.'],
+   ['arch','Compliance archive','One searchable record of every message, with risky wording flagged and held back before it goes out.'],
    ['settings','Settings','What is live in this draft, what arrives in the pilot, and your data: export it or clear it anytime.'],
    ['wallet','Your wallet, in dollars','$160 a seat each month. Every charge is the real data cost plus our margin, shown openly. Calls are a flat add-on, never metered by the minute.'],
    ['ask','Ask TAZ','Ask for a page, a draft or a report. Asking is free.'],
@@ -1371,7 +1641,6 @@ load();renderNav();renderMain();renderTick();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })();
-
 </script>
 </body>
 </html>
