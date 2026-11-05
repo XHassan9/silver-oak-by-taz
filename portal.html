@@ -2413,7 +2413,17 @@ load();v4boot();renderNav();renderMain();renderTick();
   var h=GROUPS.map(function(g){var items=g[1].filter(function(k){return byK[k]}).map(function(k){return btn(byK[k])}).join('');return items?(g[0]?'<div class="c7-grp">'+g[0]+'</div>':'')+items:''}).join('');
   var rest=NAV.filter(function(n){return !used[n[0]]}).map(btn).join('');
   document.getElementById('side').innerHTML='<div class="brand"><img src="https://www.silveroakfs.com/airo-assets/images/logo/horizontal/dark" alt="Silver Oak Financial" onerror="this.outerHTML=\'<span class=&quot;nm&quot;>Silver Oak Financial</span>\'"><span class="by">by <b>TAZ</b> &middot; demo build</span></div>'+h+rest+'<div class="foot">'+(storageOK?'Saved in this browser':'Browser storage is off, changes will not be kept')+'</div>';
-  document.getElementById('mobnav').innerHTML=['ct','co','radar','pipeline','tasks'].map(function(k){return byK[k]}).filter(Boolean).map(function(n){return '<button class="nav '+(UI.view===n[0]||(UI.view==='cr'&&n[0]==='ct')?'on':'')+'" data-nav="'+n[0]+'">'+n[2]+'<span>'+n[1].replace('Lead Radar','Radar').replace('Companies','Firms')+'</span></button>'}).join('')};
+  var mob=['ct','co','radar','pipeline','tasks'].map(function(k){return byK[k]}).filter(Boolean).map(function(n){return '<button class="nav '+(UI.view===n[0]||(UI.view==='cr'&&n[0]==='ct')?'on':'')+'" data-nav="'+n[0]+'">'+n[2]+'<span>'+n[1].replace('Lead Radar','Radar').replace('Companies','Firms')+'</span></button>'}).join('');
+  var moreOn=!['ct','co','radar','pipeline','tasks','cr'].includes(UI.view);
+  document.getElementById('mobnav').innerHTML=mob+'<button class="nav '+(moreOn?'on':'')+'" id="c7-more"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span>More</span></button>';
+  var sheet=document.getElementById('c7-sheet');
+  if(!sheet){sheet=document.createElement('div');sheet.id='c7-sheet';document.body.appendChild(sheet);
+   sheet.addEventListener('click',function(e){var t=e.target.closest('[data-nav],[data-c7]');if(!t){if(e.target===sheet)sheet.classList.remove('on');return}sheet.classList.remove('on');
+    if(t.dataset.c7==='tour'){var b=document.getElementById('tz-tourbtn');if(b)b.click()}
+    else if(t.dataset.c7==='fb'){var f=document.getElementById('tz-fb');if(f)f.click()}
+    else if(t.dataset.nav){go(t.dataset.nav)}});}
+  sheet.innerHTML='<div class="c7-sh"><div class="c7-shh"><b>All pages</b><button data-c7="x" class="c7-shx">Close</button></div>'+GROUPS.map(function(g){var items=g[1].filter(function(k){return byK[k]}).map(function(k){var n=byK[k];return '<button class="c7-shi'+(UI.view===k?' on':'')+'" data-nav="'+k+'">'+n[2]+'<span>'+n[1]+'</span></button>'}).join('');return items?(g[0]?'<div class="c7-grp">'+g[0]+'</div>':'')+items:''}).join('')+'<div class="c7-grp">Help</div><button class="c7-shi" data-c7="tour"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><span>Take the guided tour</span></button><button class="c7-shi" data-c7="fb"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H7l-3 3z"/></svg><span>Send feedback or request a change</span></button></div>';
+  var mb=document.getElementById('c7-more');if(mb)mb.onclick=function(){sheet.classList.add('on')};};
  var oldSettings=vSettings;vSettings=function(){return oldSettings()+teamCard()};
  var oldMain=renderMain;
  renderMain=function(){if(UI.view==='fact')UI.view='ct';var v={ct:vContacts,cr:vRecord}[UI.view];if(!v)return oldMain();
@@ -2430,6 +2440,7 @@ load();v4boot();renderNav();renderMain();renderTick();
   '.c7-tl{display:flex;flex-direction:column}.c7-ev{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line)}.c7-ev:first-child{border-top:0}.c7-dot{width:10px;height:10px;border-radius:50%;background:var(--gold2);margin-top:5px;flex:none}.c7-note{margin-top:4px;white-space:pre-wrap}'+
   '.c7-ff{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;font-size:13px}'+
   '@media(max-width:1000px){.c7-rec{grid-template-columns:1fr}}@media(max-width:800px){.c7-sum{grid-template-columns:1fr 1fr}.c7-form{grid-template-columns:1fr}.c7-clip{max-width:160px}}';
+ var st2=document.createElement('style');st2.textContent="@media(max-width:820px){.ribbon{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;height:38px;line-height:24px}.ribbon b::after{content:' \\00b7 sample data, nothing is sent'}.ribbon span{display:none}#tz-tourbtn,#tz-fb{display:none!important}}\n@media(max-width:820px){#tz-tour{flex-direction:column;align-items:stretch;gap:8px}#tz-tour .tz-tb{display:flex;justify-content:space-between;gap:8px}#tz-tour .tz-tn{align-self:flex-start}#tz-tour .tz-tt{font-size:14px}}\n#c7-sheet{position:fixed;inset:0;background:rgba(43,33,24,.5);z-index:120;display:none;align-items:flex-end}#c7-sheet.on{display:flex}\n.c7-sh{background:var(--panel,#fff);width:100%;max-height:82vh;overflow-y:auto;border-radius:18px 18px 0 0;padding:10px 12px 24px;box-shadow:0 -12px 40px rgba(0,0,0,.3)}\n.c7-shh{display:flex;justify-content:space-between;align-items:center;padding:6px 4px 8px;font-size:16px}.c7-shx{background:none;border:1px solid var(--line,#ddd);border-radius:99px;padding:6px 12px;font:700 12px Lato,system-ui;cursor:pointer}\n.c7-sh .c7-grp{padding:12px 6px 4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted,#888);font-weight:800}\n.c7-shi{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-radius:12px;padding:11px 10px;font:600 15px Lato,system-ui;color:var(--ink,#2b2118);text-align:left;cursor:pointer}.c7-shi.on{background:rgba(201,162,74,.18)}.c7-shi svg{width:20px;height:20px;fill:currentColor;flex:none}\n";document.head.appendChild(st2);
  document.head.appendChild(st);
  window.TAZCRM7={people:people};
  if(UI.view==='dashboard'&&!/[?&]tour=1/.test(location.search))UI.view='ct';
@@ -2529,9 +2540,9 @@ load();v4boot();renderNav();renderMain();renderTick();
 
   /* ---------- Guided demo: presenter drives with arrow keys or the buttons ---------- */
   var STEPS=[
-   ['dashboard','Your day at a glance','Hot leads, tasks due and the pipeline on one screen, built around the answers you gave us.'],
    ['ct','Contacts','Your CRM. Everyone A to Z with their last meeting, next follow-up and status. Open anyone to log a call, see their history, keep case notes and assign them to someone on the team.'],
    ['co','Companies','Every employer on your list rolled up, ranked by warmth. TAZ suggests the next move for each account, like a lunch-and-learn or an owners meeting, and you approve it.'],
+   ['dashboard','Your day at a glance','Hot leads, tasks due and the pipeline on one screen, built around the answers you gave us.'],
    ['radar','Lead Radar','Saved leads that just did something: opened an email, visited a page, changed jobs. Call the warm ones first.'],
    ['social','Social','Facebook, Instagram and TikTok activity and the posts planned for Silver Oak.'],
    ['finder','Prospect Finder','Describe who you want to reach. Each lookup shows its data cost and our margin before you spend.'],
