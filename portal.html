@@ -298,6 +298,47 @@ tbody tr:hover td{background:#fbf6ec}
  .ribbon{font-size:12px;padding:6px 10px}
 }
 </style>
+<style id="v4css">
+.srcline{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.35}
+.srcx{font-size:11px;color:#e7d3a0;opacity:.9;margin-left:2px}
+.srcnote{font-size:11px;color:var(--muted);margin-top:4px}
+.spot{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+.spot:first-of-type{border-top:0}
+.spot .sn{flex:none;width:24px;height:24px;border-radius:50%;background:var(--gold2);color:#2b2118;display:grid;place-items:center;font-weight:900;font-size:12px}
+.capwrap{position:fixed;inset:0;z-index:100;background:rgba(30,18,8,.55);display:none;align-items:flex-start;justify-content:center;padding:24px 14px;overflow:auto}
+.capwrap.on{display:flex}
+.cs-box{background:var(--panel);border-radius:16px;width:min(980px,100%);padding:18px 20px;box-shadow:0 24px 60px rgba(30,18,8,.4)}
+.cs-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}.cs-head h2{font-size:19px;margin:2px 0 0}.cs-head>div{flex:1;min-width:0}
+.cs-head .x{margin-left:auto;background:none;border:0;font-size:26px;line-height:1;cursor:pointer;color:var(--muted)}
+.cs-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px}
+@media(max-width:820px){.cs-grid{grid-template-columns:1fr}}
+.cs-frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--sh)}
+.cs-chrome{display:flex;align-items:center;gap:5px;padding:7px 10px;background:#ece5da;font-size:11px;color:var(--muted)}.cs-chrome i{width:9px;height:9px;border-radius:50%;background:#c9bdae;display:inline-block}.cs-chrome span{margin-left:8px}
+.cs-bar{display:flex;justify-content:space-between;align-items:center;color:#fff;padding:8px 12px;font-size:13px}.cs-bar span{font-size:11px;opacity:.85}
+.cs-body{padding:14px;background:#f7f4ef}
+.cs-ph{display:flex;gap:10px;align-items:center;margin-bottom:8px}.cs-ph b{font-size:13.5px}
+.cs-s{font-size:11.5px;color:var(--muted)}
+.cs-pt{font-size:13.5px;line-height:1.5;padding:4px 0 8px}
+.cs-react{font-size:12px;color:var(--muted);border-top:1px solid #e6ddd0;border-bottom:1px solid #e6ddd0;padding:6px 0;margin:6px 0 10px}
+.cs-cm{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border-radius:10px;margin-bottom:6px;background:#fff;border:1px solid #ece5da;font-size:13px}
+.cs-cm.hit,.cs-pt.hit,.cs-bub.hit{background:#fff4c9;border:1px solid #e6c85a;box-shadow:0 0 0 3px rgba(230,200,90,.28)}
+.cs-pt.hit{padding:10px;border-radius:10px}
+.cs-cm.blur div{filter:blur(3.5px);user-select:none}
+.cs-bub{display:inline-block;max-width:85%;padding:9px 12px;border-radius:14px;font-size:13.5px}
+.cs-t{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0}.cs-t td{padding:6px 4px;border-bottom:1px solid #e6ddd0}.cs-t td:last-child{text-align:right;color:var(--muted)}
+.cs-src{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel2)}
+.cs-src h4{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px}
+.cs-src dl{display:grid;grid-template-columns:110px 1fr;gap:4px 10px;font-size:12.5px}.cs-src dt{color:var(--muted)}.cs-src dd{margin:0;font-weight:700}
+.cs-act{border:1px solid var(--line);border-radius:10px;padding:9px 11px;margin-bottom:8px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.mapgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}
+@media(max-width:980px){.mapgrid{grid-template-columns:1fr}}
+.mapcard{padding:10px}
+.pamap{width:100%;height:auto;display:block;background:linear-gradient(180deg,#f4f8fb,#eaf1f6);border-radius:10px}
+.mcounty{cursor:pointer}.mcounty:hover{stroke:#b5451b}
+.maplegend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}.maplegend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.maplegend i.dia{border-radius:2px;background:var(--gold2);transform:rotate(45deg);border:1px solid var(--oak)}.maplegend i.hol{background:#fff;border:2px dashed var(--oak2)}.maplegend i.shade{border-radius:2px;background:rgba(92,61,30,.6)}
+.minimap{width:100%;height:auto;display:block;border-radius:10px;background:linear-gradient(180deg,#f4f8fb,#eaf1f6);border:1px solid var(--line)}
+</style>
 </head>
 <body>
 <div class="app">
@@ -453,7 +494,7 @@ function go(v){UI.view=v;UI.q='';closeDrawer();renderNav();renderMain();if(typeo
 /* ---------- shared bits ---------- */
 function topbar(title,extra=''){
  return `<div class="top"><h1>${esc(title)}</h1><div class="sp"></div>${extra}</div>
- ${DB.sample&&UI.view!=='radar'&&UI.view!=='social'?`<div class="banner"><b>Sample data.</b><span>Everything here is made up so you can click around. Clear it when you are ready to add your own.</span><span class="sp"></span><button class="btn sm" data-act="clear-sample">Clear sample data</button></div>`:''}`;
+ ${DB.sample&&UI.view!=='radar'&&UI.view!=='social'&&UI.view!=='pmap'?`<div class="banner"><b>Sample data.</b><span>Everything here is made up so you can click around. Clear it when you are ready to add your own.</span><span class="sp"></span><button class="btn sm" data-act="clear-sample">Clear sample data</button></div>`:''}`;
 }
 function ownerPills(){return `<div class="chips">${['All',...OWNERS].map(o=>`<button class="chip ${UI.owner===o?'on':''}" data-act="owner" data-id="${o}">${o==='All'?'Both of us':o}</button>`).join('')}</div>`}
 const ownerOk=o=>UI.owner==='All'||o===UI.owner;
@@ -512,9 +553,9 @@ function vFinder(){
  <div class="card pad" style="margin-bottom:14px"><h3>Target market</h3>
   <div class="facts"><span class="k">Pre-retirees</span><span>Directors, VPs and senior managers with 25+ years of experience at large western PA employers. Planning topics: retirement income, Social Security timing, rollovers.</span>
   <span class="k">Business owners</span><span>Founders, CEOs and presidents of firms with 11 to 50 employees. Planning topics: owner pay, owner retirement plans, succession.</span>
-  <span class="k">Young professionals</span><span>3 to 9 years into a career in finance, engineering, IT, healthcare or legal at larger employers. Planning topics: 401(k) match, equity plans, first plan.</span></div>
+  <span class="k">Young professionals</span><span>Ages 24 to 32 who changed jobs in the last 90 days, 3 to 9 years into a career in finance, engineering, IT, healthcare or legal at larger employers. Planning topics: 401(k) match, equity plans, first plan.</span></div>
   <div class="sub" style="margin-top:8px">${DB.prospects.filter(p=>p.real).length} real prospects loaded. Life-event signals (job change, turning 62, selling a business) come next from Traxy.</div></div>
- <div class="toolbar"><div class="chips">${['All',...SEGMENTS.filter(s=>s!=='Client')].map(s=>`<button class="chip ${UI.seg===s?'on':''}" data-act="seg" data-id="${esc(s)}">${esc(s)}</button>`).join('')}</div>
+ <div class="toolbar"><div class="chips">${['All',...SEGMENTS.filter(s=>s!=='Client')].map(s=>`<button class="chip ${UI.seg===s?'on':''}" data-act="seg" data-id="${esc(s)}">${esc(s)}${s==='Young professional'?' (24 to 32)':''}</button>`).join('')}</div>
  <select class="inp" id="sigsel" style="max-width:240px"><option value="All">All signals</option>${SIGNALS.map(s=>`<option ${UI.sig===s?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
  <div class="card"><div class="tablewrap"><table><thead><tr><th>Prospect</th><th class="hide-m">Town</th><th class="hide-m">Age (est.)</th><th>Why they were picked</th><th></th></tr></thead><tbody>${tr}</tbody></table></div></div>
  <div class="card pad" style="margin-top:14px"><h3>Outreach wording check</h3>
@@ -789,7 +830,7 @@ function vSettings(){
 }
 
 function renderMain(){
- const v={dashboard:vDash,radar:vRadar,social:vSocial,finder:vFinder,calls:vCalls,outreach:vOutreach,pipeline:vPipe,households:vHouseholds,tasks:vTasks,settings:vSettings}[UI.view];
+ const v={dashboard:vDash,radar:vRadar,social:vSocial,finder:vFinder,pmap:vMap,calls:vCalls,outreach:vOutreach,pipeline:vPipe,households:vHouseholds,tasks:vTasks,settings:vSettings}[UI.view];
  document.getElementById('main').innerHTML=v()+'<div class="taz-foot">Silver Oak by TAZ &middot; demo build &middot; Powered by <b>TAZ</b></div>';
  if(UI.view==='pipeline')bindDnD();
  const q=document.getElementById('q');if(q){q.value=UI.q;q.oninput=()=>{UI.q=q.value;document.getElementById('rows').innerHTML=householdRows()}}
@@ -977,14 +1018,21 @@ const RAW=[
 ['Joan Petrakis','Pre-retiree','Jesse','Murrysville','Hospital administrator',[[8000,'em','open'],[9500,'fb','like']]],
 ['Kevin Lindgren','Business owner','Aidan','Canonsburg','Owner, two restaurants',[[6500,'fb','follow'],[7200,'web','visit']]],
 ['Sofia Marino','Young professional','Aidan','Bloomfield','Nurse practitioner',[[10000,'tt','like'],[12000,'tt','follow']]],
-['Walt Novak','Pre-retiree','Jesse','Washington, PA','Union electrician, 30 years',[[9000,'fb','like'],[12500,'fb','follow']]]
+['Walt Novak','Pre-retiree','Jesse','Washington, PA','Union electrician, 30 years',[[9000,'fb','like'],[12500,'fb','follow']]],
+['Elena Vasquez','Young professional','Aidan','Lawrenceville','Senior analyst, regional health system',[[4320,'li','jobchg'],[4350,'ig','like'],[5000,'ig','follow']]],
+['Nina Patel','Young professional','Aidan','Oakland','Clinical pharmacist, new hospital role',[[400,'li','dm','"Starting benefits enrollment next week, where do I begin?"'],[11520,'li','jobchg']]],
+['Marcus Webb','Young professional','Aidan','South Side','Mechanical engineer, energy company',[[15840,'li','jobchg'],[3200,'tt','follow']]],
+['Hannah Kessler','Young professional','Aidan','Mt. Lebanon','Product manager, software company',[[240,'fb','comment','"Do I roll my old 401(k) over?"'],[2000,'web','visit'],[34560,'li','jobchg']]],
+['Devon Pryor','Young professional','Aidan','Bloomfield','Staff accountant, larger firm',[[800,'web','visit'],[59040,'li','jobchg']]],
+['Caleb Ortiz','Young professional','Aidan','Cranberry Twp','Operations analyst, logistics company',[[3000,'ig','comment','"Following along."'],[89280,'li','jobchg']]],
+['Brian Foley','Young professional','Aidan','Gibsonia','Sales manager, manufacturer',[[5000,'fb','like'],[14400,'li','jobchg']]]
 ];
 const ANON=[ /* social activity not tied to a known lead yet */
 [3,'ig','New follower from Pittsburgh','follow'],[11,'fb','Comment on "3 questions before you pick a retirement date"','comment'],[17,'tt','Reel passed 10,000 views','like'],[26,'ig','4 saves on the carousel "Open enrollment checklist"','like'],[38,'fb','Post shared into a Mt. Lebanon neighborhood group','share'],[58,'tt','8 new followers today','follow'],[75,'ig','Story link clicked 12 times','click'],[110,'fb','New page like','follow'],[150,'tt','Comment: "Wait, what is a Roth conversion?"','comment'],[210,'ig','Direct message: "Do you meet virtually?"','dm']
 ];
 const mkLeads=()=>{const now=Date.now();return RAW.map((r,i)=>({id:'d'+(i+1),name:r[0],seg:r[1],owner:r[2],town:r[3],role:r[4],ev:r[5].map(e=>({t:now-e[0]*MIN,ch:e[1],k:e[2],x:e[3]||''}))}))};
 let LEADS=mkLeads();
-function dscore(l){const now=Date.now();let s=0;for(const e of l.ev){const h=(now-e.t)/3600000;s+=SIGW[e.k][0]*(h<24?1:h<72?.8:h<168?.55:.3)}return Math.min(100,Math.round(s))}
+function dscore(l){const now=Date.now();let s=0;for(const e of l.ev){const h=(now-e.t)/3600000;s+=SIGW[e.k][0]*(h<24?1:h<72?.8:h<168?.55:.3)}return Math.min(100,Math.round(s+(fit(l)?15:0)))}
 const dtemp=s=>s>=60?'hot':s>=25?'warm':'cool';
 const dleads=()=>LEADS.map(l=>{const ev=l.ev.slice().sort((a,b)=>b.t-a.t);const s=dscore(l);return Object.assign({},l,{ev,score:s,temp:dtemp(s),last:ev[0].t})});
 const DLD=id=>dleads().find(l=>l.id===id);
@@ -994,8 +1042,8 @@ const chBadge=c=>`<span class="ch" style="background:${CH[c].c}" title="${CH[c].
 const SEGC={'Pre-retiree':'Pre-retiree','Business owner':'Business owner','Young professional':'Young professional'};
 function feedEvents(){
  const ev=[];
- dleads().forEach(l=>l.ev.forEach(e=>ev.push({t:e.t,ch:e.ch,who:l.name,text:evText(e),lid:l.id,k:e.k})));
- const now=Date.now();ANON.forEach(a=>ev.push({t:now-a[0]*MIN,ch:a[1],who:'',text:a[2],k:a[3]}));
+ dleads().forEach(l=>l.ev.forEach(e=>ev.push({t:e.t,ch:e.ch,who:l.name,text:evText(e),lid:l.id,k:e.k,key:l.id+'~'+e.t})));
+ const now=Date.now();ANON.forEach((a,i)=>ev.push({t:now-a[0]*MIN,ch:a[1],who:'',text:a[2],k:a[3],key:'an'+i}));
  DS.sim.forEach(e=>ev.push(e));
  return ev.sort((a,b)=>b.t-a.t);
 }
@@ -1077,7 +1125,7 @@ function radarDetail(l){
  </div>`;
 }
 function vRadar(){
- const all=dleads().filter(l=>ownerOk(l.owner)&&(UI.rseg==='All'||l.seg===UI.rseg)&&(UI.rch==='All'||l.ev.some(e=>e.ch===UI.rch)));
+ const all=dleads().filter(l=>ownerOk(l.owner)&&(UI.rseg==='All'||l.seg===UI.rseg)&&(!UI.rjob||fit(l))&&(UI.rch==='All'||l.ev.some(e=>e.ch===UI.rch)));
  const hot=all.filter(l=>l.temp==='hot').sort((a,b)=>b.score-a.score),warm=all.filter(l=>l.temp==='warm').sort((a,b)=>b.score-a.score),cool=all.filter(l=>l.temp==='cool').sort((a,b)=>b.score-a.score);
  const sel=all.find(l=>l.id===UI.rid)||hot[0]||all[0]||null;
  const day=Date.now()-86400000;
@@ -1090,14 +1138,14 @@ function vRadar(){
  const cmx=Math.max(1,...Object.values(chCount));
  const bins=Array(10).fill(0);all.forEach(l=>bins[Math.min(9,Math.floor(l.score/10))]++);const bmx=Math.max(1,...bins);
  return topbar('Lead Radar',ownerPills()+'<button class="btn pri" data-act="sim">Simulate new activity</button>')+`
- <div class="banner demo"><b>Demo data.</b><span>Every lead, comment and number on this page is made up to show how it will look once Silver Oak's accounts are connected.</span></div>
+ <div class="banner demo"><b>Demo data.</b><span>Every lead, comment and number on this page is made up to show how it will look once Silver Oak's accounts are connected. Every activity shows where it came from, and View capture opens a saved copy inside the portal, so you never have to open the platform.</span></div>
  <div class="kpis">
   <div class="card pad kpi"><div class="l">Hot right now</div><div class="v" style="color:${TEMPC.hot}">${hot.length}</div><div class="s">score 60 or higher</div></div>
   <div class="card pad kpi"><div class="l">Warming up</div><div class="v">${warm.length}</div><div class="s">score 25 to 59</div></div>
   <div class="card pad kpi"><div class="l">Signals in 24 hours</div><div class="v">${sig24}</div><div class="s">comments, visits, messages</div></div>
   <div class="card pad kpi"><div class="l">Booking links opened, 7 days</div><div class="v">${books}</div><div class="s">average score ${avg}</div></div>
  </div>
- <div class="toolbar"><div class="chips">${['All','Pre-retiree','Business owner','Young professional'].map(s=>`<button class="chip ${UI.rseg===s?'on':''}" data-act="rseg" data-id="${s}">${s==='All'?'All groups':s}</button>`).join('')}</div><div class="sp"></div><div class="chips">${['All','hot','warm','cool'].map(s=>`<button class="chip ${tf===s?'on':''}" data-act="rtemp" data-id="${s}">${s==='All'?'All heat':s[0].toUpperCase()+s.slice(1)}</button>`).join('')}</div></div>
+ <div class="toolbar"><div class="chips">${['All','Pre-retiree','Business owner','Young professional'].map(s=>`<button class="chip ${UI.rseg===s?'on':''}" data-act="rseg" data-id="${s}">${s==='All'?'All groups':s}</button>`).join('')}<button class="chip ${UI.rjob?'on':''}" data-act="rjob" title="Age 24 to 32 with a job change in the last 90 days">New job, ages 24 to 32</button></div><div class="sp"></div><div class="chips">${['All','hot','warm','cool'].map(s=>`<button class="chip ${tf===s?'on':''}" data-act="rtemp" data-id="${s}">${s==='All'?'All heat':s[0].toUpperCase()+s.slice(1)}</button>`).join('')}</div></div>
  <div class="toolbar"><div class="chips"><button class="chip ${UI.rch==='All'?'on':''}" data-act="rch" data-id="All">All channels</button>${Object.keys(CH).map(c=>`<button class="chip ${UI.rch===c?'on':''}" data-act="rch" data-id="${c}">${CH[c].n}</button>`).join('')}</div></div>
  <div class="radargrid">
   <div class="card pad" style="max-height:none"><h3>Heat board</h3>${sect('hot','Hot',hot)}${sect('warm','Warm',warm)}${sect('cool','Cool',cool)}</div>
@@ -1108,7 +1156,7 @@ function vRadar(){
   <div class="card pad"><h3>Warm and hot leads by main channel</h3>${Object.keys(CH).map(c=>`<button class="hbar linkbar" data-act="rch" data-id="${c}" style="grid-template-columns:110px 1fr 30px"><span>${chBadge(c)} ${CH[c].n}</span><div class="track"><div class="fill" style="width:${Math.round(100*(chCount[c]||0)/cmx)}%;background:${CH[c].c}"></div></div><span class="n">${chCount[c]||0}</span></button>`).join('')}
    <h3 style="margin-top:18px">Score spread</h3><div class="hist">${bins.map((n,i)=>`<div class="hb" title="${i*10} to ${i*10+9}: ${n} leads"><div style="height:${Math.round(100*n/bmx)}%;background:${TEMPC[dtemp(i*10+5)]}"></div><span>${i*10}</span></div>`).join('')}</div></div>
  </div>
- <div class="card pad" style="margin-top:14px"><h3>How the score works</h3><div class="sub" style="font-size:13px;line-height:1.6">Each action adds points: opening the booking link <b>+40</b>, replying to an email or sending a message <b>+30</b>, viewing the Contact page <b>+25</b>, commenting <b>+12</b>, a like <b>+3</b>. Recent activity counts fully and fades over about a week. Pre-retirees, business owners and young professionals are scored the same way. You can change the points together.</div></div>`;
+ <div class="card pad" style="margin-top:14px"><h3>How the score works</h3><div class="sub" style="font-size:13px;line-height:1.6">Each action adds points: opening the booking link <b>+40</b>, replying to an email or sending a message <b>+30</b>, viewing the Contact page <b>+25</b>, commenting <b>+12</b>, a like <b>+3</b>. Recent activity counts fully and fades over about a week. Pre-retirees, business owners and young professionals are scored the same way. Ages 24 to 32 with a job change in the last 90 days get a bonus of <b>+15</b>. You can change the points together.</div></div>`;
 }
 /* ---------- Social ---------- */
 const PLAT=[{c:'fb',f:1840,d:'+62',r:'48.2k',e:'3.1%'},{c:'ig',f:2310,d:'+118',r:'61.9k',e:'4.4%'},{c:'tt',f:1260,d:'+204',r:'94.7k',e:'6.2%'}];
@@ -1139,11 +1187,11 @@ function vSocial(){
  const sched=POSTS.filter(p=>pstate(p).status==='scheduled').length,appr=POSTS.filter(p=>pstate(p).status==='approved').length,drafts=POSTS.filter(p=>pstate(p).status==='draft').length;
  return topbar('Social',`<button class="btn pri" data-act="sim">Simulate new activity</button>`)+`
  <div class="banner demo"><b>Demo data.</b><span>Followers, reach and posts are made up. Once Aidan and Jesse connect Facebook, Instagram and TikTok, the same screen fills with their own numbers through Metricool.</span></div>
- <div class="kpis">${PLAT.map(p=>`<button class="card pad kpi pk ${pf===p.c?'sel':''}" data-act="pch" data-id="${pf===p.c?'All':p.c}" style="text-align:left;border-top-color:${CH[p.c].c}"><div class="l">${chBadge(p.c)} ${CH[p.c].n}</div><div class="v">${p.f.toLocaleString()}</div><div class="s"><b style="color:var(--ok)">${p.d}</b> followers in 30 days &middot; reach ${p.r} &middot; engagement ${p.e}</div></button>`).join('')}
+ <div class="kpis">${PLAT.map(p=>`<button class="card pad kpi pk ${pf===p.c?'sel':''}" data-act="pch" data-id="${pf===p.c?'All':p.c}" style="text-align:left;border-top-color:${CH[p.c].c}"><div class="l">${chBadge(p.c)} ${CH[p.c].n}</div><div class="v">${p.f.toLocaleString()}</div><div class="s"><b style="color:var(--ok)">${p.d}</b> followers in 30 days &middot; reach ${p.r} &middot; engagement ${p.e}</div><div class="srcnote">Source: Metricool, ${CH[p.c].n} insights, last 30 days</div></button>`).join('')}
   <div class="card pad kpi"><div class="l">Posts this fortnight</div><div class="v">${sched+appr+drafts}</div><div class="s">${sched} scheduled &middot; ${appr} approved &middot; ${drafts} drafts</div></div></div>
  <div class="grid2">
   <div class="card pad"><h3>Reach per day, last 30 days${pf==='All'?'':' &middot; '+CH[pf].n}</h3>${pfp.svg}<div class="chips" style="margin-top:8px">${['fb','ig','tt'].map(c=>`<span class="sub">${chBadge(c)} ${CH[c].n}</span>`).join('')}</div></div>
-  <div class="card pad"><h3>Live activity</h3>${feed.map(e=>`<div class="li" style="padding:8px 0">${chBadge(e.ch)}<div class="grow">${e.who?`<button class="link" data-act="radar-open" data-id="${e.lid}">${esc(e.who)}</button> `:''}<span>${esc(e.text)}</span></div><span class="sub">${agoStr(e.t)}</span></div>`).join('')||'<div class="empty">Nothing yet</div>'}</div>
+  <div class="card pad"><h3>Live activity</h3>${feed.map(socRow).join('')||'<div class="empty">Nothing yet</div>'}</div>
  </div>
  <div class="card pad" style="margin-top:14px"><h3>Content calendar, next 14 days</h3>
   <div class="cal">${cal.map(c=>`<div class="cd ${c.i===0?'today':''}"><div class="cdh">${c.d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</div>${c.posts.map(p=>{const s=pstate(p).status;return `<button class="cp ${UI.postId===p.id?'on':''} st-${s}" data-act="post-pick" data-id="${p.id}">${chBadge(p.ch)}<span>${esc(p.title)}</span></button>`}).join('')}</div>`).join('')}</div>
@@ -1151,7 +1199,7 @@ function vSocial(){
  </div>
  ${sel?postEditor(sel):''}
  <div class="grid2" style="margin-top:14px">
-  <div class="card pad"><h3>Best posts, last 30 days</h3><div class="tablewrap"><table><thead><tr><th>Post</th><th>Reach</th><th>Engaged</th><th>Leads</th></tr></thead><tbody>${PAST.filter(p=>pf==='All'||p.ch===pf).map(p=>`<tr><td>${chBadge(p.ch)} ${esc(p.t)}</td><td>${p.r}</td><td>${p.e}</td><td><b>${p.l}</b></td></tr>`).join('')}</tbody></table></div></div>
+  <div class="card pad"><h3>Best posts, last 30 days</h3><div class="srcnote" style="margin:-6px 0 8px">Source: Metricool post insights for each platform. Demo numbers.</div><div class="tablewrap"><table><thead><tr><th>Post</th><th>Reach</th><th>Engaged</th><th>Leads</th></tr></thead><tbody>${PAST.filter(p=>pf==='All'||p.ch===pf).map(p=>`<tr><td>${chBadge(p.ch)} ${esc(p.t)}</td><td>${p.r}</td><td>${p.e}</td><td><b>${p.l}</b></td></tr>`).join('')}</tbody></table></div></div>
   <div class="card pad"><h3>How posts get approved</h3><div class="flow"><div class="fs"><b>1</b>Draft<span class="sub">Written by you or suggested by TAZ</span></div><div class="fa">&rarr;</div><div class="fs"><b>2</b>Wording check<span class="sub">Flags guarantees, returns and similar phrases</span></div><div class="fa">&rarr;</div><div class="fs"><b>3</b>Compliance approved<span class="sub">Your compliance contact signs off</span></div><div class="fa">&rarr;</div><div class="fs"><b>4</b>Scheduled<span class="sub">Goes out through Metricool</span></div></div><div class="sub" style="margin-top:10px">Posts are advertisements under the SEC Marketing Rule, so keep a copy of everything that goes out. How to archive them is still to be confirmed with Silver Oak's compliance contact.</div></div>
  </div>`;
 }
@@ -1164,7 +1212,7 @@ function postEditor(p){
   ${s.status==='draft'?`<button class="btn pri sm" id="pappr" data-act="post-approve" data-id="${p.id}" ${bad?'disabled':''}>Mark compliance approved</button>`:''}
   ${s.status==='approved'?`<button class="btn pri sm" data-act="post-schedule" data-id="${p.id}">Schedule (demo)</button>`:''}
   ${s.status!=='draft'?`<button class="btn sm" data-act="post-back" data-id="${p.id}">Back to draft</button>`:''}
-  <span class="sub">Nothing is posted from this demo.</span></div></div>`;
+  <span class="sub">Nothing is posted from this demo.</span></div><div class="srcnote">Source: drafted in TAZ for Silver Oak. Publishing goes through Metricool after compliance approval.</div></div>`;
 }
 /* ---------- actions ---------- */
 function rerender(){renderNav();renderMain();renderTick()}
@@ -1191,7 +1239,7 @@ Object.assign(ACT,{
   const wasHot=before.find(x=>x.id===l.id).temp;
   l.ev.push({t:Date.now(),ch:ev[0],k:ev[1],x:ev[2]});
   const after=dleads().find(x=>x.id===l.id);
-  DS.sim.push({t:Date.now(),ch:ev[0],who:l.name,text:evText(l.ev[l.ev.length-1]),lid:l.id,k:ev[1]});
+  DS.sim.push({t:l.ev[l.ev.length-1].t,ch:ev[0],who:l.name,text:evText(l.ev[l.ev.length-1]),lid:l.id,k:ev[1],key:l.id+'~'+l.ev[l.ev.length-1].t});
   UI.rid=l.id;rerender();
   toast(wasHot!=='hot'&&after.temp==='hot'?l.name+' just turned HOT ('+after.score+')':l.name+': '+SIGW[ev[1]][1].toLowerCase()+' (score '+after.score+')');
  }
@@ -1218,7 +1266,315 @@ document.addEventListener('change',e=>{
  else if(t.id==='sigsel'){UI.sig=t.value;renderMain()}
  else if(t.id==='importfile'&&t.files[0]){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||!Array.isArray(d.deals)||!Array.isArray(d.stages))throw 0;if(!confirm('Replace everything with this backup?'))return;DB=d;refresh();toast('Backup restored')}catch(err){toast('That file is not a backup from this draft')}t.value=''};r.readAsText(t.files[0])}
 });
-load();renderNav();renderMain();renderTick();
+const PAGEO={"lon0":-80.52,"lat1":42.27,"cx":0.7558534691676395,"k":100,"w":440.7,"h":255,"state":"M323.6 254.8L298.6 254.9L282.1 254.9L266.1 255.0L249.5 255.0L231.4 255.0L230.5 255.0L183.1 254.7L164.6 254.7L161.6 254.7L129.4 254.7L120.4 254.7L85.1 254.9L78.9 254.9L57.2 254.9L45.5 254.9L7.5 254.9L-0.1 254.9L0.2 237.9L-0.1 230.7L-0.1 225.3L-0.1 211.1L0.2 187.0L-0.1 179.3L-0.1 163.1L-0.1 141.8L-0.1 136.9L-0.1 114.5L-0.1 113.7L0.2 106.1L-0.1 78.1L-0.1 77.0L-0.1 42.0L-0.1 29.2L13.0 24.0L25.2 17.6L27.6 15.6L30.3 10.4L33.9 10.1L34.7 12.5L44.4 6.4L57.2 0.0L57.2 27.0L68.6 27.1L110.4 27.1L120.9 27.2L167.1 27.1L174.9 27.1L209.4 27.2L220.0 27.1L256.6 27.1L268.5 26.9L271.5 26.8L299.5 27.0L330.7 27.2L333.6 27.2L361.0 27.2L380.6 27.1L386.8 27.1L390.1 27.1L393.9 32.1L395.2 31.8L397.4 40.4L401.5 40.0L406.1 41.9L411.5 47.2L409.3 49.9L413.1 51.7L413.9 64.6L412.0 66.8L418.3 76.1L418.6 79.0L421.5 78.6L425.6 81.4L425.1 83.0L431.9 82.7L435.7 84.5L440.3 91.2L435.9 92.4L430.0 98.3L426.2 108.9L423.2 113.1L417.7 117.8L419.6 117.5L415.3 123.0L407.2 128.1L408.2 130.2L409.9 134.6L413.4 139.9L407.2 149.7L404.2 149.2L401.7 157.8L403.9 159.7L402.0 162.3L402.3 166.1L402.8 167.9L405.0 170.6L409.6 170.2L412.3 173.4L411.8 181.5L412.9 185.4L419.6 187.0L421.5 192.9L427.2 197.5L429.1 202.0L434.6 205.5L438.1 211.9L433.8 214.9L431.0 214.3L427.8 218.6L419.1 222.1L412.6 227.8L407.4 231.1L406.6 238.1L401.2 240.5L396.9 242.1L390.3 243.0L385.7 246.8L379.5 243.6L372.2 243.3L367.0 244.8L362.9 247.8L357.5 254.8L331.5 254.8L324.1 254.8L323.6 254.8Z","counties":[["Lebanon","M301.1 171.5L308.4 177.4L330.1 195.4L318.4 201.5L308.7 203.2L298.9 207.3L294.3 193.0L290.5 179.5L301.1 171.5Z"],["Beaver","M-0.1 163.1L-0.1 141.8L27.3 141.5L28.2 159.5L28.4 165.6L25.7 166.1L12.2 179.2L-0.1 179.3L-0.1 163.1Z"],["Venango","M39.3 78.0L42.5 75.7L47.4 69.6L52.3 66.8L52.3 64.8L68.6 65.3L68.6 64.6L76.2 64.5L76.2 80.5L75.4 82.9L78.6 83.0L78.9 88.3L78.6 93.5L74.0 93.4L74.0 94.9L69.1 94.8L69.1 99.3L65.6 101.6L65.9 105.2L62.3 109.7L39.3 109.8L39.3 78.0Z"],["Greene","M-0.1 230.7L3.5 231.8L5.1 229.6L9.4 229.2L10.5 227.6L16.0 226.5L26.0 226.2L29.5 228.2L34.7 226.0L35.8 229.1L39.6 228.7L38.5 231.1L42.5 231.7L45.0 234.5L45.8 239.0L43.9 242.3L46.3 247.7L44.2 248.9L46.6 252.7L45.5 254.9L7.5 254.9L-0.1 254.9L0.2 237.9L-0.1 230.7Z"],["Jefferson","M98.7 122.0L99.0 119.2L99.0 93.8L106.8 94.4L107.7 93.0L113.3 91.9L117.1 89.3L118.0 90.8L134.8 100.7L136.7 106.8L132.6 106.7L129.6 113.7L129.6 136.4L98.7 135.9L98.7 122.0Z"],["Cambria","M116.9 187.4L125.6 166.6L129.9 154.5L164.1 154.5L159.5 162.5L157.0 162.9L156.8 167.9L153.8 172.9L149.7 176.4L148.1 183.2L147.8 189.9L143.5 194.3L140.7 202.7L123.7 202.6L122.8 199.8L119.9 198.5L110.6 198.5L116.9 187.4Z"],["Lancaster","M287.0 215.0L288.9 211.3L290.5 212.0L295.9 208.0L298.9 207.3L308.7 203.2L318.4 201.5L330.1 195.4L351.3 213.3L346.4 215.9L346.4 223.3L342.1 231.8L342.3 240.1L336.6 251.0L331.5 254.8L324.1 254.8L323.6 254.8L320.9 249.5L316.0 244.8L312.8 239.6L311.9 235.7L305.4 232.0L304.1 227.3L301.1 221.9L298.4 222.4L291.6 220.7L287.0 215.0Z"],["Allegheny","M28.2 159.5L62.6 160.0L62.9 162.7L60.4 166.2L56.4 168.9L56.9 172.0L61.8 174.5L61.5 183.6L59.4 187.2L57.2 187.7L53.9 203.7L55.8 204.2L49.1 207.3L42.3 205.4L41.5 203.8L45.8 201.7L25.4 193.7L12.2 179.2L25.7 166.1L28.4 165.6L28.2 159.5Z"],["Erie","M-0.1 29.2L13.0 24.0L25.2 17.6L27.6 15.6L30.3 10.4L33.9 10.1L34.7 12.5L44.4 6.4L57.2 0.0L57.2 27.0L68.6 27.1L68.6 42.0L63.4 41.8L23.8 42.1L-0.1 42.0L-0.1 29.2Z"],["Bucks","M380.6 185.1L386.3 178.2L392.0 173.3L402.3 166.1L402.8 167.9L405.0 170.6L409.6 170.2L412.3 173.4L411.8 181.5L412.9 185.4L419.6 187.0L421.5 192.9L427.2 197.5L429.1 202.0L434.6 205.5L438.1 211.9L433.8 214.9L431.0 214.3L427.8 218.6L419.1 222.1L419.9 215.1L416.1 213.2L409.1 207.8L380.6 185.1Z"],["Armstrong","M62.6 160.0L62.6 110.0L64.5 122.1L69.7 123.8L68.0 128.1L80.8 128.9L83.2 126.6L86.5 128.6L87.3 126.9L93.3 126.0L98.7 122.0L98.7 135.9L98.7 149.4L80.8 174.0L77.3 174.5L72.4 170.6L70.5 164.3L64.2 159.0L62.6 160.0Z"],["Cameron","M158.9 66.8L158.7 65.3L175.2 65.2L186.6 79.5L191.2 79.6L191.2 90.3L183.3 105.3L172.5 104.0L172.8 94.7L171.1 94.7L171.4 86.5L158.7 86.5L158.9 66.8Z"],["Carbon","M341.8 135.7L352.9 129.8L361.9 126.2L359.1 122.0L359.1 117.7L364.8 113.8L368.1 114.8L373.5 120.3L379.8 128.3L373.8 131.9L381.4 145.5L371.1 148.3L364.8 150.0L360.0 153.4L350.2 145.4L341.8 135.7Z"],["Elk","M118.2 64.7L139.7 64.5L154.0 64.0L154.0 66.8L158.9 66.8L158.7 86.5L171.4 86.5L171.1 94.7L172.8 94.7L172.5 104.0L141.6 101.6L141.6 105.2L136.7 106.8L134.8 100.7L118.0 90.8L117.1 89.3L113.3 91.9L107.7 93.0L107.9 84.7L110.1 81.7L116.6 81.8L118.0 83.3L118.2 64.7Z"],["Bedford","M140.7 202.7L143.5 194.3L152.1 198.3L156.8 202.6L157.6 196.7L168.7 202.8L171.1 197.2L172.5 204.5L180.4 210.5L178.5 214.8L174.9 218.4L176.8 221.1L174.9 222.8L173.8 227.7L167.9 244.4L161.6 254.7L129.4 254.7L133.2 244.7L132.9 221.3L134.5 220.0L140.7 202.7Z"],["Chester","M331.5 254.8L336.6 251.0L342.3 240.1L342.1 231.8L346.4 223.3L346.4 215.9L351.3 213.3L364.6 202.8L370.8 204.7L371.9 203.2L373.8 207.5L375.2 206.3L377.3 212.0L382.5 214.5L382.7 218.2L385.5 217.3L387.6 220.9L390.1 220.4L385.7 222.8L386.5 224.3L383.0 227.7L384.4 228.5L377.6 232.6L372.2 239.6L372.2 243.3L367.0 244.8L362.9 247.8L357.5 254.8L331.5 254.8Z"],["Clarion","M78.9 88.3L84.6 88.3L84.6 83.4L99.2 83.9L99.0 93.8L99.0 119.2L98.7 122.0L93.3 126.0L87.3 126.9L86.5 128.6L83.2 126.6L80.8 128.9L68.0 128.1L69.7 123.8L64.5 122.1L62.6 110.0L62.3 109.7L65.9 105.2L65.6 101.6L69.1 99.3L69.1 94.8L74.0 94.9L74.0 93.4L78.6 93.5L78.9 88.3Z"],["Forest","M76.2 64.5L118.2 64.7L118.0 83.3L116.6 81.8L110.1 81.7L107.9 84.7L107.7 93.0L106.8 94.4L99.0 93.8L99.2 83.9L84.6 83.4L84.6 88.3L78.9 88.3L78.6 83.0L75.4 82.9L76.2 80.5L76.2 64.5Z"],["Northumberland","M270.7 163.1L276.7 155.8L276.7 148.9L281.3 139.2L281.3 138.8L277.2 135.7L275.0 130.2L276.7 119.8L274.5 116.8L274.0 113.1L275.0 111.2L282.1 109.4L286.2 109.8L286.2 117.8L282.9 126.2L281.8 132.3L291.6 130.2L296.2 132.8L299.5 133.2L298.6 135.5L301.6 138.7L303.5 138.7L303.8 144.5L310.6 143.6L313.0 149.5L288.6 160.6L288.6 161.2L285.1 161.7L272.3 166.7L269.9 164.2L270.7 163.1Z"],["Fulton","M161.6 254.7L167.9 244.4L173.8 227.7L174.9 222.8L176.8 221.1L174.9 218.4L178.5 214.8L180.4 210.5L184.4 213.7L196.1 216.8L200.7 220.9L196.6 226.6L190.4 244.3L183.1 254.7L164.6 254.7L161.6 254.7Z"],["Northampton","M371.1 148.3L381.4 145.5L388.7 143.7L395.8 140.4L400.7 134.2L408.2 130.2L409.9 134.6L413.4 139.9L407.2 149.7L404.2 149.2L401.7 157.8L403.9 159.7L402.0 162.3L402.3 166.1L392.0 173.3L386.8 168.9L388.7 165.5L384.6 159.6L380.8 161.4L377.0 153.3L375.2 154.9L372.4 153.5L371.1 148.3Z"],["Juniata","M244.4 157.6L254.7 159.3L257.7 157.8L259.0 159.4L263.4 159.3L265.5 162.7L270.7 163.1L269.9 164.2L264.2 166.6L252.3 168.8L253.3 171.0L244.1 175.2L225.1 187.1L225.9 189.4L223.2 190.3L215.4 198.0L212.9 200.7L209.1 189.2L219.7 177.9L219.7 175.6L228.4 168.8L228.4 166.1L238.1 160.2L244.4 157.6Z"],["Wyoming","M320.3 89.3L325.0 72.9L326.6 62.2L332.8 61.9L335.0 62.5L362.9 62.8L358.6 69.6L356.7 74.7L358.9 76.6L354.3 84.3L341.2 88.6L320.3 89.3Z"],["Lawrence","M-0.1 114.5L19.8 114.2L19.8 115.3L28.2 115.6L32.0 120.0L26.8 127.0L27.3 141.5L-0.1 141.8L-0.1 136.9L-0.1 114.5Z"],["Mercer","M-0.1 78.1L29.8 79.0L39.3 78.0L39.3 109.8L32.0 120.0L28.2 115.6L19.8 115.3L19.8 114.2L-0.1 114.5L-0.1 113.7L0.2 106.1L-0.1 78.1Z"],["Luzerne","M318.2 96.0L320.3 89.3L341.2 88.6L354.3 84.3L354.5 87.5L361.3 92.2L365.4 93.0L365.9 100.5L367.8 101.2L368.6 109.4L371.9 110.8L368.1 114.8L364.8 113.8L359.1 117.7L359.1 122.0L361.9 126.2L352.9 129.8L341.8 135.7L339.6 136.8L326.0 132.0L324.4 121.8L324.4 113.1L320.6 113.8L317.4 105.8L318.2 96.0Z"],["Blair","M164.1 154.5L163.3 153.8L180.6 152.7L181.7 153.1L174.9 157.4L173.6 159.5L177.9 165.2L175.5 171.1L179.3 172.8L179.0 178.2L180.4 179.6L171.1 197.2L168.7 202.8L157.6 196.7L156.8 202.6L152.1 198.3L143.5 194.3L147.8 189.9L148.1 183.2L149.7 176.4L153.8 172.9L156.8 167.9L157.0 162.9L159.5 162.5L164.1 154.5Z"],["Somerset","M92.7 222.9L95.4 218.1L99.0 215.1L100.9 216.1L102.8 210.9L104.1 210.6L110.6 198.5L119.9 198.5L122.8 199.8L123.7 202.6L140.7 202.7L134.5 220.0L132.9 221.3L133.2 244.7L129.4 254.7L120.4 254.7L85.1 254.9L84.6 251.5L87.8 248.9L87.3 244.9L83.2 241.7L84.9 236.9L92.7 222.9Z"],["Delaware","M390.1 220.4L396.3 229.3L399.6 233.2L397.4 239.3L401.2 240.5L396.9 242.1L390.3 243.0L385.7 246.8L379.5 243.6L372.2 243.3L372.2 239.6L377.6 232.6L384.4 228.5L383.0 227.7L386.5 224.3L385.7 222.8L390.1 220.4Z"],["Indiana","M80.8 174.0L98.7 149.4L98.7 135.9L129.6 136.4L129.9 154.5L125.6 166.6L116.9 187.4L113.6 185.0L110.4 188.9L105.8 189.9L106.0 187.5L103.0 185.8L90.3 181.7L85.1 181.3L82.4 178.1L81.1 178.9L80.8 174.0Z"],["Lehigh","M360.0 153.4L364.8 150.0L371.1 148.3L372.4 153.5L375.2 154.9L377.0 153.3L380.8 161.4L384.6 159.6L388.7 165.5L386.8 168.9L392.0 173.3L386.3 178.2L380.6 185.1L377.3 182.3L368.6 175.3L349.9 159.3L360.0 153.4Z"],["Tioga","M220.0 27.1L256.6 27.1L268.5 26.9L271.5 26.8L273.7 46.1L275.6 67.3L269.1 71.8L220.8 72.8L220.0 27.1Z"],["Pike","M412.0 66.8L418.3 76.1L418.6 79.0L421.5 78.6L425.6 81.4L425.1 83.0L431.9 82.7L435.7 84.5L440.3 91.2L435.9 92.4L430.0 98.3L426.2 108.9L423.2 113.1L417.7 117.8L415.0 119.0L411.5 112.9L405.5 111.9L407.4 101.8L390.1 103.1L391.4 101.5L393.6 93.8L390.6 90.2L397.1 89.8L398.2 85.7L403.1 82.7L404.5 79.5L412.0 66.8Z"],["Mifflin","M214.5 154.0L233.0 144.6L238.4 142.3L239.2 146.3L239.2 156.9L244.4 157.6L238.1 160.2L228.4 166.1L228.4 168.8L219.7 175.6L219.7 177.9L209.1 189.2L208.6 190.1L201.2 190.5L196.9 187.1L203.7 177.7L202.3 172.0L206.4 165.8L214.5 158.8L212.9 159.0L214.5 154.0Z"],["Schuylkill","M313.0 149.5L318.4 146.8L320.1 138.7L326.0 132.0L339.6 136.8L341.8 135.7L350.2 145.4L360.0 153.4L349.9 159.3L342.1 163.1L340.7 169.2L336.6 169.1L328.8 173.5L322.2 175.3L316.0 175.4L308.4 177.4L301.1 171.5L288.6 161.2L288.6 160.6L313.0 149.5Z"],["Lycoming","M220.8 72.8L269.1 71.8L275.6 67.3L280.2 68.0L285.1 86.4L296.7 96.6L307.9 99.4L296.7 111.3L293.2 111.4L286.2 109.8L282.1 109.4L275.0 111.2L274.0 113.1L269.1 112.1L267.7 118.2L261.7 118.5L255.2 120.1L253.6 120.1L241.7 105.1L239.5 105.0L230.3 95.5L230.0 93.2L226.2 91.2L221.9 82.9L220.8 79.1L220.8 72.8Z"],["Columbia","M293.2 111.4L296.7 111.3L307.9 99.4L310.9 96.1L318.2 96.0L317.4 105.8L320.6 113.8L324.4 113.1L324.4 121.8L326.0 132.0L320.1 138.7L318.4 146.8L313.0 149.5L310.6 143.6L303.8 144.5L303.5 138.7L301.6 138.7L302.7 131.1L298.9 127.1L298.6 121.6L294.8 120.6L293.2 111.4Z"],["Monroe","M368.1 114.8L371.9 110.8L376.2 104.6L378.9 103.8L390.1 103.1L407.4 101.8L405.5 111.9L411.5 112.9L415.0 119.0L417.7 117.8L419.6 117.5L415.3 123.0L407.2 128.1L408.2 130.2L400.7 134.2L395.8 140.4L388.7 143.7L381.4 145.5L373.8 131.9L379.8 128.3L373.5 120.3L368.1 114.8Z"],["Union","M238.4 142.3L244.9 136.0L250.6 127.7L255.2 122.6L255.2 120.1L261.7 118.5L267.7 118.2L269.1 112.1L274.0 113.1L274.5 116.8L276.7 119.8L275.0 130.2L277.2 135.7L281.3 138.8L281.3 139.2L279.1 138.2L270.4 138.2L264.2 141.2L262.0 140.0L241.7 145.3L239.2 146.3L238.4 142.3Z"],["Crawford","M-0.1 42.0L23.8 42.1L63.4 41.8L68.6 42.0L68.6 64.6L68.6 65.3L52.3 64.8L52.3 66.8L47.4 69.6L42.5 75.7L39.3 78.0L29.8 79.0L-0.1 78.1L-0.1 77.0L-0.1 42.0Z"],["Wayne","M382.2 62.8L380.6 27.1L386.8 27.1L390.1 27.1L393.9 32.1L395.2 31.8L397.4 40.4L401.5 40.0L406.1 41.9L411.5 47.2L409.3 49.9L413.1 51.7L413.9 64.6L412.0 66.8L404.5 79.5L403.1 82.7L398.2 85.7L397.1 89.8L390.6 90.2L393.6 93.8L391.4 101.5L390.1 103.1L378.9 103.8L383.8 101.1L382.2 62.8Z"],["Susquehanna","M333.6 27.2L361.0 27.2L380.6 27.1L382.2 62.8L362.9 62.8L335.0 62.5L332.8 61.9L332.6 53.2L330.7 27.2L333.6 27.2Z"],["Potter","M174.9 27.1L209.4 27.2L220.0 27.1L220.8 72.8L220.8 79.1L191.2 79.6L186.6 79.5L175.2 65.2L174.9 27.1Z"],["Montour","M286.2 109.8L293.2 111.4L294.8 120.6L298.6 121.6L298.9 127.1L302.7 131.1L301.6 138.7L298.6 135.5L299.5 133.2L296.2 132.8L291.6 130.2L281.8 132.3L282.9 126.2L286.2 117.8L286.2 109.8Z"],["Cumberland","M219.7 207.1L220.2 208.5L236.2 196.6L239.0 196.3L234.3 201.5L241.7 197.8L241.9 200.3L247.9 198.6L268.0 196.0L272.6 194.2L271.8 198.0L276.7 204.4L274.0 204.5L271.5 207.3L273.1 210.4L267.7 210.6L263.9 212.2L255.8 220.0L252.0 224.0L235.4 227.6L230.5 232.6L231.6 229.7L225.9 222.2L223.5 215.1L220.0 211.8L219.7 207.1Z"],["Centre","M187.7 111.6L190.1 112.5L192.6 109.7L192.6 106.6L195.0 106.1L198.3 101.7L198.5 109.2L205.6 108.8L209.9 116.2L219.2 117.9L223.5 121.2L222.1 122.3L227.6 130.7L240.3 128.3L255.2 122.6L250.6 127.7L244.9 136.0L238.4 142.3L233.0 144.6L214.5 154.0L208.0 155.1L203.7 152.7L194.7 157.8L181.7 153.1L180.6 152.7L163.3 153.8L161.9 151.5L166.8 146.1L168.7 142.0L171.7 141.5L173.8 135.7L178.7 132.8L184.7 131.1L183.9 127.7L186.1 126.6L184.4 123.9L182.0 115.5L185.2 114.7L187.7 111.6Z"],["Perry","M215.4 198.0L223.2 190.3L225.9 189.4L225.1 187.1L244.1 175.2L253.3 171.0L252.3 168.8L264.2 166.6L269.9 164.2L268.8 168.3L266.6 170.3L267.2 175.3L269.9 178.5L269.6 180.8L263.9 187.9L265.5 191.1L270.7 191.2L272.6 194.2L268.0 196.0L247.9 198.6L241.9 200.3L241.7 197.8L234.3 201.5L239.0 196.3L236.2 196.6L220.2 208.5L219.7 207.1L220.5 204.2L217.8 205.2L215.4 198.0Z"],["Snyder","M239.2 146.3L241.7 145.3L262.0 140.0L264.2 141.2L270.4 138.2L279.1 138.2L281.3 139.2L281.3 138.8L281.3 139.2L276.7 148.9L276.7 155.8L270.7 163.1L265.5 162.7L263.4 159.3L259.0 159.4L257.7 157.8L254.7 159.3L244.4 157.6L239.2 156.9L239.2 146.3Z"],["Clearfield","M129.6 136.4L129.6 113.7L132.6 106.7L136.7 106.8L141.6 105.2L141.6 101.6L172.5 104.0L183.3 105.3L187.7 111.6L185.2 114.7L182.0 115.5L184.4 123.9L186.1 126.6L183.9 127.7L184.7 131.1L178.7 132.8L173.8 135.7L171.7 141.5L168.7 142.0L166.8 146.1L161.9 151.5L163.3 153.8L164.1 154.5L129.9 154.5L129.6 136.4Z"],["Philadelphia","M396.3 229.3L401.7 225.9L397.1 221.6L400.4 217.7L403.9 218.5L408.8 222.3L416.1 213.2L419.9 215.1L419.1 222.1L412.6 227.8L407.4 231.1L406.6 238.1L401.2 240.5L397.4 239.3L399.6 233.2L396.3 229.3Z"],["Warren","M68.6 42.0L68.6 27.1L110.4 27.1L120.9 27.2L121.2 42.9L118.8 44.0L118.2 64.6L76.2 64.5L68.6 64.6L68.6 42.0Z"],["Clinton","M183.3 105.3L191.2 90.3L191.2 79.6L220.8 79.1L221.9 82.9L226.2 91.2L230.0 93.2L230.3 95.5L239.5 105.0L241.7 105.1L253.6 120.1L255.2 120.1L255.2 122.6L240.3 128.3L227.6 130.7L222.1 122.3L223.5 121.2L219.2 117.9L209.9 116.2L205.6 108.8L198.5 109.2L198.3 101.7L195.0 106.1L192.6 106.6L192.6 109.7L190.1 112.5L187.7 111.6L183.3 105.3Z"],["Butler","M32.0 120.0L39.3 109.8L62.3 109.7L62.6 110.0L62.6 160.0L28.2 159.5L27.3 141.5L26.8 127.0L32.0 120.0Z"],["Fayette","M39.6 228.7L39.8 226.1L42.8 227.5L48.5 223.8L48.5 220.7L51.5 217.9L48.5 214.3L58.5 214.2L63.2 215.6L66.7 218.7L69.9 218.8L71.0 216.5L78.4 212.6L88.1 219.6L88.9 222.6L92.7 222.9L84.9 236.9L83.2 241.7L87.3 244.9L87.8 248.9L84.6 251.5L85.1 254.9L78.9 254.9L57.2 254.9L45.5 254.9L46.6 252.7L44.2 248.9L46.3 247.7L43.9 242.3L45.8 239.0L45.0 234.5L42.5 231.7L38.5 231.1L39.6 228.7Z"],["Lackawanna","M354.3 84.3L358.9 76.6L356.7 74.7L358.6 69.6L362.9 62.8L382.2 62.8L383.8 101.1L378.9 103.8L376.2 104.6L371.9 110.8L368.6 109.4L367.8 101.2L365.9 100.5L365.4 93.0L361.3 92.2L354.5 87.5L354.3 84.3Z"],["Sullivan","M325.0 72.9L320.3 89.3L318.2 96.0L310.9 96.1L307.9 99.4L296.7 96.6L285.1 86.4L280.2 68.0L325.0 72.9Z"],["Washington","M-0.1 230.7L-0.1 225.3L-0.1 211.1L0.2 187.0L-0.1 179.3L12.2 179.2L25.4 193.7L45.8 201.7L41.5 203.8L42.3 205.4L49.1 207.3L50.7 209.5L46.6 211.8L48.5 214.3L51.5 217.9L48.5 220.7L48.5 223.8L42.8 227.5L39.8 226.1L39.6 228.7L35.8 229.1L34.7 226.0L29.5 228.2L26.0 226.2L16.0 226.5L10.5 227.6L9.4 229.2L5.1 229.6L3.5 231.8L-0.1 230.7Z"],["McKean","M120.9 27.2L167.1 27.1L174.9 27.1L175.2 65.2L158.7 65.3L158.9 66.8L154.0 66.8L154.0 64.0L139.7 64.5L118.2 64.6L118.8 44.0L121.2 42.9L120.9 27.2Z"],["Berks","M349.9 159.3L368.6 175.3L377.3 182.3L364.6 202.8L351.3 213.3L330.1 195.4L308.4 177.4L316.0 175.4L322.2 175.3L328.8 173.5L336.6 169.1L340.7 169.2L342.1 163.1L349.9 159.3Z"],["Adams","M230.5 232.6L235.4 227.6L252.0 224.0L255.8 220.0L260.9 224.1L264.7 225.6L268.5 233.5L267.2 237.6L269.3 241.3L266.1 243.9L266.1 255.0L249.5 255.0L231.4 255.0L230.5 232.6Z"],["York","M255.8 220.0L263.9 212.2L267.7 210.6L273.1 210.4L271.5 207.3L274.0 204.5L276.7 204.4L284.5 209.3L287.0 215.0L291.6 220.7L298.4 222.4L301.1 221.9L304.1 227.3L305.4 232.0L311.9 235.7L312.8 239.6L316.0 244.8L320.9 249.5L323.6 254.8L298.6 254.9L282.1 254.9L266.1 255.0L266.1 243.9L269.3 241.3L267.2 237.6L268.5 233.5L264.7 225.6L260.9 224.1L255.8 220.0Z"],["Montgomery","M364.6 202.8L377.3 182.3L380.6 185.1L409.1 207.8L416.1 213.2L408.8 222.3L403.9 218.5L400.4 217.7L397.1 221.6L401.7 225.9L396.3 229.3L390.1 220.4L387.6 220.9L385.5 217.3L382.7 218.2L382.5 214.5L377.3 212.0L375.2 206.3L373.8 207.5L371.9 203.2L370.8 204.7L364.6 202.8Z"],["Huntingdon","M181.7 153.1L194.7 157.8L203.7 152.7L208.0 155.1L214.5 154.0L212.9 159.0L214.5 158.8L206.4 165.8L202.3 172.0L203.7 177.7L196.9 187.1L201.2 190.5L208.6 190.1L209.1 189.2L212.9 200.7L211.3 202.0L205.9 210.3L200.7 220.9L196.1 216.8L184.4 213.7L180.4 210.5L172.5 204.5L171.1 197.2L180.4 179.6L179.0 178.2L179.3 172.8L175.5 171.1L177.9 165.2L173.6 159.5L174.9 157.4L181.7 153.1Z"],["Westmoreland","M49.1 207.3L55.8 204.2L53.9 203.7L57.2 187.7L59.4 187.2L61.5 183.6L61.8 174.5L56.9 172.0L56.4 168.9L60.4 166.2L62.9 162.7L62.6 160.0L64.2 159.0L70.5 164.3L72.4 170.6L77.3 174.5L80.8 174.0L81.1 178.9L82.4 178.1L85.1 181.3L90.3 181.7L103.0 185.8L106.0 187.5L105.8 189.9L110.4 188.9L113.6 185.0L116.9 187.4L110.6 198.5L104.1 210.6L102.8 210.9L100.9 216.1L99.0 215.1L95.4 218.1L92.7 222.9L88.9 222.6L88.1 219.6L78.4 212.6L71.0 216.5L69.9 218.8L66.7 218.7L63.2 215.6L58.5 214.2L48.5 214.3L46.6 211.8L50.7 209.5L49.1 207.3Z"],["Dauphin","M269.9 164.2L272.3 166.7L285.1 161.7L288.6 161.2L301.1 171.5L290.5 179.5L294.3 193.0L298.9 207.3L295.9 208.0L290.5 212.0L288.9 211.3L287.0 215.0L284.5 209.3L276.7 204.4L271.8 198.0L272.6 194.2L270.7 191.2L265.5 191.1L263.9 187.9L269.6 180.8L269.9 178.5L267.2 175.3L266.6 170.3L268.8 168.3L269.9 164.2Z"],["Bradford","M299.5 27.0L330.7 27.2L332.6 53.2L332.8 61.9L326.6 62.2L325.0 72.9L280.2 68.0L275.6 67.3L273.7 46.1L271.5 26.8L299.5 27.0Z"],["Franklin","M183.1 254.7L190.4 244.3L196.6 226.6L200.7 220.9L205.9 210.3L211.3 202.0L212.9 200.7L215.4 198.0L217.8 205.2L220.5 204.2L219.7 207.1L220.0 211.8L223.5 215.1L225.9 222.2L231.6 229.7L230.5 232.6L231.4 255.0L230.5 255.0L183.1 254.7Z"]],"areas":{"dt":["Downtown Pittsburgh",40.441,-79.999,"15222",39.4,182.9,"Allegheny"],"dt2":["Downtown / Uptown Pittsburgh",40.4382,-79.9965,"15219",39.6,183.2,"Allegheny"],"ns":["North Shore, Pittsburgh",40.4496,-80.003,"15212",39.1,182,"Allegheny"],"ok":["Oakland, Pittsburgh",40.4433,-79.953,"15213",42.9,182.7,"Allegheny"],"cor":["Coraopolis",40.5184,-80.167,"15108",26.7,175.2,"Allegheny"],"mars":["Mars",40.6954,-80.012,"16046",38.4,157.5,"Butler"],"bel":["Bellevue",40.4948,-80.056,"15202",35.1,177.5,"Allegheny"],"erie":["Erie",42.1292,-80.0851,"16501",32.9,14.1,"Erie"],"tar":["Tarentum",40.6023,-79.7595,"15084",57.5,166.8,"Allegheny"],"exp":["Export",40.4126,-79.6217,"15632",67.9,185.7,"Westmoreland"],"lat":["Latrobe",40.3212,-79.3795,"15650",86.2,194.9,"Westmoreland"],"gre":["Greenville",41.4045,-80.3914,"16125",9.7,86.6,"Mercer"],"cla":["Clairton",40.2928,-79.8817,"15025",48.2,197.7,"Allegheny"],"wm":["West Mifflin",40.3631,-79.8647,"15122",49.5,190.7,"Allegheny"],"mon":["Monroeville",40.421,-79.788,"15146",55.3,184.9,"Allegheny"],"bp":["Bethel Park",40.327,-80.039,"15102",36.4,194.3,"Allegheny"],"ml":["Mt. Lebanon",40.3815,-80.042,"15228",36.1,188.9,"Allegheny"],"cran":["Cranberry Twp",40.6848,-80.1073,"16066",31.2,158.5,"Butler"],"usc":["Upper St. Clair",40.3365,-80.0845,"15241",32.9,193.4,"Allegheny"],"wex":["Wexford",40.6265,-80.056,"15090",35.1,164.4,"Allegheny"],"lawr":["Lawrenceville, Pittsburgh",40.466,-79.96,"15201",42.3,180.4,"Allegheny"],"sqh":["Squirrel Hill, Pittsburgh",40.438,-79.923,"15217",45.1,183.2,"Allegheny"],"shd":["Shadyside, Pittsburgh",40.451,-79.933,"15232",44.4,181.9,"Allegheny"],"ss":["South Side, Pittsburgh",40.428,-79.977,"15203",41,184.2,"Allegheny"],"bloom":["Bloomfield, Pittsburgh",40.463,-79.95,"15224",43.1,180.7,"Allegheny"],"sew":["Sewickley",40.5365,-80.184,"15143",25.4,173.4,"Allegheny"],"gbg":["Greensburg",40.3015,-79.5389,"15601",74.2,196.9,"Westmoreland"],"murr":["Murrysville",40.429,-79.697,"15668",62.2,184.1,"Westmoreland"],"wash":["Washington",40.174,-80.246,"15301",20.7,209.6,"Washington"],"can":["Canonsburg",40.2626,-80.1873,"15317",25.1,200.7,"Washington"],"gib":["Gibsonia",40.674,-79.944,"15044",43.5,159.6,"Butler"],"moon":["Moon Twp",40.51,-80.216,"15108",23,176,"Allegheny"]}};
+/* ===== v4 layer: source captures, 24-32 job-change target, PA prospect map, meeting spots ===== */
+const SPOTS_RAW=[
+['La Prima Espresso, Strip District','205 21st St, Pittsburgh, PA 15222',40.45160,-79.98277,4.5,201,'laprima.com'],
+['De Fer Coffee & Tea, Strip District','2002 Smallman St, Pittsburgh, PA 15222',40.45168,-79.98434,4.5,293,'defer.coffee'],
+['Allegheny Coffee & Tea Exchange','2005 Penn Ave, Pittsburgh, PA 15222',40.45137,-79.98389,4.5,180,'alleghenycoffee.com'],
+['La Prima Espresso, Downtown','1100 Smallman St, Pittsburgh, PA 15222',40.44555,-79.99384,4.5,78,'laprima.com'],
+['Nicholas Coffee & Tea Co., Market Square','23 Market Square, Pittsburgh, PA 15222',40.44123,-80.00301,4.5,160,'nicholascoffee.us'],
+['Yinz Coffee, North Side','2 E North Ave, Pittsburgh, PA 15212',40.45568,-80.00649,4.5,55,'yinzcoffee.com'],
+['Espresso a Mano, Lawrenceville','3623 Butler St, Pittsburgh, PA 15201',40.46611,-79.96513,4.5,414,'espressoamano.com'],
+['Ineffable Ca Phe, Bloomfield','3920 Penn Ave, Pittsburgh, PA 15224',40.46466,-79.95927,4.5,219,'ineffablecaphe.com'],
+['Jitters, Shadyside','5541 Walnut St, Pittsburgh, PA 15232',40.45184,-79.93241,4.5,136,'jitterspgh.com'],
+['Grim Wizard Coffee, South Side','750 E Warrington Ave, Pittsburgh, PA 15210',40.42165,-79.99389,4.5,24,'grimwizard.com'],
+['Uptown Coffee, Mt. Lebanon','723 Washington Rd, Pittsburgh, PA 15228',40.37948,-80.04483,4.0,154,'uptowncoffeepgh.com'],
+["Reginald's Coffee, Bethel Park",'2600 South Park Rd, Bethel Park, PA 15102',40.32908,-80.02866,5.0,135,'reginaldscoffee.com'],
+['Carnegie Coffee Company','132 E Main St, Carnegie, PA 15106',40.40759,-80.08617,4.5,333,'carnegiecoffeecompany.com'],
+['LaBella Bean, Bridgeville','609 Washington Ave, Bridgeville, PA 15017',40.35711,-80.11277,4.0,118,'labellabean.com'],
+['LaBella Bean, Canonsburg','1900 Main St, Canonsburg, PA 15317',40.27511,-80.16726,4.0,12,'labellabean.com'],
+['Fresh Start Cafe, Canonsburg','46 W Pike St, Canonsburg, PA 15317',40.25863,-80.18776,4.5,14,'freshstartcafe.org'],
+['The Coffee Tree Roasters, Pleasant Hills','10 Old Clairton Rd, Pittsburgh, PA 15236',40.33992,-79.96598,4.5,57,'coffeetree.store'],
+['Queen Beans Cafe, Coraopolis','900 5th Ave, Coraopolis, PA 15108',40.51824,-80.16671,5.0,53,'queenbeanscafe.com'],
+['Anchor & Anvil Coffee Bar, Coraopolis','1032 5th Ave, Coraopolis, PA 15108',40.51680,-80.16316,4.0,47,'anchoranvilcoffee.com'],
+['The Coffee Village, Sewickley','417 Walnut St, Sewickley, PA 15143',40.54052,-80.18271,4.5,37,'coffeevillages.com'],
+['Wunderbar Coffee and Bistro, Bellevue','411 Lincoln Ave, Bellevue, PA 15202',40.49411,-80.05299,4.5,34,'wunderbarbellevue.com'],
+['Cafe Conmigo, Wexford','10 N Meadows Dr Ste 4, Wexford, PA 15090',40.61257,-80.05498,4.5,114,'cafeconmigo.com'],
+['Cafe Conmigo, Cranberry','1659 PA-228 Ste 100, Cranberry Twp, PA 16066',40.68590,-80.07595,4.5,27,'cafeconmigo.com'],
+['Convive Coffee Roastery, Mars','960 Adams Shoppes, Mars, PA 16046',40.68802,-80.05402,4.5,33,'convivecoffee.com'],
+["kat's coffeehouse, Gibsonia",'617 Warrendale Rd Ste E, Gibsonia, PA 15044',40.66879,-80.02049,5.0,14,'katscoffeehouse.co'],
+['Brave Bean Coffee Company, Pitcairn','550 Broadway Blvd, Pitcairn, PA 15140',40.40218,-79.77667,4.5,11,'bravebeancoffee.com'],
+['Brushes and Beans Cafe, Murrysville','4550 William Penn Hwy, Murrysville, PA 15668',40.42615,-79.67146,5.0,33,'brushesandbeanscafe.com'],
+['The White Rabbit Cafe and Patisserie, Greensburg','113 N Main St, Greensburg, PA 15601',40.30392,-79.54449,5.0,230,'thewhiterabbitcafe.com'],
+['Steep Mountain Tea Company, Greensburg','101 Ehalt St Ste 111, Greensburg, PA 15601',40.30465,-79.54646,4.5,21,'steepmountainteaco.square.site'],
+['Dv8 Espresso Bar & Gallery, Greensburg','208 S Pennsylvania Ave, Greensburg, PA 15601',40.30098,-79.54499,4.5,34,''],
+['The Coffee Bean Cafe, Latrobe','3804 US-30 W, Latrobe, PA 15650',40.28728,-79.37611,4.5,31,'coffeebeanlatrobe.com'],
+['Fresh Grounds Coffeehouse & Cafe, Greenville','172 Main St, Greenville, PA 16125',41.40511,-80.38951,4.5,17,'freshgroundscoffeehouse.com'],
+['Tipsy Bean Cafe, Erie','2425 Peach St, Erie, PA 16502',42.11248,-80.07537,4.5,72,'tipsybean.cafe'],
+['Ember + Forge, Erie','401 State St, Erie, PA 16501',42.13142,-80.08616,4.5,83,'emberandforge.com'],
+['Brew Ha Ha at the Colony, Erie','2612 W 8th St, Erie, PA 16505',42.10651,-80.14199,4.5,105,'brewhahacolony.com'],
+['Latte Lane Coffee Co., Cheswick','1320 Pittsburgh St, Cheswick, PA 15024',40.54084,-79.80167,5.0,56,'lattelanepgh.com']
+];
+const SPOTS=SPOTS_RAW.map((s,i)=>({i,n:s[0],a:s[1],la:s[2],lo:s[3],r:s[4],c:s[5],w:s[6],z:(s[1].match(/\b(\d{5})\b/)||[])[1]}));
+const EMP_AREA={'The PNC Financial Services Group, Inc.':'dt','PPG Industries, Inc.':'dt','UPMC':'dt2','WESCO International, Inc.':'dt2','Alcoa Corporation':'ns','Carnegie Mellon University':'ok',"DICK'S Sporting Goods, Inc.":'cor'};
+const TOWN_AREA={'Mars, PA':'mars','Bellevue, PA':'bel','Erie, PA':'erie','Tarentum, PA':'tar','Export, PA':'exp','Latrobe, PA':'lat','Greenville, PA':'gre','Clairton, PA':'cla','West Mifflin, PA':'wm','Monroeville, PA':'mon','Bethel Park, PA':'bp','Coraopolis, PA':'cor'};
+const DEMO_TOWN={'Mt. Lebanon':'ml','Cranberry Twp':'cran','Upper St. Clair':'usc','Wexford':'wex','Lawrenceville':'lawr','Bethel Park':'bp','Squirrel Hill':'sqh','Moon Twp':'moon','Monroeville':'mon','Shadyside':'shd','Sewickley':'sew','Oakland':'ok','Greensburg':'gbg','Gibsonia':'gib','South Side':'ss','Bloomfield':'bloom','Canonsburg':'can','Murrysville':'murr','Washington, PA':'wash'};
+/* age and job-change facts for the made-up demo leads (target: ages 24 to 32, new job in the last 90 days) */
+const LEAD_META={
+ 'Tyrell Branch':{age:28},'Anika Rao':{age:30},'Josh Mercer':{age:27},'Omar Haddad':{age:29},'Sofia Marino':{age:26},
+ 'Priya Nair':{age:31,job:{days:1,role:'Data scientist',org:'a health technology company'}},
+ 'Elena Vasquez':{age:29,job:{days:3,role:'Senior analyst',org:'a regional health system'}},
+ 'Nina Patel':{age:32,job:{days:8,role:'Clinical pharmacist',org:'a new hospital system'}},
+ 'Marcus Webb':{age:26,job:{days:11,role:'Mechanical engineer',org:'an energy company'}},
+ 'Hannah Kessler':{age:31,job:{days:24,role:'Product manager',org:'a software company'}},
+ 'Devon Pryor':{age:25,job:{days:41,role:'Staff accountant',org:'a larger accounting firm'}},
+ 'Caleb Ortiz':{age:24,job:{days:62,role:'Operations analyst',org:'a logistics company'}},
+ 'Brian Foley':{age:35,job:{days:10,role:'Sales manager',org:'a manufacturer'}}
+};
+
+const h32=s=>{let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0};
+const fit=l=>{const m=LEAD_META[l.name];return !!(m&&m.age>=24&&m.age<=32&&m.job&&m.job.days<=90)};
+const AREA=id=>{const a=PAGEO.areas[id]||PAGEO.areas.dt;return {id,name:a[0],lat:a[1],lon:a[2],zip:a[3],x:a[4],y:a[5],county:a[6]}};
+const areaOfP=p=>p.area||TOWN_AREA[p.town]||EMP_AREA[p.employer]||'dt';
+const areaOfL=l=>DEMO_TOWN[l.town]||'dt';
+const miles=(a,b,c,d)=>{const r=Math.PI/180,x=Math.sin((c-a)*r/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin((d-b)*r/2)**2;return 7917.6*Math.asin(Math.sqrt(x))};
+function spotsNear(id,n){const a=AREA(id);return SPOTS.map(s=>Object.assign({},s,{d:miles(a.lat,a.lon,s.la,s.lo)})).filter(s=>s.r>=4&&s.c>=10).sort((x,y)=>(x.d+(5-x.r)*1.2-Math.min(x.c,300)/300)-(y.d+(5-y.r)*1.2-Math.min(y.c,300)/300)).slice(0,n||3)}
+const hm=(e)=>new Date(e).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+const trim=(s,n)=>s.length>n?s.slice(0,n-1).replace(/\s+\S*$/,'')+'...':s;
+ICON.map='<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>';
+
+/* ---------- sources and captures ---------- */
+function postFor(ch,seed){const pool=[].concat(POSTS.filter(p=>p.ch===ch).map(p=>p.title),PAST.filter(p=>p.ch===ch).map(p=>p.t));return pool.length?pool[h32(seed)%pool.length]:'a Silver Oak post'}
+function postText(title){const p=POSTS.find(x=>x.title===title);return p?trim(p.text,190):'Silver Oak Financial shared a short planning post. Questions are welcome in the comments.'}
+function srcInfo(key,l,e){
+ const ch=e.ch,k=e.k,n=CH[ch].n,social=ch==='fb'||ch==='ig'||ch==='tt';
+ let post='',line;
+ if(!l)return {line:n+' activity feed, '+(e.x||'activity'),post:''};
+ if(social&&(k==='comment'||k==='like'||k==='share'||k==='click'))post=postFor(ch,key);
+ if(social){line=k==='comment'?n+' comment on "'+post+'"':k==='like'?n+' reaction on "'+post+'"':k==='share'?n+' share of "'+post+'"':k==='follow'?n+' new follower on the Silver Oak page':k==='dm'?n+' direct message to the Silver Oak page':n+' activity'}
+ else if(ch==='li')line=k==='jobchg'?'LinkedIn public post: started a new position':k==='dm'?'LinkedIn message to Silver Oak':'LinkedIn comment on a Silver Oak post';
+ else if(ch==='web')line=k==='book'?'Website: booking link opened':k==='contact'?'Website: Contact page viewed':k==='click'?'Website: link clicked in an email':'Website visit';
+ else line=k==='reply'?'Email reply to the planning-questions message':'Email opened: planning-questions message';
+ return {line,post};
+}
+function srcTag(e){const key=e.key||'';const f=findEv(key);if(!f||!f.l)return '';const i=srcInfo(key,f.l,f.e);return i.post?'on "'+trim(i.post,34)+'"':''}
+function findEv(key){
+ if(String(key).indexOf('an')===0){const i=+String(key).slice(2),a=ANON[i];if(!a)return null;return {l:null,e:{t:Date.now()-a[0]*MIN,ch:a[1],k:a[3],x:a[2]}}}
+ const p=String(key).split('~'),l=DLD(p[0]);if(!l)return null;const e=l.ev.find(x=>String(x.t)===p[1]);return e?{l,e}:null;
+}
+const cmt=(e,l)=>{const x=(e.x||'').replace(/^"|"$/g,'');return x||(l&&l.seg==='Pre-retiree'?'Saving this, thank you.':'Needed this one.')};
+function capShot(key,l,e,info){
+ const c=CH[e.ch],nm=l?l.name:'New follower',ini=initials(nm),H=h32(key),
+  likes=18+H%140,cms=3+(H>>3)%24,shs=1+(H>>5)%9,when=hm(e.t);
+ const bar='<div class="cs-bar" style="background:'+c.c+'"><b>'+esc(c.n)+'</b><span>captured view</span></div>';
+ let body='';
+ const postCard=t=>'<div class="cs-ph"><span class="av">SO</span><div><b>Silver Oak Financial</b><div class="cs-s">Public post</div></div></div><div class="cs-pt">'+esc(postText(t))+'</div><div class="cs-react">'+likes+' reactions &middot; '+cms+' comments &middot; '+shs+' shares</div>';
+ const other=(a,b)=>'<div class="cs-cm blur"><span class="av">'+a+'</span><div><b>Another reader</b><div>'+b+'</div></div></div>';
+ if(e.ch==='web'){
+  const pages=e.k==='book'?[['Home','0m 35s'],['Contact','0m 22s'],['Booking link (opened)','0m 51s']]:e.k==='contact'?[['Home','0m 40s'],['Contact','1m 05s']]:e.k==='click'?[['Email link: planning checklist','opened']]:[['Home','1m 12s'],['Planning checklist','0m 48s']];
+  const ref=['Instagram bio link','Email','Direct'][H%3];
+  body='<div class="cs-ph"><span class="av">'+ini+'</span><div><b>'+esc(nm)+'</b><div class="cs-s">Website session &middot; '+esc(when)+'</div></div></div><table class="cs-t"><tbody>'+pages.map(p=>'<tr><td>'+esc(p[0])+'</td><td>'+esc(p[1])+'</td></tr>').join('')+'</tbody></table><div class="cs-react">Came from: '+ref+' &middot; Device: phone &middot; Area: '+esc(l?l.town:'Pittsburgh')+', PA</div>';
+ }else if(e.ch==='em'){
+  body='<div class="cs-ph"><span class="av">'+(l?esc(l.owner[0]):'S')+'</span><div><b>Subject: Three questions before you pick a retirement date</b><div class="cs-s">To '+esc(nm)+' &middot; sent from '+esc(l?l.owner:'Jesse')+'</div></div></div>'+(e.k==='reply'?'<div class="cs-cm hit"><span class="av">'+ini+'</span><div><b>'+esc(nm)+'</b> <span class="cs-s">'+esc(when)+'</span><div>'+esc(cmt(e,l))+'</div></div></div>':'<div class="cs-react">Opened '+(1+H%4)+' times &middot; last open '+esc(when)+'</div>');
+ }else if(e.k==='jobchg'){
+  const m=LEAD_META[l&&l.name]||{};const j=m.job;
+  body='<div class="cs-ph"><span class="av">'+ini+'</span><div><b>'+esc(nm)+'</b><div class="cs-s">'+esc(l.role)+' &middot; '+esc(l.town)+', PA</div></div></div><div class="cs-pt hit"><b>Started a new position</b><br>'+(j?esc(j.role)+' at '+esc(j.org):'New role (details in the public post)')+'</div><div class="cs-react">Public post &middot; '+esc(when)+' &middot; '+(20+H%90)+' congratulations</div>';
+ }else if(e.k==='dm'){
+  body='<div class="cs-ph"><span class="av">'+ini+'</span><div><b>'+esc(nm)+'</b><div class="cs-s">Direct message to Silver Oak Financial &middot; '+esc(when)+'</div></div></div><div class="cs-bub hit">'+esc(cmt(e,l)||'Hi, I have a question.')+'</div><div class="cs-react">Not answered yet</div>';
+ }else if(e.k==='follow'){
+  body='<div class="cs-ph"><span class="av">SO</span><div><b>Silver Oak Financial</b><div class="cs-s">New follower &middot; '+esc(when)+'</div></div></div><div class="cs-cm hit"><span class="av">'+ini+'</span><div><b>'+esc(nm)+'</b><div class="cs-s">'+(l?esc(l.town)+', PA':'Pittsburgh, PA')+'</div></div></div>'+other('R','Other recent followers are hidden in this capture.');
+ }else if(e.k==='comment'){
+  body=postCard(info.post||'Silver Oak post')+'<div class="cs-cm hit"><span class="av">'+ini+'</span><div><b>'+esc(nm)+'</b> <span class="cs-s">'+esc(when)+'</span><div>'+esc(cmt(e,l))+'</div></div></div>'+other('M.R.','Thank you for sharing this.');
+ }else if(e.k==='share'){
+  body=postCard(info.post||'Silver Oak post')+'<div class="cs-cm hit"><span class="av">'+ini+'</span><div><b>'+esc(nm)+'</b> shared this post<div class="cs-s">'+esc(when)+(l?' &middot; to a '+esc(l.town)+' neighborhood group':'')+'</div></div></div>';
+ }else{
+  body=postCard(info.post||'Silver Oak post')+'<div class="cs-cm hit"><span class="av">'+ini+'</span><div><b>'+esc(nm)+'</b> reacted to this post<div class="cs-s">'+esc(when)+'</div></div></div>'+other('D.K.','Other reactions are hidden in this capture.');
+ }
+ return '<div class="cs-frame"><div class="cs-chrome"><i></i><i></i><i></i><span>Capture saved in your portal. Nothing here opens '+esc(c.n)+'.</span></div>'+bar+'<div class="cs-body">'+body+'</div></div>';
+}
+function nextActs(l,e,info){
+ const A=[],k=e.k,m=l&&LEAD_META[l.name],f=l&&fit(l);
+ if(!l){A.push(['lead','Save this as an unmatched lead','Nothing to send yet. If the same account shows up again, match it to a person.']);return A}
+ const first=l.name.split(' ')[0];
+ if(k==='book')A.push(['task','Call '+first+' within the hour','They opened your booking link, the warmest moment you will get. Add the call to today\'s tasks.']);
+ if(k==='reply')A.push(['draft','Reply today from your own inbox','Offer two times for a first conversation.']);
+ if(k==='dm')A.push(['draft','Answer the message personally today','Ask what prompted the question before offering anything.']);
+ if(k==='comment')A.push(['draft','Reply in public, then follow up in a direct message tomorrow','Keep the public reply about their question. Nothing about their money in a public thread.']);
+ if(k==='jobchg')A.push(['draft','Congratulate '+first+' this week','A short, warm note about the new role. No pitch. Benefits choices and an old 401(k) are natural topics for week two.']);
+ if(k==='contact'||k==='visit'||k==='click')A.push(['draft','Send a short note with your booking link','Friendly and low pressure. They have looked around already.']);
+ if(k==='like'||k==='follow'||k==='share'||k==='open')A.push(['none','Hold for now','One light action is not an invitation. Watch for a second signal before reaching out.']);
+ if(f)A.push(['task','Put '+first+' on the 24 to 32 new-job list','Age '+m.age+', new role '+m.job.days+' day'+(m.job.days===1?'':'s')+' ago. Lead with the new-employer checklist: 401(k) match, old 401(k) options and benefit deadlines.']);
+ else if(m&&m.age&&m.job&&(m.age<24||m.age>32))A.push(['none','Outside the 24 to 32 target','New job noted, but age '+m.age+' is outside the range. Keep in the general nurture.']);
+ const sp=spotsNear(areaOfL(l),1)[0];
+ if(sp)A.push(['spot','Offer a relaxed first chat near '+l.town,'Suggest '+sp.n+', '+sp.d.toFixed(1)+' miles away. Keep account details for a private setting.']);
+ A.push(['pipe','Add to pipeline','Suggested owner: '+l.owner+'.']);
+ return A;
+}
+const ACTBTN={draft:['cap-draft','Open the draft reply'],task:['cap-task','Add task for today'],pipe:['cap-pipe','Add to pipeline'],spot:['cap-spot','See meeting spots'],lead:['cap-lead','Save lead']};
+function capModal(key){
+ const f=findEv(key);if(!f){return}
+ const l=f.l,e=f.e,info=srcInfo(key,l,e),c=CH[e.ch],H=h32(key),id='TAZ-CAP-'+String(H%90000+10000);
+ const seen=!!(DS.capSeen&&DS.capSeen[key]);
+ const acts=nextActs(l,e,info).map((a,i)=>'<div class="cs-act"><b>'+(i+1)+'. '+esc(a[1])+'</b><div class="sub">'+esc(a[2])+'</div>'+(ACTBTN[a[0]]?'<button class="btn sm '+(i===0?'pri':'')+'" data-act="'+ACTBTN[a[0]][0]+'" data-id="'+esc(key)+'">'+ACTBTN[a[0]][1]+'</button>':'')+'</div>').join('');
+ const who=l?'<b>'+esc(l.name)+'</b> &middot; '+esc(l.seg)+(LEAD_META[l.name]&&LEAD_META[l.name].age?' &middot; age '+LEAD_META[l.name].age:''):'<b>Not matched to a lead yet</b>';
+ document.getElementById('capwrap').innerHTML='<div class="cs-box" role="dialog" aria-label="Source capture"><div class="cs-head"><div><div class="sub">Source capture &middot; demo data</div><h2>'+who+'</h2></div><button class="x" data-act="cap-close" aria-label="Close">&times;</button></div>'+
+ '<div class="cs-grid"><div>'+capShot(key,l,e,info)+'<div class="sub" style="margin-top:8px">This picture is built from the activity feed and stored in the portal, so you never have to open '+esc(c.n)+' to see what happened. The people and numbers in this demo are made up.</div></div>'+
+ '<div><div class="cs-src"><h4>Where this came from</h4><dl><dt>Source</dt><dd>'+esc(info.line)+'</dd><dt>Platform</dt><dd>'+esc(c.n)+'</dd><dt>Captured</dt><dd>'+esc(hm(e.t))+' ('+agoStr(e.t)+')</dd><dt>Capture ID</dt><dd>'+id+'</dd><dt>Matched by</dt><dd>'+(l?'Public profile name and town':'Not matched yet')+'</dd><dt>Link to platform</dt><dd>None. Stays in your portal and the compliance archive.</dd></dl></div>'+
+ '<h4 class="rh" style="margin-top:14px">Suggested next actions</h4>'+acts+'<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" data-act="cap-seen" data-id="'+esc(key)+'">'+(seen?'Marked reviewed':'Mark reviewed')+'</button><button class="btn sm" data-act="cap-close">Close</button></div></div></div></div>';
+ const w=document.getElementById('capwrap');w.classList.add('on');
+}
+function capClose(){const w=document.getElementById('capwrap');w.classList.remove('on');w.innerHTML=''}
+
+/* ---------- meeting spots ---------- */
+function spotsHtml(areaId,n,opt){
+ const a=AREA(areaId),sp=spotsNear(areaId,n||3);
+ if(!sp.length)return '<div class="empty">No spots saved near ZIP '+a.zip+' yet.</div>';
+ const far=sp[0].d>8;
+ return (far?'<div class="check" style="margin-bottom:8px">Few good options close to ZIP '+a.zip+'. The nearest is '+sp[0].d.toFixed(1)+' miles away, so you may want to offer to meet halfway.</div>':'')+
+ sp.map((s,i)=>'<div class="spot"><span class="sn">'+'ABC'[i]+'</span><div class="grow"><b>'+esc(s.n)+'</b><div class="sub">'+esc(s.a)+'</div><div class="sub">'+s.d.toFixed(1)+' mi from '+esc(a.name)+' ('+a.zip+') &middot; '+s.r.toFixed(1)+' of 5 on Yelp, '+s.c+' reviews'+(s.w?' &middot; '+esc(s.w):'')+'</div></div><button class="btn sm" data-act="spot-copy" data-id="'+s.i+'|'+areaId+'">Copy invite</button></div>').join('')+
+ '<div class="sub" style="margin-top:8px">Ratings from Yelp through Bing Maps, checked Nov 5 2026. Distance is in a straight line. Confirm hours before you suggest a time. A coffee shop suits a first, relaxed conversation. Keep account numbers and detailed fact-finding for the office or a call.</div>';
+}
+function miniMap(areaId){
+ const a=AREA(areaId),sp=spotsNear(areaId,3),w=30,h=20,x0=a.x-w/2,y0=a.y-h/2;
+ let g=PAGEO.counties.map(c=>'<path d="'+c[1]+'" fill="'+(c[0]===a.county?'#efe4d6':'#fbf8f3')+'" stroke="#cdbfae" stroke-width=".5" vector-effect="non-scaling-stroke"/>').join('');
+ g+='<path d="'+PAGEO.state+'" fill="none" stroke="#5c3d1e" stroke-width="1.2" vector-effect="non-scaling-stroke"/>';
+ sp.forEach((s,i)=>{const p=MPX(s.la,s.lo);g+='<line x1="'+a.x+'" y1="'+a.y+'" x2="'+p[0]+'" y2="'+p[1]+'" stroke="#c9a24a" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/><rect x="'+(p[0]-.8)+'" y="'+(p[1]-.8)+'" width="1.6" height="1.6" transform="rotate(45 '+p[0]+' '+p[1]+')" fill="#c9a24a" stroke="#5c3d1e" stroke-width=".25"><title>'+esc(s.n)+'</title></rect><text x="'+(p[0]+1.4)+'" y="'+(p[1]-1)+'" font-size="1.6" font-weight="800" fill="#3b2412" paint-order="stroke" stroke="#fff" stroke-width=".5">'+'ABC'[i]+'</text>'});
+ g+='<circle cx="'+a.x+'" cy="'+a.y+'" r="1.1" fill="#b5451b" stroke="#fff" stroke-width=".4"/>';
+ return '<svg class="minimap" viewBox="'+x0+' '+y0+' '+w+' '+h+'" role="img" aria-label="Map around '+esc(a.name)+'">'+g+'</svg>';
+}
+const MPX=(la,lo)=>[(lo-PAGEO.lon0)*PAGEO.cx*PAGEO.k,(PAGEO.lat1-la)*PAGEO.k];
+ACT['spot-copy']=id=>{const p=String(id).split('|'),s=SPOTS[+p[0]],a=AREA(p[1]);const t='Would you like to meet for a relaxed first conversation at '+s.n+', '+s.a+'? It is close to ZIP '+a.zip+'. I can do mornings or early afternoons.';try{navigator.clipboard.writeText(t);toast('Invite copied')}catch(e){toast('Select and copy the line from the profile')}};
+
+/* ---------- Prospect Map ---------- */
+const MAPUI={view:'pa',seg:'All',spots:true,demo:false,sel:null};
+const SEGCOL={'Pre-retiree':'#a8801a','Business owner':'#2a6fa8','Young professional':'#14996a'};
+function mapPts(){
+ const pts=[];
+ DB.prospects.forEach(p=>{if(areaOfP(p)==='none')return;if(MAPUI.seg==='All'||p.segment===MAPUI.seg)pts.push({k:'p',id:p.id,name:p.name,seg:p.segment,area:areaOfP(p),sub:p.title+' at '+p.employer})});
+ if(MAPUI.demo)dleads().forEach(l=>{if(MAPUI.seg==='All'||l.seg===MAPUI.seg)pts.push({k:'d',id:l.id,name:l.name,seg:l.seg,area:areaOfL(l),sub:l.role+' (demo lead)'})});
+ return pts;
+}
+function vMap(){
+ const pts=mapPts(),pa=MAPUI.view==='pa',counts={},byArea={},byCounty={};
+ pts.forEach(p=>{const a=AREA(p.area);counts[a.county]=(counts[a.county]||0)+1;(byArea[p.area]=byArea[p.area]||[]).push(p);(byCounty[a.county]=byCounty[a.county]||[]).push(p)});
+ const mx=Math.max(1,...Object.values(counts)),selC=MAPUI.sel&&MAPUI.sel.indexOf('county:')===0?MAPUI.sel.slice(7):null;
+ let g=PAGEO.counties.map(c=>{const n=counts[c[0]]||0,fill=n?'rgba(92,61,30,'+(pa?(.14+.6*Math.sqrt(n/mx)):(.07+.18*Math.sqrt(n/mx))).toFixed(2)+')':'#fbf8f3';return '<path d="'+c[1]+'" fill="'+fill+'" stroke="'+(selC===c[0]?'#b5451b':'#cdbfae')+'" stroke-width="'+(selC===c[0]?1.8:.6)+'" vector-effect="non-scaling-stroke" class="mcounty" data-act="map-sel" data-id="county:'+esc(c[0])+'"><title>'+esc(c[0])+' County'+(n?': '+n+' prospect'+(n===1?'':'s'):'')+'</title></path>'}).join('');
+ g+='<path d="'+PAGEO.state+'" fill="none" stroke="#5c3d1e" stroke-width="1.5" vector-effect="non-scaling-stroke"/>';
+ let vb,fs;
+ if(pa){
+  vb='0 0 '+PAGEO.w+' '+PAGEO.h;fs=6;
+  const zb='<rect x="4" y="146" width="92" height="62" fill="none" stroke="#b5451b" stroke-width="1" stroke-dasharray="4 3" vector-effect="non-scaling-stroke" data-act="map-view" data-id="zoom" style="cursor:pointer"><title>Zoom to the Pittsburgh area</title></rect>';
+  g+=zb;
+  Object.keys(byCounty).forEach(cn=>{const arr=byCounty[cn];let sx=0,sy=0;arr.forEach(p=>{const a=AREA(p.area);sx+=a.x;sy+=a.y});const x=sx/arr.length,y=sy/arr.length,r=3+1.5*Math.sqrt(arr.length),sel=selC===cn;
+   g+='<g data-act="map-sel" data-id="county:'+esc(cn)+'" style="cursor:pointer"><circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="#5c3d1e" fill-opacity=".88" stroke="'+(sel?'#b5451b':'#fff')+'" stroke-width="'+(sel?2:1.2)+'"/><text x="'+x+'" y="'+y+'" text-anchor="middle" dy=".35em" font-size="'+(r>6?6.5:5.2)+'" font-weight="900" fill="#fff">'+arr.length+'</text><text x="'+x+'" y="'+(y+r+5.5)+'" text-anchor="middle" font-size="5" font-weight="800" fill="#3b2412" paint-order="stroke" stroke="#fff" stroke-width="1.6">'+esc(cn)+'</text><title>'+esc(cn)+' County: '+arr.length+'</title></g>'});
+  g+='<text x="'+(PAGEO.w-6)+'" y="'+(PAGEO.h-6)+'" text-anchor="end" font-size="5" fill="#7a6a5a">Dashed box: Pittsburgh area (click to zoom)</text>';
+ }else{
+  vb='4 146 92 62';fs=1.7;
+  if(MAPUI.spots)SPOTS.forEach(s=>{const p=MPX(s.la,s.lo);if(p[0]<4||p[0]>96||p[1]<146||p[1]>208)return;g+='<rect x="'+(p[0]-.55)+'" y="'+(p[1]-.55)+'" width="1.1" height="1.1" transform="rotate(45 '+p[0]+' '+p[1]+')" fill="#c9a24a" stroke="#5c3d1e" stroke-width=".18" data-act="map-spot" data-id="'+s.i+'"><title>'+esc(s.n)+' ('+s.r.toFixed(1)+' on Yelp)</title></rect>'});
+  const LBLS=[];Object.keys(byArea).forEach(id=>{const a=AREA(id),arr=byArea[id];if(a.x<4||a.x>96||a.y<146||a.y>208)return;
+   arr.forEach((p,i)=>{const ang=i*2.399,rad=.8*Math.sqrt(i+.6)+(arr.length>1?.5:0),x=a.x+rad*Math.cos(ang),y=a.y+rad*Math.sin(ang),sel=MAPUI.sel==='pt:'+p.id;
+    g+='<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="'+(sel?.7:.42)+'" fill="'+(p.k==='d'?'#fff':SEGCOL[p.seg])+'" stroke="'+(sel?'#b5451b':p.k==='d'?SEGCOL[p.seg]:'#fff')+'" stroke-width="'+(sel?.25:p.k==='d'?.22:.16)+'" '+(p.k==='d'?'stroke-dasharray=".4 .3" ':'')+'data-act="map-sel" data-id="pt:'+p.id+'" style="cursor:pointer"><title>'+esc(p.name+' - '+p.sub)+'</title></circle>'});
+   const LB={dt:[-5.6,1.2,'end'],dt2:[4.6,3.2,'start'],ns:[-4,-4.6,'end'],ok:[6,-.6,'start']}[id]||[0,-(.8*Math.sqrt(arr.length+.6)+2.2),'middle'];
+   const nm=a.name.replace(', Pittsburgh','').replace('Downtown / Uptown Pittsburgh','Uptown').replace('Downtown Pittsburgh','Downtown')+' '+arr.length;
+   LBLS.push({id:id,n:arr.length,x:a.x+LB[0],y:a.y+LB[1],an:LB[2],t:nm,w:nm.length*fs*.56,sel:MAPUI.sel==='area:'+id})});
+  const placed=[];LBLS.sort((p,q)=>(q.sel-p.sel)||(q.n-p.n)).forEach(L=>{const x0=L.an==='end'?L.x-L.w:L.an==='start'?L.x:L.x-L.w/2,box=[x0,L.y-fs,x0+L.w,L.y+.3];if(!L.sel&&placed.some(b=>box[0]<b[2]&&box[2]>b[0]&&box[1]<b[3]&&box[3]>b[1]))return;placed.push(box);g+='<text x="'+L.x+'" y="'+L.y+'" text-anchor="'+L.an+'" font-size="'+fs+'" font-weight="800" fill="#3b2412" paint-order="stroke" stroke="#fff" stroke-width=".45" data-act="map-sel" data-id="area:'+L.id+'" style="cursor:pointer">'+esc(L.t)+'</text>'});
+  const sel=MAPUI.sel&&MAPUI.sel.indexOf('pt:')===0?pts.find(p=>'pt:'+p.id===MAPUI.sel):null;
+  if(sel&&MAPUI.spots){const a=AREA(sel.area);spotsNear(sel.area,3).forEach((s,i)=>{const p=MPX(s.la,s.lo);g+='<line x1="'+a.x+'" y1="'+a.y+'" x2="'+p[0]+'" y2="'+p[1]+'" stroke="#b5451b" stroke-width=".9" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/><text x="'+(p[0]+.9)+'" y="'+(p[1]-.7)+'" font-size="1.6" font-weight="900" fill="#b5451b" paint-order="stroke" stroke="#fff" stroke-width=".4">'+'ABC'[i]+'</text>'})}
+ }
+ const inAll=(counts.Allegheny||0),tot=pts.length,cn=Object.keys(counts).length;
+ const far=pts.reduce((m,p)=>{const a=AREA(p.area);const d=miles(40.4406,-79.9959,a.lat,a.lon);return d>m.d?{d,n:a.name}:m},{d:0,n:'-'});
+ return topbar('Prospect Map',`<div class="chips">${[['pa','Pennsylvania'],['zoom','Pittsburgh area']].map(v=>`<button class="chip ${MAPUI.view===v[0]?'on':''}" data-act="map-view" data-id="${v[0]}">${v[1]}</button>`).join('')}</div>`)+`
+ <div class="banner demo"><b>Estimated locations.</b><span>Pins sit at the town, or at the employer's office area when the list only says Pittsburgh. Not home addresses.</span></div>
+ <div class="toolbar"><div class="chips">${['All','Pre-retiree','Business owner','Young professional'].map(s=>`<button class="chip ${MAPUI.seg===s?'on':''}" data-act="map-seg" data-id="${s}">${s==='All'?'All groups':s==='Young professional'?'Young professional (24 to 32)':s}</button>`).join('')}</div><div class="sp"></div><div class="chips"><button class="chip ${MAPUI.spots?'on':''}" data-act="map-toggle" data-id="spots">Coffee spots</button><button class="chip ${MAPUI.demo?'on':''}" data-act="map-toggle" data-id="demo">Include demo leads</button></div></div>
+ <div class="mapgrid"><div class="card pad mapcard"><svg class="pamap" viewBox="${vb}" role="img" aria-label="Map of Pennsylvania with prospect locations">${g}</svg><div class="maplegend">${Object.keys(SEGCOL).map(s=>`<span><i style="background:${SEGCOL[s]}"></i>${s}</span>`).join('')}<span><i class="dia"></i>Coffee spot</span>${MAPUI.demo?'<span><i class="hol"></i>Demo lead</span>':''}<span><i class="shade"></i>Darker county = more prospects</span></div></div>
+ <div class="rsticky">${mapPanel(pts,byArea,byCounty)}</div></div>
+ <div class="kpis"><div class="card pad kpi"><div class="l">Prospects on the map</div><div class="v">${tot}</div><div class="s">${MAPUI.seg==='All'?'all three groups':esc(MAPUI.seg)}</div></div><div class="card pad kpi"><div class="l">In Allegheny County</div><div class="v">${tot?Math.round(100*inAll/tot):0}%</div><div class="s">${inAll} of ${tot}</div></div><div class="card pad kpi"><div class="l">Counties reached</div><div class="v">${cn}</div><div class="s">of 67 in Pennsylvania</div></div><div class="card pad kpi"><div class="l">Farthest from Pittsburgh</div><div class="v" style="font-size:22px">${esc(far.n)}</div><div class="s">about ${Math.round(far.d)} miles</div></div></div>`;
+}
+function mapPanel(pts,byArea,byCounty){
+ const s=MAPUI.sel;
+ const rowP=p=>'<button class="lrow" '+(p.k==='p'?'data-act="open-prospect" data-id="'+p.id+'"':'data-act="radar-open" data-id="'+p.id+'"')+'><span class="av" style="background:'+SEGCOL[p.seg]+';color:#fff">'+esc(initials(p.name))+'</span><span class="grow"><b>'+esc(p.name)+'</b>'+(p.k==='d'?' <span class="pill">Demo</span>':'')+'<span class="sub" style="display:block">'+esc(trim(p.sub,70))+'</span></span></button>';
+ if(s&&s.indexOf('pt:')===0){const p=pts.find(x=>'pt:'+x.id===s);if(p){const a=AREA(p.area);return '<div class="card pad"><div class="sub">Selected prospect</div><h3 style="margin:0 0 4px;border:0;padding:0">'+esc(p.name)+'</h3><div class="sub">'+esc(p.sub)+'</div><div class="chips" style="margin:8px 0"><span class="pill acc">'+esc(p.seg)+'</span><span class="pill">'+esc(a.name)+' &middot; ZIP '+a.zip+'</span><span class="pill">'+esc(a.county)+' County</span></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"><button class="btn pri sm" '+(p.k==='p'?'data-act="open-prospect" data-id="'+p.id+'"':'data-act="radar-open" data-id="'+p.id+'"')+'>Open profile</button><button class="btn sm" data-act="map-sel" data-id="area:'+p.area+'">Everyone in '+esc(a.name)+'</button></div><h4 class="rh">Meeting spots near ZIP '+a.zip+'</h4>'+spotsHtml(p.area,3)+'</div>'}}
+ if(s&&s.indexOf('area:')===0){const id=s.slice(5),arr=byArea[id]||[],a=AREA(id);return '<div class="card pad"><div class="sub">Area</div><h3 style="margin:0 0 4px;border:0;padding:0">'+esc(a.name)+' &middot; ZIP '+a.zip+'</h3><div class="sub">'+esc(a.county)+' County &middot; '+arr.length+' prospect'+(arr.length===1?'':'s')+'</div><div style="margin:8px 0">'+(arr.map(rowP).join('')||'<div class="empty">No prospects here with this filter.</div>')+'</div><h4 class="rh">Meeting spots near ZIP '+a.zip+'</h4>'+spotsHtml(id,3)+'</div>'}
+ if(s&&s.indexOf('county:')===0){const cn=s.slice(7),arr=byCounty[cn]||[],areas={};arr.forEach(p=>areas[p.area]=(areas[p.area]||0)+1);return '<div class="card pad"><div class="sub">County</div><h3 style="margin:0 0 4px;border:0;padding:0">'+esc(cn)+' County</h3><div class="sub">'+arr.length+' prospect'+(arr.length===1?'':'s')+'</div><div style="margin:10px 0">'+(Object.keys(areas).sort((a,b)=>areas[b]-areas[a]).map(id=>'<button class="lrow" data-act="map-sel" data-id="area:'+id+'"><span class="grow"><b>'+esc(AREA(id).name)+'</b><span class="sub" style="display:block">ZIP '+AREA(id).zip+'</span></span><span class="pill acc">'+areas[id]+'</span></button>').join('')||'<div class="empty">No prospects in this county.</div>')+'</div></div>'}
+ const top=Object.keys(byArea).sort((a,b)=>byArea[b].length-byArea[a].length);
+ return '<div class="card pad"><h3>How to use this map</h3><div class="sub" style="font-size:13px;line-height:1.6;margin-bottom:10px">Click a county, a pin or an area name. You get the prospects there and three coffee shops or cafes nearby for a first conversation. Switch to the Pittsburgh area for pin-level detail.</div><h4 class="rh">Where the list is concentrated</h4>'+top.slice(0,9).map(id=>'<button class="lrow" data-act="map-sel" data-id="area:'+id+'"><span class="grow"><b>'+esc(AREA(id).name)+'</b><span class="sub" style="display:block">ZIP '+AREA(id).zip+' &middot; '+esc(AREA(id).county)+' County</span></span><span class="pill acc">'+byArea[id].length+'</span></button>').join('')+'</div>';
+}
+Object.assign(ACT,{
+ 'map-view':id=>{MAPUI.view=id;renderMain()},
+ 'map-seg':id=>{MAPUI.seg=id;MAPUI.sel=null;renderMain()},
+ 'map-toggle':id=>{MAPUI[id]=!MAPUI[id];renderMain()},
+ 'map-sel':id=>{MAPUI.sel=id;const a=String(id);if(a.indexOf('county:')===0&&MAPUI.view==='pa'&&['Allegheny','Westmoreland','Butler'].indexOf(a.slice(7))>-1){}renderMain()},
+ 'map-spot':id=>{const s=SPOTS[+id];toast(s.n+', '+s.a)},
+ 'map-open':id=>{MAPUI.view='zoom';MAPUI.sel='area:'+id;closeDrawer();go('pmap')},
+ 'ptab':id=>{UI.ptab=id;renderDrawer()},
+ 'rjob':()=>{UI.rjob=!UI.rjob;renderMain()},
+ 'cap-open':id=>capModal(id),
+ 'cap-close':()=>capClose(),
+ 'cap-seen':id=>{DS.capSeen=DS.capSeen||{};DS.capSeen[id]=!DS.capSeen[id];capModal(id)},
+ 'cap-draft':id=>{const f=findEv(id);capClose();if(f&&f.l){ACT['radar-open'](f.l.id);setTimeout(()=>{const t=document.getElementById('rdraft');if(t){t.scrollIntoView({block:'center'});t.focus()}},60)}},
+ 'cap-task':id=>{const f=findEv(id);if(f&&f.l){ACT['radar-task'](f.l.id)}},
+ 'cap-pipe':id=>{const f=findEv(id);if(f&&f.l){ACT['radar-add'](f.l.id);capModal(id)}},
+ 'cap-spot':id=>{const f=findEv(id);capClose();if(f&&f.l)ACT['map-open'](areaOfL(f.l))},
+ 'cap-lead':()=>{toast('Saved as an unmatched lead (demo only)')}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){const w=document.getElementById('capwrap');if(w&&w.classList.contains('on'))capClose()}});
+document.addEventListener('mousedown',e=>{if(e.target&&e.target.id==='capwrap')capClose()});
+
+/* ---------- Radar: detail with sources, 24 to 32 target, meeting spots ---------- */
+function v4Detail(l){
+ if(!l)return '<div class="card pad"><div class="empty">Pick a lead to see why they are warm and what to do next.</div></div>';
+ const pts={},now=Date.now();l.ev.forEach(e=>{const h=(now-e.t)/3600000,m=h<24?1:h<72?.8:h<168?.55:.3;pts[e.k]=(pts[e.k]||0)+SIGW[e.k][0]*m});
+ const rows=Object.entries(pts).sort((a,b)=>b[1]-a[1]),mx=Math.max.apply(null,rows.map(r=>r[1]));
+ const added=!!DS.added[l.id],d=draftFor(l),m=LEAD_META[l.name],f=fit(l);
+ const tgt=m&&m.age?'<div class="check '+(f?'ok':'')+'" style="margin-top:10px"><b>'+(f?'Fits the 24 to 32 new-job target.':'Age '+m.age+(m.job?', new job '+m.job.days+' days ago.':'.'))+'</b> '+(f?'Age '+m.age+', started as '+esc(m.job.role)+' at '+esc(m.job.org)+' '+m.job.days+' day'+(m.job.days===1?'':'s')+' ago.':(m.age>32||m.age<24?'Outside the 24 to 32 range.':'No recent job change on record.'))+'</div>':'';
+ return '<div class="card pad rdetail"><div style="display:flex;gap:14px;align-items:center">'+ring(l.score,l.temp,'big')+'<div class="grow"><h3 style="margin:0;border:0;padding:0">'+esc(l.name)+'</h3><div class="sub">'+esc(l.role)+' &middot; '+esc(l.town)+', PA</div><div class="chips" style="margin-top:6px"><span class="pill acc">'+esc(l.seg)+'</span>'+(m&&m.age?'<span class="pill">Age '+m.age+'</span>':'')+(f?'<span class="pill ok">New job '+m.job.days+'d ago</span>':'')+'<span class="pill">Owner: '+esc(l.owner)+'</span><span class="pill" style="background:'+TEMPC[l.temp]+';color:#fff">'+l.temp.toUpperCase()+'</span></div></div></div>'+tgt+
+ '<div class="check ok" style="margin-top:12px;border-color:var(--gold2);background:#fbf3df"><b>Next step.</b> '+esc(nextStep(l))+'</div>'+
+ '<div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0"><button class="btn pri sm" data-act="radar-add" data-id="'+l.id+'" '+(added?'disabled':'')+'>'+(added?'In pipeline':'Add to pipeline')+'</button><button class="btn sm" data-act="radar-task" data-id="'+l.id+'">Follow-up task for today</button><button class="btn sm" data-act="map-open" data-id="'+areaOfL(l)+'">Show on map</button></div>'+
+ '<h4 class="rh">Why the score is '+l.score+'</h4>'+rows.map(r=>'<div class="hbar" style="grid-template-columns:150px 1fr 34px"><span>'+esc(SIGW[r[0]][1])+'</span><div class="track"><div class="fill g" style="width:'+Math.round(100*r[1]/mx)+'%"></div></div><span class="n">+'+Math.round(r[1])+'</span></div>').join('')+
+ '<h4 class="rh">Activity and sources</h4>'+l.ev.map(e=>{const key=l.id+'~'+e.t,i=srcInfo(key,l,e);return '<div class="li" style="padding:8px 0">'+chBadge(e.ch)+'<div class="grow">'+esc(evText(e))+'<div class="srcline">Source: '+esc(i.line)+'</div></div><div style="text-align:right"><span class="sub">'+agoStr(e.t)+'</span><div><button class="btn sm" data-act="cap-open" data-id="'+esc(key)+'">View capture</button></div></div></div>'}).join('')+
+ '<h4 class="rh">Meeting spots near '+esc(l.town)+' (ZIP '+AREA(areaOfL(l)).zip+')</h4>'+spotsHtml(areaOfL(l),3)+
+ '<h4 class="rh">Draft a reply</h4><textarea class="inp" id="rdraft" style="min-height:110px">'+esc(d)+'</textarea><div id="rcheck">'+wordingCheck(d)+'</div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn sm" data-act="radar-copy">Copy text</button><span class="sub" style="align-self:center">Nothing is sent from this demo.</span></div></div>';
+}
+
+/* ---------- Ticker, feed rows ---------- */
+function v4Tick(){
+ const el=document.getElementById('tick');if(!el)return;
+ const hot=dleads().filter(l=>l.temp==='hot').sort((a,b)=>b.score-a.score).map(l=>{const e=l.ev[0],key=l.id+'~'+e.t;return '<button class="ti" data-act="cap-open" data-id="'+esc(key)+'"><span class="flame">HOT '+l.score+'</span><b>'+esc(l.name)+'</b><span class="tm">'+esc(l.seg)+'</span>'+chBadge(e.ch)+'<span class="tx">'+esc(evText(e))+'</span><span class="srcx">'+esc(srcTag({key})||CH[e.ch].n)+'</span><span class="ago">'+agoStr(l.last)+'</span></button>'});
+ const soc=feedEvents().slice(0,14).map(e=>'<button class="ti" data-act="cap-open" data-id="'+esc(e.key||'')+'">'+chBadge(e.ch)+(e.who?'<b>'+esc(e.who)+'</b>':'')+'<span class="tx">'+esc(e.text)+'</span><span class="srcx">'+esc(srcTag(e)||CH[e.ch].n)+'</span><span class="ago">'+agoStr(e.t)+'</span></button>');
+ el.innerHTML=mq(hot,'t1','Hot leads')+mq(soc,'t2','Social live');
+}
+function socRow(e){return '<div class="li" style="padding:8px 0">'+chBadge(e.ch)+'<div class="grow">'+(e.who?'<button class="link" data-act="radar-open" data-id="'+e.lid+'">'+esc(e.who)+'</button> ':'')+'<span>'+esc(e.text)+'</span><div class="srcline">Source: '+esc((function(){const f=findEv(e.key||'');return f?srcInfo(e.key,f.l,f.e).line:CH[e.ch].n})())+'</div></div><div style="text-align:right"><span class="sub">'+agoStr(e.t)+'</span><div><button class="btn sm" data-act="cap-open" data-id="'+esc(e.key||'')+'">View capture</button></div></div></div>'}
+
+/* ---------- Prospect Finder: target, demo strip ---------- */
+function v4Finder(){
+ let h=V4_OLD_FINDER();
+ const L=dleads().filter(fit).sort((a,b)=>LEAD_META[a.name].job.days-LEAD_META[b.name].job.days);
+ const strip='<div class="card pad" style="margin-bottom:14px;border-top:3px solid var(--ok)"><h3>New target: ages 24 to 32 with a new job in the last 90 days <span class="pill warn">Demo examples</span></h3><div class="sub" style="margin:-6px 0 10px">People who just changed jobs are choosing a 401(k), benefits and what to do with the old plan, so the timing is good. The people below are made up. On the real list, ages are estimated from years in a career and job changes arrive as signals.</div>'+(L.map(l=>{const m=LEAD_META[l.name],jc=l.ev.find(e=>e.k==='jobchg'),key=jc?l.id+'~'+jc.t:'';return '<div class="li" style="padding:9px 0;gap:10px"><span class="av" style="background:var(--ok);color:#fff">'+esc(initials(l.name))+'</span><div class="grow"><b>'+esc(l.name)+'</b> <span class="pill">Age '+m.age+'</span> <span class="pill ok">New job '+m.job.days+'d ago</span><div class="sub">'+esc(m.job.role)+' at '+esc(m.job.org)+' &middot; '+esc(l.town)+', PA</div></div>'+(key?'<button class="btn sm" data-act="cap-open" data-id="'+esc(key)+'">View capture</button>':'')+'<button class="btn sm" data-act="radar-open" data-id="'+l.id+'">Open lead</button></div>'}).join('')||'<div class="empty">None right now.</div>')+'<div class="sub" style="margin-top:8px">Real list: '+DB.prospects.filter(p=>p.segment==='Young professional').length+' young professionals loaded with estimated ages. Job-change dates are the next signal to pull.</div></div>';
+ return h.replace('<div class="toolbar">',strip+'<div class="toolbar">');
+}
+
+/* ---------- Prospect drawer with tabs ---------- */
+function v4Prospect(p){
+ const tab=UI.ptab||'overview',aid=areaOfP(p),a=AREA(aid),yp=p.segment==='Young professional';
+ const tabs=[['overview','Overview'],['where','Where and meeting spots'],['next','Next actions']].map(t=>'<button class="chip '+(tab===t[0]?'on':'')+'" data-act="ptab" data-id="'+t[0]+'">'+t[1]+'</button>').join('');
+ let body='';
+ if(tab==='where'){
+  body='<div class="sub" style="margin-bottom:6px">Estimated from '+(TOWN_AREA[p.town]?'their town':'their employer\'s office area')+', not a home address.</div>'+miniMap(aid)+'<div class="chips" style="margin:8px 0"><span class="pill acc">'+esc(a.name)+'</span><span class="pill">ZIP '+a.zip+'</span><span class="pill">'+esc(a.county)+' County</span></div><button class="btn sm" data-act="map-open" data-id="'+aid+'" style="margin-bottom:12px">See on the Prospect Map</button><h4 class="rh">Coffee shops and cafes near ZIP '+a.zip+'</h4>'+spotsHtml(aid,3);
+ }else if(tab==='next'){
+  const sp=spotsNear(aid,1)[0],first=p.name.split(' ')[0];
+  const L=[['Check Do Not Call and your current clients first','Both checks come before any outreach, as in the Prospect Finder note.'],
+   p.segment==='Pre-retiree'?['Lead with timing questions','Open with the questions people ask a few years before retirement. Nothing about returns.']:p.segment==='Business owner'?['Lead with planning around the business','Owner pay, a retirement plan for yourself and succession are the natural openers.']:['Check for a job change in the last 90 days','If '+first+' changed jobs recently, lead with the new-employer checklist: 401(k) match, old 401(k) options, benefit deadlines. Target age is 24 to 32.'],
+   ['Offer a relaxed first conversation',sp?'Suggest '+sp.n+' ('+sp.d.toFixed(1)+' miles from '+a.name+'). Keep account details for a private setting.':'No spot saved near this ZIP yet.'],
+   ['Record it in the pipeline','Add to pipeline so the first meeting date and next step are tracked.']];
+  body=L.map((x,i)=>'<div class="cs-act"><b>'+(i+1)+'. '+esc(x[0])+'</b><div class="sub">'+esc(x[1])+'</div></div>').join('')+'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">'+(p.added?'':'<button class="btn pri sm" data-act="add-prospect" data-id="'+p.id+'">Add to pipeline</button>')+(p.dnc?'':'<button class="btn sm" data-act="call-lead" data-id="'+p.id+'">'+ICON.phone+'Open in Call Desk</button>')+(sp?'<button class="btn sm" data-act="spot-copy" data-id="'+sp.i+'|'+aid+'">Copy coffee invite</button>':'')+'</div>';
+ }else{
+  body='<div class="notes" style="margin-bottom:14px"><b>'+esc(p.signal)+'</b>: '+esc(p.why)+(p.profile?'<div class="sub" style="margin-top:8px"><b>Profile.</b> '+esc(p.profile)+'</div>':'')+'</div><div class="facts">'+fact('Segment',p.segment)+fact('Suggested owner',p.owner)+fact('Estimated age',p.age)+(yp?fact('Job change','Not checked yet. Looking for a new job in the last 90 days.'):'')+fact('Years at employer',p.years)+fact('Town / ZIP',p.town+' ('+a.zip+')')+fact('Estimated area',a.name+', '+a.county+' County')+fact('LinkedIn',p.linkedin)+fact('Work email',p.workEmail)+fact('Personal email',p.personalEmail)+fact('Mobile phone',p.mobile)+'</div><div class="sub">'+(p.real?'Work details come from a licensed business-data provider and should be verified before outreach. No life-event signal has been checked yet.':'All contact details in this draft are made up.')+'</div>';
+ }
+ return '<div class="dh"><span class="av" style="width:44px;height:44px;font-size:15px">'+esc(initials(p.name))+'</span><div style="flex:1;min-width:0"><div class="sub">Prospect'+(p.real?'':' (sample)')+'</div><h2>'+esc(p.name)+'</h2><div class="sub">'+esc(p.title)+' &middot; '+esc(p.employer)+'</div></div><button class="x" data-act="close-drawer" aria-label="Close">&times;</button></div><div class="db"><div style="margin-bottom:12px">'+(p.added?'<span class="pill ok">In pipeline</span>':'<button class="btn pri sm" data-act="add-prospect" data-id="'+p.id+'">Add to pipeline</button>')+(p.dnc?' <span class="pill bad">Do not call</span>':' <button class="btn sm" data-act="call-lead" data-id="'+p.id+'">'+ICON.phone+'Open in Call Desk</button>')+'</div><div class="chips" style="margin-bottom:12px">'+tabs+'</div>'+body+'</div>';
+}
+
+function v4boot(){
+ try{
+  if(!NAV.some(n=>n[0]==='pmap')){const i=NAV.findIndex(n=>n[0]==='finder');NAV.splice(i+1,0,['pmap','Prospect Map',ICON.map])}
+  DB.prospects.forEach(p=>{if(p.segment==='Young professional'&&!p.age)p.age='about 25 to 31 (est.)'});
+  radarDetail=v4Detail;dProspect=v4Prospect;renderTick=v4Tick;
+  window.V4_OLD_FINDER=vFinder;vFinder=v4Finder;
+  const w=document.createElement('div');w.id='capwrap';w.className='capwrap';document.body.appendChild(w);
+ }catch(err){console.error('v4 boot',err)}
+}
+
+load();v4boot();renderNav();renderMain();renderTick();
 </script>
 <script>
 /* TAZ pro pages v0.1: Pilot scorecard, Meetings (prep + follow-up), Fact Finder, Compliance archive. Sample data only; nothing is sent. */
@@ -1478,11 +1834,606 @@ load();renderNav();renderMain();renderTick();
   };
   var oldDash=vDash;
   vDash=function(){
-    var q=[['score','Pilot scorecard','Goals and results for Dec 2'],['meet','Meetings','Prep before, follow-up after'],['fact','Fact Finder','Send clients the intake form'],['arch','Compliance','Every message, searchable']].map(function(x){return '<button class="btn" style="flex:1;min-width:200px;flex-direction:column;align-items:flex-start;white-space:normal;padding:12px 14px" data-nav="'+x[0]+'"><b>'+x[1]+'</b><span class="sub" style="font-weight:400">'+x[2]+'</span></button>'}).join('');
+    var q=[['score','Pilot scorecard','Goals and results for Dec 2'],['meet','Meetings','Prep before, follow-up after'],['arch','Compliance','Every message, searchable']].map(function(x){return '<button class="btn" style="flex:1;min-width:200px;flex-direction:column;align-items:flex-start;white-space:normal;padding:12px 14px" data-nav="'+x[0]+'"><b>'+x[1]+'</b><span class="sub" style="font-weight:400">'+x[2]+'</span></button>'}).join('');
     return oldDash()+'<div class="card pad"><h3>More in your portal</h3><div style="display:flex;gap:10px;flex-wrap:wrap">'+q+'</div></div>';
   };
   window.TAZPRO={go:function(v){go(v)},FX:FX};
   renderNav();
+})();
+
+</script>
+<script>
+/* TAZ v5: Upload Leads. CSV in, clean and check, signals from the file, then send to TAZ for signal research. */
+(function(){
+ var UP={batch:null,map:null,drag:false,busy:null};
+ if(!DB.uploads)DB.uploads=[];
+ var ICU='<svg viewBox="0 0 24 24"><path d="M12 3l5 5h-3.5v6h-3V8H7zM5 16h2v3h10v-3h2v5H5z"/></svg>';
+ var FIELDS=[
+  ['full','Full name',['full name','name','contact name','contact','person']],
+  ['first','First name',['first name','first','firstname','given name']],
+  ['last','Last name',['last name','last','lastname','surname','family name']],
+  ['title','Job title',['title','job title','position','role','headline','current title']],
+  ['company','Company',['company','company name','employer','organization','organisation','account','current company']],
+  ['email','Email',['email','email address','work email','e-mail','personal email']],
+  ['phone','Phone',['phone','mobile','phone number','cell','mobile phone','direct phone','work phone']],
+  ['li','LinkedIn URL',['linkedin','linkedin url','linkedin profile','profile url','li url','person linkedin url']],
+  ['city','City or town',['city','town','location','person city']],
+  ['state','State',['state','st','region','person state']],
+  ['zip','ZIP',['zip','zip code','zipcode','postal code','postcode']],
+  ['age','Age',['age']],
+  ['birth','Birth year',['birth year','year of birth','born','dob','birthday','date of birth']],
+  ['jobstart','Started current job',['job start','job start date','start date','started','current role start','date started','tenure start','started role']],
+  ['notes','Notes',['notes','note','comments','source','how we know them','relationship']]
+ ];
+ var SAMPLE='First Name,Last Name,Title,Company,Email,Phone,LinkedIn,City,State,ZIP,Age,Job Start Date,Notes\n'+
+  'Jordan,Fields,Senior software engineer,A regional bank,jordan.fields@example.com,,linkedin.com/in/example-jfields,Pittsburgh,PA,15222,29,'+daysAgo(12)+',Met at a Pittsburgh tech meetup\n'+
+  'Maria,Costa,Director of operations,A hospital system,maria.costa@example.com,412-555-0141,,Sewickley,PA,15143,58,2009-04-01,Referral from the Brennan Household\n'+
+  'Tom,Kowalski,Owner,A 22-person HVAC company,,412-555-0177,,Cranberry Twp,PA,16066,61,,Thinking about selling in a few years\n'+
+  'Aisha,Bello,Financial analyst,An energy company,aisha.bello@example.com,,linkedin.com/in/example-abello,Wexford,PA,15090,27,'+daysAgo(40)+',\n'+
+  'Ryan,Doyle,Mechanical engineer,A defense manufacturer,,,linkedin.com/in/example-rdoyle,Monroeville,PA,15146,31,2023-08-14,Old college roommate of Aidan\n'+
+  'Grace,Lin,Vice president of finance,A software company,grace.lin@example.com,,,Mt. Lebanon,PA,15228,64,2015-02-01,\n'+
+  'Jordan,Fields,Senior software engineer,A regional bank,jordan.fields@example.com,,,Pittsburgh,PA,15222,29,,Duplicate row\n'+
+  ',,Marketing manager,A retailer,,,,,PA,,,,No name in this row\n';
+ function daysAgo(n){var d=new Date();d.setDate(d.getDate()-n);return d.toISOString().slice(0,10)}
+ function norm(s){return String(s||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()}
+ function parseCSV(txt){
+  txt=String(txt).replace(/^﻿/,'');
+  var first=txt.split(/\r?\n/)[0]||'',d=[',',';','\t'].sort(function(a,b){return first.split(b).length-first.split(a).length})[0];
+  var rows=[],row=[],f='',q=false;
+  for(var i=0;i<txt.length;i++){var c=txt[i];
+   if(q){if(c==='"'){if(txt[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+   else if(c==='"')q=true;else if(c===d){row.push(f);f=''}
+   else if(c==='\n'||c==='\r'){if(c==='\r'&&txt[i+1]==='\n')i++;row.push(f);rows.push(row);row=[];f=''}
+   else f+=c}
+  if(f!==''||row.length){row.push(f);rows.push(row)}
+  return rows.filter(function(r){return r.some(function(x){return String(x).trim()})});
+ }
+ function autoMap(hdr){var m={},used={};var H=hdr.map(norm);
+  FIELDS.forEach(function(F){var idx=-1;
+   F[2].some(function(s){var j=H.indexOf(s);if(j>-1&&!used[j]){idx=j;return true}});
+   if(idx<0&&F[0]!=='full')F[2].some(function(s){var j=H.findIndex(function(h,k){return !used[k]&&s.length>3&&h.indexOf(s)>-1});if(j>-1){idx=j;return true}});
+   if(idx>-1){m[F[0]]=idx;used[idx]=1}});
+  return m}
+ function pick(r,m,k){return m[k]==null?'':String(r[m[k]]||'').trim()}
+ var AREAS=function(){return Object.keys(PAGEO.areas).map(function(k){return AREA(k)})};
+ function findArea(city,zip){var A=AREAS();zip=String(zip||'').slice(0,5);
+  if(zip){var z=A.find(function(a){return a.zip===zip});if(z)return z.id}
+  var c=norm(city);if(!c)return null;
+  var hit=A.find(function(a){var n=norm(a.name.replace(', Pittsburgh',''));return n===c||norm(a.name)===c});
+  if(hit)return hit.id;
+  if(c==='pittsburgh')return 'dt';
+  return null}
+ function segOf(t,age){t=norm(t);
+  if(/\b(owner|founder|co founder|ceo|principal|managing partner|proprietor)\b/.test(t)||(/\bpresident\b/.test(t)&&!/vice president/.test(t)))return 'Business owner';
+  if(age&&age>=24&&age<=34)return 'Young professional';
+  if(age&&age>=50)return 'Pre-retiree';
+  if(/\b(vice president|vp|director|chief|head of|senior manager|partner)\b/.test(t))return 'Pre-retiree';
+  return 'Young professional'}
+ function ageOf(a,b){var n=parseInt(a,10);if(n>15&&n<100)return n;var y=String(b||'').match(/(19|20)\d\d/);if(y)return new Date().getFullYear()-(+y[0]);return null}
+ function daysSince(s){if(!s)return null;var t=Date.parse(s);if(isNaN(t)){var m=String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);if(m){var y=+m[3];if(y<100)y+=2000;t=new Date(y,+m[1]-1,+m[2]).getTime()}}if(isNaN(t))return null;return Math.floor((Date.now()-t)/864e5)}
+ function fileSignals(L){var s=[];
+  if(L.jobDays!=null&&L.jobDays>=0&&L.jobDays<=90)s.push({k:'job',t:'New job '+L.jobDays+' days ago',src:'Your file: start date '+L.jobstart});
+  if(L.age&&L.age>=24&&L.age<=32&&L.jobDays!=null&&L.jobDays<=90)s.push({k:'fit',t:'Fits the 24 to 32 new-job target',src:'Your file: age '+L.age+' and start date'});
+  if(L.age){[[59,'59½: penalty-free retirement withdrawals'],[62,'62: earliest Social Security'],[65,'65: Medicare']].forEach(function(x){if(L.age===x[0]-1||L.age===x[0])s.push({k:'age',t:'Near '+x[1],src:'Your file: age '+L.age})})}
+  if(L.segment==='Business owner')s.push({k:'own',t:'Business owner: owner pay, owner retirement plan and succession topics',src:'Your file: title "'+L.title+'"'});
+  if(L.area){var sp=spotsNear(L.area,1)[0];if(sp)s.push({k:'spot',t:'Meet near '+AREA(L.area).name+': '+sp.n,src:'Map area from ZIP or town'})}
+  if(L.notes&&/referr|introduc|friend|roommate|met at|knows/i.test(L.notes))s.push({k:'warm',t:'Warm connection: '+L.notes,src:'Your file: notes'});
+  return s}
+ function exists(L){return DB.prospects.find(function(p){return (L.email&&(p.workEmail||'').toLowerCase()===L.email.toLowerCase())||(L.li&&p.linkedin&&norm(p.linkedin)===norm(L.li))||(norm(p.name)===norm(L.name)&&L.company&&norm(p.employer)===norm(L.company))})}
+ function build(rows,m,meta){
+  var seen={},out=[];
+  rows.forEach(function(r,i){
+   var first=pick(r,m,'first'),last=pick(r,m,'last'),name=pick(r,m,'full')||(first+' '+last).trim();if(/^[^,]+,\s*[^,]+$/.test(name))name=name.replace(/^([^,]+),\s*(.+)$/,'$2 $1');
+   var L={id:'u'+uid(),row:i+2,name:name,title:pick(r,m,'title'),company:pick(r,m,'company'),email:pick(r,m,'email'),phone:pick(r,m,'phone'),li:pick(r,m,'li'),
+    city:pick(r,m,'city'),state:pick(r,m,'state'),zip:pick(r,m,'zip'),jobstart:pick(r,m,'jobstart'),notes:pick(r,m,'notes')};
+   L.age=ageOf(pick(r,m,'age'),pick(r,m,'birth'));L.jobDays=daysSince(L.jobstart);
+   L.segment=segOf(L.title,L.age);L.area=findArea(L.city,L.zip);
+   var key=(L.email||'').toLowerCase()||norm(L.li)||norm(L.name+'|'+L.company);
+   if(!L.name)L.status='missing';
+   else if(seen[key])L.status='dup';
+   else if(exists(L))L.status='exists';
+   else if(!L.email&&!L.phone&&!L.li)L.status='thin';
+   else L.status='new';
+   if(L.name)seen[key]=1;
+   L.signals=fileSignals(L);L.research=meta.sample&&L.status!=='missing'&&L.status!=='dup'?'ready':'none';
+   out.push(L)});
+  return out}
+ function startBatch(name,text,sample){
+  var rows=parseCSV(text);if(rows.length<2){toast('That file has no lead rows. Check it has a header row and at least one lead.');return}
+  var hdr=rows[0],body=rows.slice(1),m=autoMap(hdr);
+  if(m.full==null&&m.first==null&&m.last==null){toast('No name column found. Match the columns below.')}
+  var b={id:'b'+uid(),file:name,at:Date.now(),sample:!!sample,hdr:hdr,raw:body.slice(0,2000),map:m,owner:OWNERS[1],status:'review',leads:[]};
+  b.leads=build(b.raw,m,b);
+  DB.uploads.unshift(b);UP.batch=b.id;save();renderMain()}
+ function cur(){return DB.uploads.find(function(b){return b.id===UP.batch})||null}
+ var ST={new:['ok','New'],exists:['','Already in Prospect Finder'],dup:['warn','Duplicate in this file'],missing:['bad','No name, skipped'],thin:['warn','No email, phone or LinkedIn']};
+ function counts(b){var c={new:0,exists:0,dup:0,missing:0,thin:0};b.leads.forEach(function(l){c[l.status]++});return c}
+ function usable(b){return b.leads.filter(function(l){return l.status==='new'||l.status==='thin'})}
+ /* sample research results: made-up people in the sample file only */
+ var SAMPLE_RES={
+  'Jordan Fields':[{k:'job',t:'Posted about starting a new role on LinkedIn',src:'LinkedIn post, captured by TAZ'},{k:'web',t:'Viewed the Silver Oak "New job checklist" page twice',src:'Website visit, matched by email'}],
+  'Maria Costa':[{k:'age',t:'Spouse retired last year (public announcement)',src:'News mention, captured by TAZ'}],
+  'Tom Kowalski':[{k:'own',t:'Company is hiring a general manager',src:'Job posting on the company site'},{k:'own',t:'Business listed on a broker site as "exploring options"',src:'Public listing, captured by TAZ'}],
+  'Aisha Bello':[{k:'job',t:'Promotion to senior financial analyst',src:'LinkedIn profile change'}],
+  'Ryan Doyle':[],
+  'Grace Lin':[{k:'age',t:'Commented on Silver Oak\'s Social Security timing post',src:'Facebook comment, captured by TAZ'}]};
+ function sendResearch(b){
+  var list=usable(b);if(!list.length){toast('No usable leads to research');return}
+  if(b.sample){b.status='researching';save();renderMain();
+   setTimeout(function(){list.forEach(function(l){l.research='done';(SAMPLE_RES[l.name]||[]).forEach(function(s){l.signals.push(Object.assign({tz:1},s))})});b.status='done';b.doneAt=Date.now();save();if(UI.view==='upl')renderMain();toast('Sample research finished')},1600);return}
+  var hook=(window.TAZ_DEMO||{}).requestsWebhook;
+  var payload={type:'lead_upload',workspace:(window.TAZ_DEMO||{}).workspace||'silver-oak',at:new Date().toISOString(),file:b.file,owner:b.owner,count:list.length,
+   request:'Research signal intent for these uploaded leads',leads:list.map(function(l){return {name:l.name,title:l.title,company:l.company,email:l.email,linkedin:l.li,city:l.city,state:l.state,zip:l.zip,age:l.age,job_start:l.jobstart,notes:l.notes}})};
+  var done=function(){list.forEach(function(l){l.research='queued'});b.status='queued';b.sentAt=Date.now();save();renderMain();toast('Sent to TAZ for research')};
+  if(!hook){done();return}
+  UP.busy=b.id;renderMain();
+  fetch(hook,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)}).then(function(){UP.busy=null;done()}).catch(function(){UP.busy=null;renderMain();toast('Could not send. Check your connection and try again.')})}
+ function addToFinder(b,ids){var n=0;
+  b.leads.forEach(function(l){if((l.status!=='new'&&l.status!=='thin')||l.inFinder)return;if(ids&&ids.indexOf(l.id)<0)return;
+   var sig=l.signals.find(function(s){return s.k==='job'})?'Job change':l.signals.find(function(s){return s.k==='age'})?'Turning 59½, 62 or 65':l.segment==='Business owner'?'Selling a business':'Profile match';
+   var why=l.signals.filter(function(s){return s.k!=='spot'}).map(function(s){return s.t}).join('. ')||('Uploaded from '+b.file+'.');
+   var town=l.city?(l.city+(l.state?', '+l.state:'')):(l.state||'');
+   DB.prospects.unshift({id:uid(),real:!b.sample,uploaded:b.id,name:l.name,segment:l.segment,title:l.title||'Not given',employer:l.company||'Not given',town:town,age:l.age||'',years:'',signal:sig,why:why,profile:'Uploaded by '+b.owner+' from '+b.file+(l.notes?'. Notes: '+l.notes:''),owner:b.owner,linkedin:l.li,workEmail:l.email,personalEmail:'',mobile:l.phone,added:false,area:l.area||'none'});
+   l.inFinder=true;n++});
+  save();renderMain();toast(n?n+' added to Prospect Finder':'Nothing new to add')}
+ function sigChip(s){var c={job:'acc',fit:'ok',age:'acc',own:'acc',spot:'',warm:'ok',web:'acc'}[s.k]||'';return '<span class="pill '+c+'" title="'+esc(s.src)+'">'+(s.tz?'TAZ · ':'')+esc(s.t)+'</span>'}
+ function vUpload(){
+  var b=cur(),hist=DB.uploads;
+  var steps=[['Upload a CSV','A LinkedIn or Sales Navigator export, an event list, referrals, anything with names.'],['Check the columns','We match the columns for you. Fix any that are wrong.'],['Clean the list','Duplicates, people already in your list and rows with no name are flagged.'],['Research signals','TAZ looks for job changes, promotions, business sales, milestone ages and activity on Silver Oak\'s pages.']];
+  var h=topbar('Upload Leads','<span class="pill">CSV</span>')+
+   '<p class="sub" style="margin:-6px 0 14px">Have a list of people already? Upload it here. The portal cleans it, shows what your file already tells us, then TAZ researches each person for signs they may need a plan now. Check the list against Do Not Call and your current clients before any outreach.</p>'+
+   '<div class="up-steps">'+steps.map(function(s,i){var stage=!b?0:b.status==='review'?2:3;return '<div class="up-step '+(i<=stage?'on':'')+'"><span class="av">'+(i+1)+'</span><div><b>'+esc(s[0])+'</b><div class="sub">'+esc(s[1])+'</div></div></div>'}).join('')+'</div>'+
+   '<div class="card pad" style="margin-bottom:14px"><h3>Quick add from a Facebook group</h3><p class="sub" style="margin-top:-6px">Copy what you see in the group, one person per line: name, town, business, and a phone or email if their profile shows one. The portal turns it into contacts and checks for duplicates. Find the rest of the contact details with research credits, so nobody copies by hand.</p>'+
+   '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px"><input class="inp" id="up-pg" placeholder="Group name, e.g. Cranberry Township Business Network" style="max-width:380px"></div>'+
+   '<textarea class="inp" id="up-paste" style="min-height:110px" placeholder="Jane Smith, Cranberry Twp, Smith HVAC, 724-555-0101&#10;Mike Russo, Wexford, Russo Landscaping&#10;Dana Klein, Mars, Klein Dental, dana@kleindental.com"></textarea>'+
+   '<div style="display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap"><button class="btn pri sm" data-act="up-paste">Add these people</button><span class="sub">Copy by hand from the group, don\'t use a scraper. Automated collection breaks Facebook\'s rules and can get Aidan\'s account restricted.</span></div></div>'+
+   '<div class="up-drop'+(UP.drag?' over':'')+'" id="up-drop"><div class="up-ic">'+ICU+'</div><div><b>Drop a CSV file here</b> or <label class="btn pri sm" for="up-file" style="cursor:pointer">Choose file</label></div>'+
+   '<div class="sub">Up to 2,000 rows. From Excel or Google Sheets, use File, then Save as / Download as CSV.</div>'+
+   '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="btn sm" data-act="up-sample">Try the sample file</button><button class="btn sm" data-act="up-template">Download blank template</button></div>'+
+   '<input type="file" id="up-file" accept=".csv,text/csv,.txt,.tsv" hidden></div>';
+  if(b)h+=batchView(b);
+  if(hist.length)h+='<div class="grp">Upload history</div><div class="card"><div class="tablewrap"><table><thead><tr><th>File</th><th>Uploaded</th><th>Leads</th><th>Owner</th><th>Status</th><th></th></tr></thead><tbody>'+hist.map(function(x){var c=counts(x);return '<tr><td><b>'+esc(x.file)+'</b>'+(x.sample?' <span class="pill">Sample</span>':'')+'</td><td>'+new Date(x.at).toLocaleDateString('en-US',{month:'short',day:'numeric'})+'</td><td>'+(c.new+c.thin)+' usable of '+x.leads.length+'</td><td>'+esc(x.owner)+'</td><td>'+statPill(x)+'</td><td><button class="btn sm" data-act="up-open" data-id="'+x.id+'">Open</button> <button class="btn sm" data-act="up-del" data-id="'+x.id+'">Remove</button></td></tr>'}).join('')+'</tbody></table></div></div>';
+  return h}
+ function statPill(b){return b.status==='done'?'<span class="pill ok">Research done</span>':b.status==='queued'?'<span class="pill acc">With TAZ for research</span>':b.status==='researching'?'<span class="pill acc">Researching…</span>':'<span class="pill warn">Needs review</span>'}
+ function batchView(b){
+  var c=counts(b),u=usable(b);
+  var mapUI='<details class="card pad" style="margin:14px 0"'+(b.status==='review'&&(b.map.full==null&&b.map.first==null)?' open':'')+'><summary style="cursor:pointer;font-weight:800">Column matching <span class="sub" style="font-weight:600">· '+Object.keys(b.map).length+' of '+FIELDS.length+' fields matched from '+b.hdr.length+' columns</span></summary><div class="up-map">'+
+   FIELDS.map(function(F){return '<label><span>'+esc(F[1])+'</span><select class="inp" data-upmap="'+F[0]+'"><option value="">Not in file</option>'+b.hdr.map(function(hh,i){return '<option value="'+i+'"'+(b.map[F[0]]===i?' selected':'')+'>'+esc(hh||('Column '+(i+1)))+'</option>'}).join('')+'</select></label>'}).join('')+'</div></details>';
+  var rows=b.leads.map(function(l){var s=ST[l.status];
+   var sig=l.signals.length?l.signals.map(sigChip).join(' '):'<span class="sub">Nothing in the file yet</span>';
+   var res=l.research==='done'?(l.signals.some(function(s){return s.tz})?'':'<div class="sub">TAZ found no new signals. Recheck in 30 days.</div>'):l.research==='queued'?'<div class="sub">With TAZ for research</div>':'';
+   return '<tr><td><div style="font-weight:900">'+(esc(l.name)||'<span class="sub">No name</span>')+'</div><div class="sub">'+esc([l.title,l.company].filter(Boolean).join(' · '))+'</div><div class="sub">'+esc([l.city,l.state,l.zip].filter(Boolean).join(' '))+(l.age?' · age '+l.age:'')+'</div></td>'+
+    '<td class="hide-m"><span class="pill">'+esc(l.segment)+'</span></td><td><span class="pill '+s[0]+'">'+esc(s[1])+'</span>'+(l.inFinder?' <span class="pill ok">In Prospect Finder</span>':'')+'</td><td class="up-sig">'+sig+res+'</td></tr>'}).join('');
+  var act;
+  if(b.status==='review'){
+   act='<div class="up-bar"><div class="grow"><b>'+u.length+' leads ready to research.</b> <span class="sub">'+(c.dup+c.missing)+' skipped (duplicates or no name). '+c.exists+' already in Prospect Finder. '+(b.sample?'This is the sample file, so the results are made up.':'TAZ confirms the data cost with you before anything is charged.')+'</span></div>'+
+    '<label class="sub">Owner <select class="inp" data-upowner style="width:auto;display:inline-block">'+OWNERS.map(function(o){return '<option'+(b.owner===o?' selected':'')+'>'+o+'</option>'}).join('')+'</select></label>'+
+    '<button class="btn pri" data-act="up-research" data-id="'+b.id+'"'+(UP.busy?' disabled':'')+'>'+(UP.busy?'Sending…':'Research signals for '+u.length+' leads')+'</button></div>';
+  }else if(b.status==='researching'){
+   act='<div class="up-bar"><div class="grow"><b>Researching '+u.length+' leads…</b> <span class="sub">Checking job changes, promotions, business news, milestone ages and activity on Silver Oak\'s pages.</span></div><div class="up-prog"><i></i></div></div>';
+  }else if(b.status==='queued'){
+   act='<div class="up-bar"><div class="grow"><b>Sent to TAZ on '+new Date(b.sentAt).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+'.</b> <span class="sub">Results come back to this upload with a source for every signal. Hot ones also show up on Lead Radar. You can add the list to Prospect Finder now.</span></div><button class="btn pri" data-act="up-add" data-id="'+b.id+'">Add '+u.filter(function(l){return !l.inFinder}).length+' to Prospect Finder</button></div>';
+  }else{
+   var hot=u.filter(function(l){return l.signals.some(function(s){return s.tz||s.k==='job'||s.k==='fit'})}).length;
+   act='<div class="up-bar"><div class="grow"><b>Research done. '+hot+' of '+u.length+' have a signal worth a call.</b> <span class="sub">Hover a signal to see where it came from.'+(b.sample?' Sample results, made up for the demo.':'')+'</span></div><button class="btn pri" data-act="up-add" data-id="'+b.id+'">Add '+u.filter(function(l){return !l.inFinder}).length+' to Prospect Finder</button></div>';
+  }
+  var what='<div class="card pad" style="margin-top:14px"><h3>What TAZ looks for</h3><div class="facts">'+
+   '<span class="k">Job change</span><span>New role or employer in the last 90 days (LinkedIn profile and posts). The main trigger for ages 24 to 32.</span>'+
+   '<span class="k">Promotion</span><span>New title at the same employer.</span>'+
+   '<span class="k">Milestone age</span><span>Close to 59½, 62 or 65, from your file or an estimate from career length.</span>'+
+   '<span class="k">Business events</span><span>Hiring a successor, a sale listing, funding or a new location.</span>'+
+   '<span class="k">Engagement</span><span>Likes, comments, follows or website visits on Silver Oak\'s own pages, with a saved capture of each.</span>'+
+   '<span class="k">Home moves</span><span>Public records of a recent home sale or purchase.</span></div></div>';
+  return '<div class="card pad" style="margin-top:14px"><div class="namecell" style="margin-bottom:10px"><span class="av">'+ICU+'</span><div class="grow"><div style="font-weight:900">'+esc(b.file)+'</div><div class="sub">'+b.leads.length+' rows · uploaded '+new Date(b.at).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' · '+statPill(b)+'</div></div></div>'+
+   '<div class="up-counts"><div><b>'+c.new+'</b><span>New</span></div><div><b>'+c.thin+'</b><span>No contact info</span></div><div><b>'+c.exists+'</b><span>Already listed</span></div><div><b>'+c.dup+'</b><span>Duplicates</span></div><div><b>'+c.missing+'</b><span>No name</span></div></div></div>'+
+   mapUI+act+'<div class="card"><div class="tablewrap"><table><thead><tr><th>Lead</th><th class="hide-m">Group</th><th>Check</th><th>Signals and where they came from</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>'+what}
+ /* actions */
+ Object.assign(ACT,{
+  'up-sample':function(){startBatch('silver-oak-sample-leads.csv',SAMPLE,true)},
+  'up-paste':function(){var t=document.getElementById('up-paste'),g=(document.getElementById('up-pg')||{}).value||'';if(!t||!t.value.trim()){toast('Paste at least one line first');return}
+   var q=function(v){v=String(v||'').trim();return /[",]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+   var out=['Name,City,Company,Title,Email,Phone,Notes'];
+   t.value.split(/\r?\n/).forEach(function(line){if(!line.trim())return;var parts=line.split(/\t|\s+[|·•–-]\s+|,/).map(function(x){return x.trim()}).filter(Boolean);
+    var em='',ph='',rest=[];parts.forEach(function(x){if(/@/.test(x))em=x;else if(/^[+(]?\d[\d\s().-]{6,}$/.test(x))ph=x;else rest.push(x)});
+    out.push([rest[0]||'',rest[1]||'',rest.slice(2).join(' ')||'',rest.length>2?'Owner':'',em,ph,'Facebook group'+(g?': '+g:'')].map(q).join(','))});
+   startBatch('Facebook group'+(g?' - '+g:'')+' ('+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})+')',out.join('\n'),false);t.value=''},
+  'up-template':function(){var t='First Name,Last Name,Title,Company,Email,Phone,LinkedIn,City,State,ZIP,Age,Job Start Date,Notes\n';
+   try{var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download='silver-oak-lead-template.csv';document.body.appendChild(a);a.click();a.remove();toast('Template downloaded')}catch(e){}
+   try{navigator.clipboard.writeText(t).then(function(){toast('Header row copied too')}).catch(function(){})}catch(e){}},
+  'up-open':function(id){UP.batch=id;renderMain();window.scrollTo(0,0)},
+  'up-del':function(id){DB.uploads=DB.uploads.filter(function(b){return b.id!==id});if(UP.batch===id)UP.batch=null;save();renderMain()},
+  'up-research':function(id){var b=DB.uploads.find(function(x){return x.id===id});if(b)sendResearch(b)},
+  'up-add':function(id){var b=DB.uploads.find(function(x){return x.id===id});if(b)addToFinder(b)}
+ });
+ function readFile(f){if(!f)return;if(/\.xlsx?$/i.test(f.name)){toast('Save the spreadsheet as CSV first, then upload it');return}
+  if(f.size>8e6){toast('That file is over 8 MB. Split it into smaller files.');return}
+  var r=new FileReader();r.onload=function(){startBatch(f.name,r.result,false)};r.readAsText(f)}
+ document.addEventListener('change',function(e){var t=e.target;
+  if(t.id==='up-file'){readFile(t.files[0]);t.value=''}
+  if(t.dataset&&t.dataset.upmap){var b=cur();if(!b)return;var k=t.dataset.upmap;if(t.value==='')delete b.map[k];else{var v=+t.value;Object.keys(b.map).forEach(function(x){if(b.map[x]===v)delete b.map[x]});b.map[k]=v}
+   var keep={};b.leads.forEach(function(l){if(l.inFinder)keep[l.row]=1});b.leads=build(b.raw,b.map,b);b.leads.forEach(function(l){if(keep[l.row])l.inFinder=true});b.status='review';save();renderMain()}
+  if(t.dataset&&t.dataset.upowner!=null){var b2=cur();if(b2){b2.owner=t.value;save()}}
+ });
+ ['dragover','dragenter'].forEach(function(ev){document.addEventListener(ev,function(e){var z=e.target.closest&&e.target.closest('#up-drop');if(z){e.preventDefault();z.classList.add('over')}})});
+ document.addEventListener('dragleave',function(e){var z=e.target.closest&&e.target.closest('#up-drop');if(z)z.classList.remove('over')});
+ document.addEventListener('drop',function(e){var z=e.target.closest&&e.target.closest('#up-drop');if(z){e.preventDefault();z.classList.remove('over');readFile(e.dataTransfer.files[0])}});
+ /* style */
+ var st=document.createElement('style');st.textContent=
+  '.up-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}.up-step{display:flex;gap:10px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;opacity:.6}.up-step.on{opacity:1;border-color:var(--gold2)}.up-step .av{flex:none}'+
+  '.up-drop{border:2px dashed var(--gold2);border-radius:14px;background:var(--panel);padding:26px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;transition:background .15s}.up-drop.over{background:var(--warns)}.up-ic svg{width:34px;height:34px;fill:var(--oak)}'+
+  '.up-counts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.up-counts div{background:var(--panel2);border-radius:10px;padding:10px;text-align:center}.up-counts b{display:block;font-size:22px;color:var(--oak);font-variant-numeric:tabular-nums}.up-counts span{font-size:12px;color:var(--muted)}'+
+  '.up-map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}.up-map label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:var(--muted)}'+
+  '.up-bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px solid var(--gold2);border-radius:12px;padding:12px 14px;margin:0 0 14px}.up-bar .grow{flex:1;min-width:220px}'+
+  '.up-sig .pill{margin:2px 4px 2px 0;white-space:normal;text-align:left}.up-prog{width:160px;height:8px;border-radius:9px;background:var(--panel2);overflow:hidden}.up-prog i{display:block;height:100%;width:40%;background:var(--gold2);animation:upp 1.1s ease-in-out infinite}@keyframes upp{0%{margin-left:-40%}100%{margin-left:100%}}'+
+  '.namecell .av svg{width:16px;height:16px;fill:currentColor}'+
+  '@media(max-width:800px){.up-steps{grid-template-columns:1fr 1fr}.up-counts{grid-template-columns:repeat(3,minmax(0,1fr))}.up-map{grid-template-columns:1fr 1fr}}';
+ document.head.appendChild(st);
+ /* nav + router */
+ if(!NAV.some(function(n){return n[0]==='upl'})){var i=NAV.findIndex(function(n){return n[0]==='finder'});NAV.splice(i+1,0,['upl','Upload Leads',ICU])}
+ var oldMain=renderMain;
+ renderMain=function(){if(UI.view!=='upl')return oldMain();
+  document.getElementById('main').innerHTML=vUpload()+'<div class="taz-foot">Silver Oak by TAZ &middot; demo build &middot; Powered by <b>TAZ</b></div>'};
+ renderNav();if(UI.view==='upl')renderMain();
+})();
+
+</script>
+<script>
+/* TAZ v6: Companies and Contacts. One master record of every employer and person, with TAZ next moves that wait for approval. */
+(function(){
+ if(!DB.co)DB.co={watch:{},moves:{},notes:{}};
+ var CU={sel:null,q:'',seg:'All',sort:'heat',cq:'',cseg:'All',cstage:'All',csrc:'All',cown:'All',csort:'score',pick:{}};
+ var ICO={
+  co:'<svg viewBox="0 0 24 24"><path d="M3 21V5l8-3v6l10 3v10zm2-2h4v-3H5zm0-5h4v-3H5zm0-5h4V6H5zm6 10h8v-3h-8zm0-5h8v-2l-8-2z"/></svg>',
+  ct:'<svg viewBox="0 0 24 24"><path d="M4 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4zm2 2v14h12V5zm6 2.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM7.5 17c.6-2 2.4-3 4.5-3s3.9 1 4.5 3zM21 6h1v3h-1zm0 5h1v3h-1z"/></svg>',
+  bolt:'<svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>'};
+ var key=function(s){return String(s||'').toLowerCase().replace(/,? inc\.?$|,? llc$|^the /g,'').replace(/[^a-z0-9]+/g,' ').trim()};
+ var SIGSC={'Job change':72,'Selling a business':68,'Turning 59½, 62 or 65':64,'Promotion':58,'Selling or buying a home':55,'Marriage or new baby':55,'Profile match':34};
+ function pScore(p){var s=SIGSC[p.signal]||34;if(p.uploaded)s+=4;if(p.added)s+=6;if(/warm|referr|roommate/i.test(p.why||''))s+=8;return Math.min(99,s)}
+ function sizeOf(p){var m=String(p.profile||p.why||'').match(/\((\d[\d,+-]*) employees,\s*([^)]*)\)/);if(!m)return {size:'',ind:''};var ind=/^revenue/i.test(m[2])?'':m[2].replace(/\s+and\s+/,' & ');return {size:m[1],ind:ind.charAt(0).toUpperCase()+ind.slice(1)}}
+ function companies(){var M={};
+  DB.prospects.forEach(function(p){if(!p.employer||p.employer==='Not given')return;var k=key(p.employer);
+   var c=M[k]||(M[k]={k:k,name:p.employer,people:[],segs:{},size:'',ind:'',area:null,owners:{}});
+   c.people.push(p);c.segs[p.segment]=(c.segs[p.segment]||0)+1;c.owners[p.owner||'Aidan']=1;
+   var z=sizeOf(p);if(!c.size&&z.size)c.size=z.size;if(!c.ind&&z.ind)c.ind=z.ind;
+   if(!c.area){var a=EMP_AREA[p.employer]||areaOfP(p);if(a&&a!=='none')c.area=a}});
+  return Object.keys(M).map(function(k){var c=M[k];
+   c.scores=c.people.map(pScore);c.top=Math.max.apply(null,c.scores);
+   c.small=/^(1-10|11-50|2-10)$/.test(c.size)||c.segs['Business owner']>0&&!/10001|5001|1001/.test(c.size);c.heat=Math.min(99,Math.round(c.top*.6+Math.min(c.people.length,8)*3+(c.small?14:0)+(c.people.some(function(p){return p.added})?6:0)));
+   c.pipe=c.people.filter(function(p){return p.added}).length;
+   c.sig=c.people.map(function(p){return p.signal}).sort(function(a,b){return (SIGSC[b]||0)-(SIGSC[a]||0)})[0];
+   c.watch=DB.co.watch[k]||null;return c})}
+ function heatPill(h){return '<span class="co-heat '+(h>=70?'hot':h>=50?'warm':'cool')+'">'+h+'</span>'}
+ function segBar(c){var n=c.people.length,cols={'Pre-retiree':SEGCOL['Pre-retiree'],'Business owner':SEGCOL['Business owner'],'Young professional':SEGCOL['Young professional']};
+  return '<div class="co-bar" title="'+esc(Object.keys(c.segs).map(function(s){return c.segs[s]+' '+s}).join(', '))+'">'+Object.keys(c.segs).map(function(s){return '<i style="width:'+(c.segs[s]/n*100)+'%;background:'+(cols[s]||'#999')+'"></i>'}).join('')+'</div>'}
+ /* TAZ next moves: built from the data, each one waits for approval */
+ function moves(list){var out=[];
+  list.forEach(function(c){var yp=c.segs['Young professional']||0,pr=c.segs['Pre-retiree']||0,bo=c.segs['Business owner']||0,own=Object.keys(c.owners)[0]||'Aidan';
+   if(pr+yp>=4)out.push({id:'lnl-'+c.k,c:c,kind:'task',owner:own,score:c.heat-12,t:'Offer a lunch-and-learn at '+c.name,why:c.people.length+' people on your list work there ('+(pr?pr+' near retirement':'')+(pr&&yp?', ':'')+(yp?yp+' early-career':'')+'). One session reaches all of them, and HR teams often welcome a benefits talk.',task:'Reach out to '+c.name+' HR about a benefits lunch-and-learn'});
+   if(yp>=3)out.push({id:'seq-'+c.k,c:c,kind:'drafts',owner:own,score:c.heat+4,t:'Draft a LinkedIn intro to '+yp+' young professionals at '+c.name,why:'Same employer means the same 401(k) and benefits questions. One message, personalized per person, about choosing a plan and handling an old 401(k).',seg:'Young professional'});
+   if(bo>=2)out.push({id:'own-'+c.k,c:c,kind:'task',owner:own,score:c.heat+30,t:'Ask for an owners\' meeting at '+c.name,why:bo+' founders or partners on your list. Owner pay, an owner retirement plan and a succession plan are usually decided together.',task:'Request a founders meeting at '+c.name+' (owner pay, retirement plan, succession)'});
+   if(bo===1&&c.people.length===1)out.push({id:'own1-'+c.k,c:c,kind:'drafts',owner:own,score:c.heat+22,t:'Draft a note to '+c.people[0].name+' ('+c.name+')',why:'Owner of a small firm. Lead with owner retirement plan choices, a common question at this size.',seg:'Business owner'});
+   if(pr>=2&&yp<2&&pr+yp<4)out.push({id:'ret-'+c.k,c:c,kind:'drafts',owner:own,score:c.heat+2,t:'Draft notes to '+pr+' people near retirement at '+c.name,why:'Senior people at a large employer. Pension or 401(k) rollover and Social Security timing are the usual first questions.',seg:'Pre-retiree'});
+  });
+  DB.prospects.filter(function(p){return p.signal==='Job change'&&!p.added}).forEach(function(p){out.push({id:'job-'+p.id,c:null,p:p,kind:'call',owner:p.owner||'Aidan',score:90,t:'Call '+p.name+' about the new job',why:'Job change signal. The first 90 days are when the old 401(k) and new benefits choices come up.',task:'Call '+p.name+' about the new job and old 401(k)'})});
+  return out.filter(function(m){return !DB.co.moves[m.id]}).sort(function(a,b){return b.score-a.score})}
+ function draftText(p,seg){var f=p.name.split(' ')[0];
+  if(seg==='Business owner')return 'Hi '+f+', this is '+p.owner+' with Silver Oak Financial in Pittsburgh. I work with owners of firms around the size of '+p.employer+' on owner pay, owner retirement plans and succession. Happy to share how other owners have set this up, no pitch. Open to a short call?';
+  if(seg==='Pre-retiree')return 'Hi '+f+', this is '+p.owner+' with Silver Oak Financial in Pittsburgh. People in senior roles at '+p.employer+' often have questions about pension or 401(k) rollover choices and Social Security timing. If a 15-minute walkthrough would help, I am glad to set one up.';
+  return 'Hi '+f+', '+p.owner+' here with Silver Oak Financial in Pittsburgh. A lot of people at '+p.employer+' early in their careers ask about getting the most from the 401(k) match and what to do with an old plan. Glad to share a simple checklist if that would help.'}
+ function approveMove(m){
+  if(m.kind==='drafts'){var ppl=(m.c?m.c.people.filter(function(p){return p.segment===m.seg}):[m.p]).filter(Boolean);
+   if(!DB.drafts)DB.drafts=[];ppl.forEach(function(p){DB.drafts.unshift({id:uid(),who:p.name,owner:p.owner||m.owner,signal:(m.c?m.c.name:p.employer)+' · '+p.segment,text:draftText(p,m.seg),status:'pending'})});
+   DB.co.moves[m.id]='done';save();renderNav();renderMain();toast(ppl.length+' draft'+(ppl.length===1?'':'s')+' waiting in Outreach for review');return}
+  DB.tasks.push({id:uid(),title:m.task||m.t,due:today(),owner:m.owner,deal:'',done:false});
+  DB.co.moves[m.id]='done';save();renderNav();renderMain();toast('Task added for '+m.owner)}
+ function movesHtml(list,max){var mv=moves(list);if(max)mv=mv.slice(0,max);
+  if(!mv.length)return '<div class="card pad co-moves"><div class="co-mh">'+ICO.bolt+'<h3>TAZ next moves</h3></div><p class="sub">All caught up. New moves appear as signals come in.</p></div>';
+  return '<div class="card pad co-moves"><div class="co-mh">'+ICO.bolt+'<h3>TAZ next moves</h3><span class="sub">'+moves(list).length+' waiting · ranked by how warm the account is · nothing sends without your OK</span></div><div class="co-mlist">'+
+   mv.map(function(m){return '<div class="co-move"><div class="grow"><div class="co-mt">'+esc(m.t)+'</div><div class="sub">'+esc(m.why)+'</div><div class="co-mm"><span class="pill">'+(m.kind==='drafts'?'Creates drafts in Outreach':m.kind==='call'?'Creates a call task':'Creates a task')+'</span><span class="pill">'+esc(m.owner)+'</span>'+(m.c?'<button class="linkbtn" data-act="co-open" data-id="'+esc(m.c.k)+'">'+esc(m.c.name)+'</button>':'')+'</div></div><div class="co-mb"><button class="btn pri sm" data-act="mv-ok" data-id="'+esc(m.id)+'">Approve</button><button class="btn sm" data-act="mv-skip" data-id="'+esc(m.id)+'">Skip</button></div></div>'}).join('')+'</div></div>'}
+ var WATCH=[['hires','New hires and job changes'],['lead','Leadership changes'],['news','Layoffs, buyouts or restructuring news'],['ben','Benefits or pension plan changes'],['eng','Likes, comments and visits on Silver Oak pages']];
+ /* ---------- Companies ---------- */
+ function vCompanies(){
+  var all=companies(),q=CU.q.toLowerCase();
+  var list=all.filter(function(c){return (!q||c.name.toLowerCase().indexOf(q)>-1||(c.ind||'').toLowerCase().indexOf(q)>-1)&&(CU.seg==='All'||c.segs[CU.seg])});
+  list.sort(CU.sort==='size'?function(a,b){return b.people.length-a.people.length}:CU.sort==='name'?function(a,b){return a.name.localeCompare(b.name)}:function(a,b){return b.heat-a.heat});
+  var sel=CU.sel&&all.find(function(c){return c.k===CU.sel});
+  var watching=all.filter(function(c){return c.watch&&c.watch.on}).length;
+  var h=topbar('Companies','<span class="pill">'+all.length+' companies · '+DB.prospects.length+' contacts</span>')+
+   '<p class="sub" style="margin:-6px 0 14px">Every employer on your list, in one place. Contacts roll up to their company, TAZ ranks the warmest accounts and suggests the next move. Approve a move and it becomes a task or a draft for review. Nothing goes out on its own.</p>'+
+   '<div class="co-kpis"><div class="card pad"><span class="k">Companies</span><b>'+all.length+'</b><span class="sub">from Prospect Finder and uploads</span></div><div class="card pad"><span class="k">With 3+ contacts</span><b>'+all.filter(function(c){return c.people.length>=3}).length+'</b><span class="sub">group-meeting candidates</span></div><div class="card pad"><span class="k">Watching</span><b>'+watching+'</b><span class="sub">TAZ checks weekly</span></div><div class="card pad"><span class="k">Moves waiting</span><b>'+moves(all).length+'</b><span class="sub">for your approval</span></div></div>'+
+   movesHtml(all,4)+
+   '<div class="toolbar" style="margin-top:14px"><input class="inp" id="co-q" placeholder="Search companies or industries" value="'+esc(CU.q)+'" style="max-width:280px"><div class="chips">'+['All','Pre-retiree','Business owner','Young professional'].map(function(s){return '<button class="chip '+(CU.seg===s?'on':'')+'" data-act="co-seg" data-id="'+esc(s)+'">'+esc(s==='All'?'All groups':s)+'</button>'}).join('')+'</div><select class="inp" id="co-sort" style="max-width:190px"><option value="heat"'+(CU.sort==='heat'?' selected':'')+'>Warmest first (small firms up top)</option><option value="size"'+(CU.sort==='size'?' selected':'')+'>Most contacts</option><option value="name"'+(CU.sort==='name'?' selected':'')+'>A to Z</option></select></div>'+
+   '<div class="co-wrap'+(sel?' has':'')+'"><div class="card"><div class="tablewrap"><table><thead><tr><th>Company</th><th class="hide-m">Contacts</th><th class="hide-m">Strongest signal</th><th>Warmth</th><th class="hide-m">Owner</th></tr></thead><tbody>'+
+   list.map(function(c){return '<tr data-act="co-open" data-id="'+esc(c.k)+'" class="'+(sel&&sel.k===c.k?'co-on':'')+'"><td><div class="namecell"><span class="av">'+esc(initials(c.name))+'</span><div><div style="font-weight:900">'+esc(c.name)+(c.watch&&c.watch.on?' <span class="pill ok">Watching</span>':'')+'</div><div class="sub">'+esc([c.ind,c.size?c.size+' employees':'',c.area?AREA(c.area).name:''].filter(Boolean).join(' · '))+'</div></div></div></td><td class="hide-m"><b>'+c.people.length+'</b>'+segBar(c)+'</td><td class="hide-m"><span class="pill acc">'+esc(c.sig)+'</span></td><td>'+heatPill(c.heat)+(c.pipe?'<div class="sub">'+c.pipe+' in pipeline</div>':'')+'</td><td class="hide-m">'+esc(Object.keys(c.owners).join(', '))+'</td></tr>'}).join('')+
+   (list.length?'':'<tr><td colspan="5" class="empty">No companies match.</td></tr>')+'</tbody></table></div></div>'+(sel?coPanel(sel):'')+'</div>';
+  return h}
+ function coPanel(c){var w=DB.co.watch[c.k]||{on:false};
+  var segPlan={'Pre-retiree':'Pension or 401(k) rollover, Social Security timing, retirement income.','Business owner':'Owner pay, owner retirement plan, succession and selling.','Young professional':'401(k) match, old plan rollover, equity plans, first plan.'};
+  return '<aside class="card pad co-panel"><div style="display:flex;align-items:flex-start;gap:10px"><div class="grow"><div class="sub">Company</div><h2 style="margin:2px 0 4px">'+esc(c.name)+'</h2><div class="sub">'+esc([c.ind,c.size?c.size+' employees':''].filter(Boolean).join(' · ')||'Industry not on file')+'</div></div><button class="btn sm" data-act="co-close">Close</button></div>'+
+   '<div class="co-pk"><div><b>'+c.people.length+'</b><span>contacts</span></div><div><b>'+c.heat+'</b><span>warmth</span></div><div><b>'+c.pipe+'</b><span>in pipeline</span></div></div>'+
+   '<h3>Account plan</h3><div class="facts">'+Object.keys(c.segs).map(function(s){return '<span class="k">'+esc(s)+' ('+c.segs[s]+')</span><span>'+esc(segPlan[s]||'')+'</span>'}).join('')+'</div>'+
+   '<h3 style="margin-top:14px">People</h3><div class="list">'+c.people.slice().sort(function(a,b){return pScore(b)-pScore(a)}).map(function(p){return '<div class="li" data-act="ct-open" data-id="p:'+p.id+'" style="cursor:pointer"><span class="av">'+esc(initials(p.name))+'</span><div class="grow"><div style="font-weight:800">'+esc(p.name)+'</div><div class="sub">'+esc(p.title)+'</div></div>'+(p.added?'<span class="pill ok">In pipeline</span>':'<span class="pill">'+esc(p.signal)+'</span>')+'</div>'}).join('')+'</div>'+
+   '<h3 style="margin-top:14px">Autopilot</h3><p class="sub" style="margin-top:-6px">Turn on and TAZ checks this company every week, then adds what it finds to Lead Radar and next moves. You still approve every message.</p>'+
+   '<label class="co-sw"><input type="checkbox" data-cowatch="'+esc(c.k)+'" data-f="on"'+(w.on?' checked':'')+'><span>Watch '+esc(c.name)+'</span></label>'+
+   (w.on?'<div class="co-wl">'+WATCH.map(function(x){return '<label><input type="checkbox" data-cowatch="'+esc(c.k)+'" data-f="'+x[0]+'"'+(w[x[0]]!==false?' checked':'')+'> '+esc(x[1])+'</label>'}).join('')+'<div class="sub">Next check: '+nextMon()+'. Research uses data credits, and TAZ confirms the cost before the first run.</div></div>':'')+
+   (c.area?'<h3 style="margin-top:14px">Near their office</h3>'+spotsHtml(c.area,2):'')+
+   '<h3 style="margin-top:14px">Notes</h3><textarea class="inp" id="co-note" data-k="'+esc(c.k)+'" placeholder="Who you know there, HR contact, benefits renewal month">'+esc(DB.co.notes[c.k]||'')+'</textarea>'+
+   movesHtml([c])+'</aside>'}
+ function nextMon(){var d=new Date();d.setDate(d.getDate()+((8-d.getDay())%7||7));return d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'})}
+ /* ---------- Contacts ---------- */
+ function contacts(){var out=[];
+  DB.prospects.forEach(function(p){out.push({k:'p',id:p.id,name:p.name,title:p.title,co:p.employer,seg:p.segment,src:p.uploaded?'Uploaded':'Prospect list',stage:p.added?'In pipeline':'New',owner:p.owner||'Aidan',sig:p.signal,score:pScore(p),town:p.town,email:p.workEmail,phone:p.mobile,li:p.linkedin,p:p})});
+  DB.hh.forEach(function(h){if(out.some(function(x){return x.name===h.name}))return;var d=DB.deals.filter(function(x){return x.hh===h.id});
+   out.push({k:'h',id:h.id,name:h.name,title:h.members?'Household: '+h.members:'Household',co:'',seg:h.type,src:'Households',stage:h.type==='Client'?'Client':d.length?'In pipeline':'New',owner:(d[0]&&d[0].owner)||'Jesse',sig:h.type==='Client'?'Client':'Household',score:h.type==='Client'?0:45,town:h.city})});
+  dleads().forEach(function(l){out.push({k:'l',id:l.id,name:l.name,title:l.role,co:'',seg:l.seg,src:'Lead Radar (demo)',stage:DS.added&&DS.added[l.id]?'In pipeline':'New',owner:l.owner,sig:evText(l.ev[0]),score:l.score,town:l.town,last:l.last})});
+  return out}
+ function cFilter(all){var q=CU.cq.toLowerCase();
+  var r=all.filter(function(c){return (!q||(c.name+' '+c.title+' '+c.co+' '+(c.town||'')).toLowerCase().indexOf(q)>-1)&&(CU.cseg==='All'||c.seg===CU.cseg)&&(CU.cstage==='All'||c.stage===CU.cstage)&&(CU.csrc==='All'||c.src===CU.csrc)&&(CU.cown==='All'||c.owner===CU.cown)});
+  r.sort(CU.csort==='name'?function(a,b){return a.name.localeCompare(b.name)}:CU.csort==='co'?function(a,b){return (a.co||'zz').localeCompare(b.co||'zz')}:function(a,b){return b.score-a.score});return r}
+ function cRows(r){return r.map(function(c){var uid2=c.k+':'+c.id;
+  return '<tr><td><input type="checkbox" class="ct-pick" data-id="'+esc(uid2)+'"'+(CU.pick[uid2]?' checked':'')+' aria-label="Select '+esc(c.name)+'"></td><td data-act="ct-open" data-id="'+esc(uid2)+'" style="cursor:pointer"><div class="namecell"><span class="av">'+esc(initials(c.name))+'</span><div><div style="font-weight:900">'+esc(c.name)+'</div><div class="sub">'+esc(c.title||'')+'</div></div></div></td>'+
+   '<td class="hide-m">'+(c.co?'<button class="linkbtn" data-act="co-go" data-id="'+esc(key(c.co))+'">'+esc(c.co)+'</button>':'<span class="sub">'+esc(c.town||'')+'</span>')+'</td><td class="hide-m"><span class="pill">'+esc(c.seg)+'</span></td><td class="hide-m"><span class="sub">'+esc(c.src)+'</span></td><td><span class="pill '+(c.stage==='Client'?'ok':c.stage==='In pipeline'?'acc':'')+'">'+esc(c.stage)+'</span></td><td class="hide-m">'+esc(c.owner)+'</td><td><div class="sub" style="max-width:260px">'+esc(c.sig||'')+'</div></td><td>'+(c.score?heatPill(c.score):'<span class="sub">-</span>')+'</td></tr>'}).join('')||'<tr><td colspan="9" class="empty">No contacts match those filters.</td></tr>'}
+ function vContacts(){
+  var all=contacts(),r=cFilter(all),np=Object.keys(CU.pick).filter(function(k){return CU.pick[k]}).length;
+  var srcs=['All','Prospect list','Uploaded','Households','Lead Radar (demo)'];
+  var hot=all.filter(function(c){return c.score>=70&&c.stage==='New'}).length;
+  return topbar('Contacts','<span class="pill">'+all.length+' people</span>')+
+   '<p class="sub" style="margin:-6px 0 14px">Everyone in the portal in one list: your Prospect Finder list, uploaded leads, households and Lead Radar. Search, filter, pick a few and act on them together. Drafts go to Outreach for review, and nothing sends on its own.</p>'+
+   '<div class="co-kpis"><div class="card pad"><span class="k">Contacts</span><b>'+all.length+'</b><span class="sub">'+all.filter(function(c){return c.k==='p'}).length+' on your prospect list</span></div><div class="card pad"><span class="k">Hot and not contacted</span><b>'+hot+'</b><span class="sub">warmth 70 or more</span></div><div class="card pad"><span class="k">In pipeline</span><b>'+all.filter(function(c){return c.stage==='In pipeline'}).length+'</b><span class="sub">open conversations</span></div><div class="card pad"><span class="k">Clients</span><b>'+all.filter(function(c){return c.stage==='Client'}).length+'</b><span class="sub">households</span></div></div>'+
+   '<div class="toolbar"><input class="inp" id="ct-q" placeholder="Search name, title, company or town" value="'+esc(CU.cq)+'" style="max-width:300px">'+
+   '<select class="inp" id="ct-seg" style="max-width:170px">'+['All','Pre-retiree','Business owner','Young professional','Client'].map(function(s){return '<option value="'+s+'"'+(CU.cseg===s?' selected':'')+'>'+(s==='All'?'All groups':s)+'</option>'}).join('')+'</select>'+
+   '<select class="inp" id="ct-stage" style="max-width:150px">'+['All','New','In pipeline','Client'].map(function(s){return '<option value="'+s+'"'+(CU.cstage===s?' selected':'')+'>'+(s==='All'?'Any stage':s)+'</option>'}).join('')+'</select>'+
+   '<select class="inp" id="ct-src" style="max-width:180px">'+srcs.map(function(s){return '<option value="'+s+'"'+(CU.csrc===s?' selected':'')+'>'+(s==='All'?'All sources':s)+'</option>'}).join('')+'</select>'+
+   '<div class="chips">'+['All'].concat(OWNERS).map(function(o){return '<button class="chip '+(CU.cown===o?'on':'')+'" data-act="ct-own" data-id="'+o+'">'+(o==='All'?'Both':o)+'</button>'}).join('')+'</div>'+
+   '<select class="inp" id="ct-sort" style="max-width:160px"><option value="score"'+(CU.csort==='score'?' selected':'')+'>Warmest first</option><option value="name"'+(CU.csort==='name'?' selected':'')+'>Name A to Z</option><option value="co"'+(CU.csort==='co'?' selected':'')+'>By company</option></select></div>'+
+   '<div class="ct-bulk'+(np?' on':'')+'" id="ct-bulk"><b id="ct-n">'+np+' selected</b><button class="btn sm pri" data-act="ct-bulk" data-id="draft">Draft outreach</button><button class="btn sm" data-act="ct-bulk" data-id="task">Follow-up task</button><button class="btn sm" data-act="ct-bulk" data-id="pipe">Add to pipeline</button>'+OWNERS.map(function(o){return '<button class="btn sm" data-act="ct-bulk" data-id="own:'+o+'">Assign to '+o+'</button>'}).join('')+'<button class="btn sm" data-act="ct-bulk" data-id="clear">Clear</button></div>'+
+   '<div class="card"><div class="tablewrap"><table><thead><tr><th><input type="checkbox" id="ct-all" aria-label="Select all shown"></th><th>Contact</th><th class="hide-m">Company</th><th class="hide-m">Group</th><th class="hide-m">Source</th><th>Stage</th><th class="hide-m">Owner</th><th>Latest signal</th><th>Warmth</th></tr></thead><tbody id="ct-rows">'+cRows(r)+'</tbody></table></div></div>'+
+   '<div class="sub" style="margin-top:8px" id="ct-count">Showing '+r.length+' of '+all.length+'. Lead Radar people are made-up demo leads.</div>'}
+ function pickedList(){var all=contacts();return Object.keys(CU.pick).filter(function(k){return CU.pick[k]}).map(function(k){return all.find(function(c){return c.k+':'+c.id===k})}).filter(Boolean)}
+ function refreshRows(){var all=contacts(),r=cFilter(all);var t=document.getElementById('ct-rows');if(t)t.innerHTML=cRows(r);var c=document.getElementById('ct-count');if(c)c.textContent='Showing '+r.length+' of '+all.length+'. Lead Radar people are made-up demo leads.';bulkBar()}
+ function bulkBar(){var n=Object.keys(CU.pick).filter(function(k){return CU.pick[k]}).length,b=document.getElementById('ct-bulk');if(b){b.classList.toggle('on',n>0);document.getElementById('ct-n').textContent=n+' selected'}}
+ Object.assign(ACT,{
+  'co-open':function(id){CU.sel=id;if(UI.view!=='co'){UI.view='co';renderNav()}renderMain();var p=document.querySelector('.co-panel');if(p&&window.innerWidth<1100)p.scrollIntoView({block:'start'})},
+  'co-go':function(id){CU.sel=id;go('co')},
+  'co-close':function(){CU.sel=null;renderMain()},
+  'co-seg':function(id){CU.seg=id;renderMain()},
+  'mv-ok':function(id){var m=moves(companies()).find(function(x){return x.id===id});if(m)approveMove(m)},
+  'mv-skip':function(id){DB.co.moves[id]='skip';save();renderMain();toast('Skipped. It will not come back.')},
+  'ct-own':function(id){CU.cown=id;renderMain()},
+  'ct-open':function(id){var p=id.split(':'),k=p[0],i=p.slice(1).join(':');if(k==='p')openDrawer('prospect',i);else if(k==='h')openDrawer('hh',i);else ACT['radar-open'](i)},
+  'ct-bulk':function(a){var L=pickedList();if(a==='clear'){CU.pick={};refreshRows();return}if(!L.length)return;var n=0;
+   if(a==='draft'){L.forEach(function(c){if(c.k!=='p')return;DB.drafts.unshift({id:uid(),who:c.name,owner:c.owner,signal:c.sig+' · '+c.seg,text:draftText(c.p,c.seg),status:'pending'});n++});toast(n?n+' drafts waiting in Outreach':'Drafts work for Prospect list and uploaded contacts')}
+   else if(a==='task'){L.forEach(function(c){DB.tasks.push({id:uid(),title:'Follow up with '+c.name,due:today(),owner:c.owner,deal:'',done:false});n++});toast(n+' follow-up tasks added')}
+   else if(a==='pipe'){L.forEach(function(c){if(c.k==='p'&&!c.p.added){addToPipeline(c.p);n++}else if(c.k==='l'&&!(DS.added&&DS.added[c.id])){ACT['radar-add'](c.id);n++}});toast(n?n+' added to pipeline':'Already in the pipeline')}
+   else if(a.indexOf('own:')===0){var o=a.slice(4);L.forEach(function(c){if(c.k==='p'){c.p.owner=o;n++}});toast(n?n+' assigned to '+o:'Owner changes apply to Prospect list contacts')}
+   CU.pick={};save();renderNav();renderMain()}
+ });
+ document.addEventListener('input',function(e){var t=e.target;
+  if(t.id==='co-q'){CU.q=t.value;var pos=t.selectionStart;renderMain();var n=document.getElementById('co-q');if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}}
+  if(t.id==='ct-q'){CU.cq=t.value;refreshRows()}
+  if(t.id==='co-note'){DB.co.notes[t.dataset.k]=t.value;save()}});
+ document.addEventListener('change',function(e){var t=e.target;
+  if(t.id==='co-sort'){CU.sort=t.value;renderMain()}
+  if(t.id==='ct-seg'){CU.cseg=t.value;refreshRows()}if(t.id==='ct-stage'){CU.cstage=t.value;refreshRows()}if(t.id==='ct-src'){CU.csrc=t.value;refreshRows()}if(t.id==='ct-sort'){CU.csort=t.value;refreshRows()}
+  if(t.classList&&t.classList.contains('ct-pick')){CU.pick[t.dataset.id]=t.checked;bulkBar()}
+  if(t.id==='ct-all'){document.querySelectorAll('.ct-pick').forEach(function(c){c.checked=t.checked;CU.pick[c.dataset.id]=t.checked});bulkBar()}
+  if(t.dataset&&t.dataset.cowatch){var k=t.dataset.cowatch,w=DB.co.watch[k]||(DB.co.watch[k]={on:false});w[t.dataset.f]=t.checked;save();if(t.dataset.f==='on'){renderMain();toast(t.checked?'Watching. First check '+nextMon():'Stopped watching')}}});
+ var st=document.createElement('style');st.textContent=
+  '.co-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}.co-kpis .card{display:flex;flex-direction:column;gap:2px}.co-kpis .k{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}.co-kpis b{font:700 28px/1.1 "Playfair Display",Georgia,serif;color:var(--oak);font-variant-numeric:tabular-nums}'+
+  '.co-moves{border-color:var(--gold2)}.co-mh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}.co-mh h3{margin:0}.co-mh svg{width:18px;height:18px;fill:var(--gold2)}.co-mlist{display:flex;flex-direction:column}.co-move{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line)}.co-move .grow{flex:1;min-width:0}.co-mt{font-weight:800}.co-mm{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}.co-mb{display:flex;gap:6px;flex:none}'+
+  '.linkbtn{background:none;border:0;padding:0;color:var(--oak);font:inherit;font-weight:800;text-decoration:underline;text-underline-offset:2px;cursor:pointer;text-align:left}'+
+  '.co-heat{display:inline-block;min-width:34px;text-align:center;border-radius:99px;padding:3px 8px;font-weight:900;font-size:13px;font-variant-numeric:tabular-nums}.co-heat.hot{background:#b5451b;color:#fff}.co-heat.warm{background:var(--warns);color:var(--warn)}.co-heat.cool{background:var(--panel2);color:var(--muted)}'+
+  '.co-bar{display:flex;height:6px;border-radius:9px;overflow:hidden;width:90px;margin-top:4px;background:var(--panel2)}.co-bar i{display:block;height:100%}'+
+  '.co-wrap{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}.co-wrap.has{grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr)}.co-wrap>*{min-width:0}tr.co-on td{background:var(--warns)}tbody tr[data-act]{cursor:pointer}'+
+  '.co-panel{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto}.co-panel h2{font:700 24px/1.2 "Playfair Display",Georgia,serif;color:var(--oak)}.co-pk{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.co-pk div{background:var(--panel2);border-radius:10px;padding:8px;text-align:center}.co-pk b{display:block;font-size:20px;color:var(--oak)}.co-pk span{font-size:12px;color:var(--muted)}'+
+  '.co-sw{display:flex;gap:8px;align-items:center;font-weight:800;cursor:pointer}.co-wl{display:flex;flex-direction:column;gap:6px;margin:8px 0 0 4px;font-size:13.5px}.co-panel .co-moves{margin-top:14px}'+
+  '.ct-bulk{display:none;gap:8px;align-items:center;flex-wrap:wrap;background:var(--oak-d,#3b2412);color:#f6efe4;border-radius:12px;padding:10px 12px;margin-bottom:10px;position:sticky;top:8px;z-index:5}.ct-bulk.on{display:flex}.ct-bulk .btn:not(.pri){background:transparent;color:#f6efe4;border-color:rgba(255,255,255,.35)}'+
+  '@media(max-width:1100px){.co-wrap.has{grid-template-columns:1fr}.co-panel{position:static;max-height:none}}@media(max-width:800px){.co-kpis{grid-template-columns:1fr 1fr}.co-move{flex-direction:column}}';
+ document.head.appendChild(st);
+ if(!NAV.some(function(n){return n[0]==='co'})){var i=NAV.findIndex(function(n){return n[0]==='finder'});NAV.splice(i+1,0,['co','Companies',ICO.co],['ct','Contacts',ICO.ct])}
+ var oldMain=renderMain;
+ renderMain=function(){var v={co:vCompanies,ct:vContacts}[UI.view];if(!v)return oldMain();
+  document.getElementById('main').innerHTML=v()+'<div class="taz-foot">Silver Oak by TAZ &middot; demo build &middot; Powered by <b>TAZ</b></div>'};
+ var oldDash=vDash;vDash=function(){return oldDash()+'<div style="margin-top:14px">'+movesHtml(companies(),3)+'</div>'};
+ window.TAZCRM={moves:function(){return moves(companies())},companies:companies,pScore:pScore,draftText:draftText};
+ renderNav();if(UI.view==='co'||UI.view==='ct')renderMain();
+})();
+
+</script>
+<script>
+/* TAZ v7: CRM first. Alphabetical contacts with meeting history and follow-ups, contact records, team seats, grouped menu, Fact Finder retired. */
+(function(){
+ var C=DB.co||(DB.co={watch:{},moves:{},notes:{}});
+ if(!C.ct)C.ct={};
+ if(!C.team)C.team=OWNERS.slice();
+ OWNERS.length=0;C.team.forEach(function(n){OWNERS.push(n)});
+ var S={q:'',status:'All',seg:'All',src:'All',own:'All',sort:'az',pick:{},crid:null,adding:false};
+ var STATUSES=['New','Contacted','Meeting set','In pipeline','Client','Not a fit'];
+ var MTYPES=['Phone call','In person','Video call','Email','Text'];
+ var norm7=function(s){return String(s||'').toLowerCase().replace(/\btownship\b/,'twp').replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim()};
+ var esc2=function(s){return esc(s==null?'':String(s))};
+ function rec(cid){return C.ct[cid]||(C.ct[cid]={meetings:[],notes:'',ff:{}})}
+ function fdt(s){if(!s)return '';var d=new Date(String(s).length<=10?s+'T12:00:00':s);return isNaN(d)?'':d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:d.getFullYear()!==new Date().getFullYear()?'numeric':undefined})}
+ function sortKey(n){n=String(n||'').replace(/^the\s+/i,'').replace(/\s+(household|family)$/i,'').trim();var parts=n.split(/\s+/);return (parts.length>1&&!/household|family/i.test(n)?parts[parts.length-1]+' '+parts.slice(0,-1).join(' '):n).toLowerCase()}
+ /* ---------- people ---------- */
+ function people(){var out=[];
+  DB.prospects.forEach(function(p){out.push({cid:'p:'+p.id,k:'p',id:p.id,name:p.name,title:p.title==='Not given'?'':p.title,co:p.employer&&p.employer!=='Not given'?p.employer:'',seg:p.segment,src:p.manual?(p.src||'Added by hand'):p.uploaded?'Uploaded':'Prospect list',owner:p.owner||OWNERS[0],town:p.town,email:p.workEmail||p.personalEmail,phone:p.mobile,li:p.linkedin,p:p})});
+  DB.hh.forEach(function(h){if(out.some(function(x){return x.name===h.name}))return;var d=DB.deals.filter(function(x){return x.hh===h.id});
+   out.push({cid:'h:'+h.id,k:'h',id:h.id,name:h.name,title:h.members?'Household: '+h.members:'Household',co:'',seg:h.type,src:'Households',owner:(d[0]&&d[0].owner)||OWNERS[0],town:h.city,h:h,deals:d})});
+  out.forEach(function(c){var r=C.ct[c.cid]||{};
+   var ms=(r.meetings||[]).map(function(m){return m.at});
+   if(c.k==='h'){c.deals.forEach(function(d){if(d.firstMeeting)ms.push(d.firstMeeting)});DB.notes.forEach(function(n){if(c.deals.some(function(d){return d.id===n.deal}))ms.push(new Date(n.when).toISOString().slice(0,10))})}
+   if(c.k==='p'){var h=DB.hh.find(function(x){return x.name===c.name});if(h)DB.deals.filter(function(d){return d.hh===h.id&&d.firstMeeting}).forEach(function(d){ms.push(d.firstMeeting)})}
+   ms.sort();c.last=ms.length?ms[ms.length-1]:'';
+   var ts=DB.tasks.filter(function(t){return !t.done&&(t.cid===c.cid||(t.title&&t.title.indexOf(c.name)>-1))}).sort(function(a,b){return (a.due||'9').localeCompare(b.due||'9')});
+   c.next=ts[0]||null;
+   if(r.owner)c.owner=r.owner;
+   c.status=r.status||(c.k==='h'&&c.h.type==='Client'?'Client':(c.k==='p'&&c.p.added)||(c.k==='h'&&c.deals.length)?'In pipeline':c.last?'Contacted':'New');
+   c.sk=sortKey(c.name)});
+  return out}
+ function filtered(all){var q=S.q.toLowerCase();
+  var r=all.filter(function(c){return (!q||(c.name+' '+(c.title||'')+' '+c.co+' '+(c.town||'')+' '+(c.email||'')).toLowerCase().indexOf(q)>-1)&&(S.status==='All'||c.status===S.status)&&(S.seg==='All'||c.seg===S.seg)&&(S.src==='All'||c.src===S.src)&&(S.own==='All'||c.owner===S.own)});
+  var sc=window.TAZCRM&&TAZCRM.pScore;
+  r.sort(S.sort==='follow'?function(a,b){return ((a.next&&a.next.due)||'9999').localeCompare((b.next&&b.next.due)||'9999')||a.sk.localeCompare(b.sk)}:S.sort==='met'?function(a,b){return (b.last||'').localeCompare(a.last||'')||a.sk.localeCompare(b.sk)}:S.sort==='warm'&&sc?function(a,b){return (b.p?sc(b.p):0)-(a.p?sc(a.p):0)}:function(a,b){return a.sk.localeCompare(b.sk)});
+  return r}
+ function stPill(s){return '<span class="pill '+({'Client':'ok','In pipeline':'acc','Meeting set':'acc','Contacted':'','New':'','Not a fit':'bad'}[s]||'')+'">'+esc2(s)+'</span>'}
+ function fuCell(t){if(!t)return '<span class="sub">None set</span>';var od=t.due&&t.due<today();return '<div class="'+(od?'c7-od':'')+'"><b>'+(t.due?fdt(t.due):'No date')+'</b>'+(od?' · overdue':t.due===today()?' · today':'')+'</div><div class="sub c7-clip">'+esc2(t.title)+'</div>'}
+ function rows(r){if(!r.length)return '<tr><td colspan="7" class="empty">No contacts match. Clear the search or add someone with <b>Add contact</b>.</td></tr>';
+  var h='',L='';
+  r.forEach(function(c){var l=S.sort==='az'?(c.sk.charAt(0).toUpperCase().replace(/[^A-Z]/,'#')):'';
+   if(l&&l!==L){L=l;h+='<tr class="c7-letter" id="c7-L-'+l+'"><td colspan="7">'+l+'</td></tr>'}
+   h+='<tr><td><input type="checkbox" class="c7-pick" data-id="'+esc2(c.cid)+'"'+(S.pick[c.cid]?' checked':'')+' aria-label="Select '+esc2(c.name)+'"></td>'+
+    '<td data-act="ct-open" data-id="'+esc2(c.cid)+'" style="cursor:pointer"><div class="namecell"><span class="av">'+esc2(initials(c.name))+'</span><div><div style="font-weight:900">'+esc2(c.name)+'</div><div class="sub c7-clip">'+esc2(c.title||'')+'</div></div></div></td>'+
+    '<td class="hide-m">'+(c.co?'<button class="linkbtn" data-act="co-go" data-id="'+esc2(coKey(c.co))+'">'+esc2(c.co)+'</button>':'<span class="sub">'+esc2(c.town||'')+'</span>')+'</td>'+
+    '<td>'+(c.last?'<b>'+fdt(c.last)+'</b>':'<span class="sub">No meeting yet</span>')+'</td><td>'+fuCell(c.next)+'</td><td>'+stPill(c.status)+'</td><td class="hide-m">'+esc2(c.owner)+'</td></tr>'});
+  return h}
+ function coKey(s){return String(s||'').toLowerCase().replace(/,? inc\.?$|,? llc$|^the /g,'').replace(/[^a-z0-9]+/g,' ').trim()}
+ function letters(all){var have={};all.forEach(function(c){have[c.sk.charAt(0).toUpperCase()]=1});
+  return '<div class="c7-az" aria-label="Jump to letter">'+'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(function(l){return have[l]?'<button data-act="c7-jump" data-id="'+l+'">'+l+'</button>':'<span>'+l+'</span>'}).join('')+'</div>'}
+ function vContacts(){
+  var all=people(),r=filtered(all),np=Object.keys(S.pick).filter(function(k){return S.pick[k]}).length;
+  var due=all.filter(function(c){return c.next&&c.next.due&&c.next.due<=today()}).length;
+  var srcs=['All'].concat(Array.from(new Set(all.map(function(c){return c.src}))));
+  var h=topbar('Contacts','<button class="btn pri" data-act="c7-add">+ Add contact</button>')+
+   '<div class="c7-sum"><div><b>'+all.length+'</b><span>contacts</span></div><div><b>'+all.filter(function(c){return c.status==='Client'}).length+'</b><span>clients</span></div><div><b>'+all.filter(function(c){return c.status==='In pipeline'||c.status==='Meeting set'}).length+'</b><span>in conversation</span></div><div class="'+(due?'warn':'')+'"><b>'+due+'</b><span>follow-ups due</span></div></div>'+
+   '<div class="toolbar"><input class="inp" id="c7-q" placeholder="Search name, company, town or email" value="'+esc2(S.q)+'" style="max-width:300px">'+
+   sel('c7-status',['All'].concat(STATUSES),S.status,'Any status')+sel('c7-seg',['All','Pre-retiree','Business owner','Young professional','Client'],S.seg,'All groups')+sel('c7-src',srcs,S.src,'All sources')+
+   '<div class="chips">'+['All'].concat(OWNERS).map(function(o){return '<button class="chip '+(S.own===o?'on':'')+'" data-act="c7-own" data-id="'+esc2(o)+'">'+(o==='All'?'Everyone':esc2(o))+'</button>'}).join('')+'</div>'+
+   '<select class="inp" id="c7-sort" style="max-width:190px"><option value="az"'+(S.sort==='az'?' selected':'')+'>A to Z by last name</option><option value="follow"'+(S.sort==='follow'?' selected':'')+'>Next follow-up</option><option value="met"'+(S.sort==='met'?' selected':'')+'>Recently met</option><option value="warm"'+(S.sort==='warm'?' selected':'')+'>Warmest leads</option></select></div>'+
+   (S.sort==='az'?letters(r):'')+
+   '<div class="ct-bulk'+(np?' on':'')+'" id="c7-bulk"><b id="c7-n">'+np+' selected</b><button class="btn sm" data-act="c7-bulk" data-id="task">Add follow-up</button><button class="btn sm" data-act="c7-bulk" data-id="draft">Draft outreach</button><button class="btn sm" data-act="c7-bulk" data-id="pipe">Add to pipeline</button>'+OWNERS.map(function(o){return '<button class="btn sm" data-act="c7-bulk" data-id="own:'+esc2(o)+'">Assign to '+esc2(o)+'</button>'}).join('')+'<button class="btn sm" data-act="c7-bulk" data-id="clear">Clear</button></div>'+
+   '<div class="card"><div class="tablewrap"><table class="c7-t"><thead><tr><th><input type="checkbox" id="c7-all" aria-label="Select all shown"></th><th>Name</th><th class="hide-m">Company</th><th>Last meeting</th><th>Next follow-up</th><th>Status</th><th class="hide-m">Owner</th></tr></thead><tbody id="c7-rows">'+rows(r)+'</tbody></table></div></div>'+
+   '<div class="sub" style="margin-top:8px" id="c7-count">Showing '+r.length+' of '+all.length+'. Click a name to open the full record: meetings, follow-ups, case notes.</div>';
+  if(S.adding)h+=addForm();
+  return h}
+ function sel(id,opts,v,allLbl){return '<select class="inp" id="'+id+'" style="max-width:170px">'+opts.map(function(o){return '<option value="'+esc2(o)+'"'+(v===o?' selected':'')+'>'+esc2(o==='All'?allLbl:o)+'</option>'}).join('')+'</select>'}
+ function addForm(){return '<div class="c7-modal" id="c7-modal"><div class="c7-box" role="dialog" aria-label="Add contact"><div style="display:flex;align-items:center"><h3 class="grow" style="margin:0">Add a contact</h3><button class="btn sm" data-act="c7-add-x">Cancel</button></div>'+
+  '<div class="c7-form"><label>Full name *<input class="inp" id="c7-f-name" placeholder="Jane Smith"></label><label>Group<select class="inp" id="c7-f-seg"><option>Pre-retiree</option><option>Business owner</option><option>Young professional</option></select></label>'+
+  '<label>Title<input class="inp" id="c7-f-title" placeholder="Owner"></label><label>Company<input class="inp" id="c7-f-co" placeholder="Smith HVAC"></label>'+
+  '<label>Phone<input class="inp" id="c7-f-phone" inputmode="tel"></label><label>Email<input class="inp" id="c7-f-email" inputmode="email"></label>'+
+  '<label>Town<input class="inp" id="c7-f-town" placeholder="Cranberry Twp, PA"></label><label>Owner<select class="inp" id="c7-f-own">'+OWNERS.map(function(o){return '<option>'+esc2(o)+'</option>'}).join('')+'</select></label>'+
+  '<label>Where you found them<select class="inp" id="c7-f-src"><option>Facebook group</option><option>Referral</option><option>Personal network</option><option>Event</option><option>LinkedIn</option><option>Other</option></select></label><label>Status<select class="inp" id="c7-f-st">'+STATUSES.map(function(s){return '<option>'+s+'</option>'}).join('')+'</select></label>'+
+  '<label class="c7-wide">Notes<textarea class="inp" id="c7-f-notes" placeholder="How you know them, what they asked about"></textarea></label></div>'+
+  '<div id="c7-f-msg" class="sub"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px"><button class="btn pri" data-act="c7-add-save">Save contact</button></div></div></div>'}
+ /* ---------- record ---------- */
+ var FF=[['goals','Goals','What they want the money to do, and by when'],['time','Timeline','Years to retirement, or to selling the business'],['work','Employer plan','401(k) or pension, match, any old plans left behind'],['ins','Insurance','Life, disability, long-term care in place today'],['fam','Family','Spouse, kids, parents they help'],['adv','Current advisor','Who they work with now and what is missing'],['biz','Business','Owners: succession, exit timing, owner retirement plan'],['risk','Comfort with risk','How they reacted in the last downturn']];
+ function vRecord(){var all=people(),c=all.find(function(x){return x.cid===S.crid});
+  if(!c){S.crid=null;return vContacts()}
+  var r=rec(c.cid),ms=(r.meetings||[]).slice();
+  if(c.k==='h'){c.deals.forEach(function(d){if(d.firstMeeting)ms.push({at:d.firstMeeting,type:'First meeting',notes:d.title,by:d.owner,auto:1})});DB.notes.forEach(function(n){if(c.deals.some(function(d){return d.id===n.deal}))ms.push({at:new Date(n.when).toISOString().slice(0,10),type:'Note',notes:n.text,auto:1})})}
+  ms.sort(function(a,b){return b.at.localeCompare(a.at)});
+  var tasks=DB.tasks.filter(function(t){return t.cid===c.cid||(t.title&&t.title.indexOf(c.name)>-1)}).sort(function(a,b){return (a.done-b.done)||(a.due||'').localeCompare(b.due||'')});
+  var area=c.k==='p'?areaOfP(c.p):null;if(area==='none')area=null;
+  var why='';
+  if(c.k==='p'){var p=c.p;
+   why='<div class="facts"><span class="k">Group</span><span>'+esc2(p.segment)+'</span>'+
+    '<span class="k">Why they fit</span><span>'+esc2(p.why||'')+'</span>'+
+    '<span class="k">Source</span><span>'+(p.manual?'Added by '+esc2(p.owner)+(p.addedAt?' on '+fdt(p.addedAt):'')+(p.src?' · '+esc2(p.src):''):p.uploaded?'Uploaded CSV'+(p.addedAt?' on '+fdt(p.addedAt):''):'Licensed business-data list, loaded Nov 4, 2026')+'</span>'+
+    (p.segment==='Young professional'?'<span class="k">Age</span><span>'+esc2(p.age||'Not on file')+(String(p.age).indexOf('est')>-1?'. Estimated from career length, not a birth date.':'')+'</span><span class="k">Job change</span><span>'+(p.signal==='Job change'?'Yes, from the uploaded file or research':'Not checked yet. A real job-change check runs once research credits are approved.')+'</span>':'')+
+    (p.segment==='Business owner'?'<span class="k">Firm size</span><span>'+esc2(((String(p.why||'')+' '+String(p.profile||'')).match(/\d+-\d+ employees|\d+\+ employees/)||['Not on file'])[0])+'. Smaller firms are the priority.</span>':'')+'</div>'}
+  else why='<div class="facts"><span class="k">Household</span><span>'+esc2(c.h.members||'')+'</span><span class="k">Type</span><span>'+esc2(c.h.type)+'</span><span class="k">Town</span><span>'+esc2(c.h.city||'')+'</span>'+(c.h.review?'<span class="k">Annual review</span><span>'+fdt(c.h.review)+'</span>':'')+'</div>';
+  var info=[['Phone',c.phone],['Email',c.email],['LinkedIn',c.li],['Town',c.town]].filter(function(x){return x[1]});
+  return topbar(c.name,'<button class="btn sm" data-act="c7-back">← All contacts</button>')+
+   '<div class="c7-rec"><div class="c7-main">'+
+   '<div class="card pad"><div class="namecell"><span class="av c7-big">'+esc2(initials(c.name))+'</span><div class="grow"><div class="c7-nm">'+esc2(c.name)+'</div><div class="sub">'+esc2(c.title||'')+(c.co?' · <button class="linkbtn" data-act="co-go" data-id="'+esc2(coKey(c.co))+'">'+esc2(c.co)+'</button>':'')+'</div></div></div>'+
+   '<div class="c7-ctl"><label>Status<select class="inp" data-c7="status" data-cid="'+esc2(c.cid)+'">'+STATUSES.map(function(s){return '<option'+(c.status===s?' selected':'')+'>'+s+'</option>'}).join('')+'</select></label><label>Owner<select class="inp" data-c7="owner" data-cid="'+esc2(c.cid)+'">'+OWNERS.map(function(o){return '<option'+(c.owner===o?' selected':'')+'>'+esc2(o)+'</option>'}).join('')+'</select></label></div>'+
+   (info.length?'<div class="c7-info">'+info.map(function(x){return '<div><span class="k">'+x[0]+'</span><span class="c7-sel">'+esc2(x[1])+'</span><button class="btn sm" data-act="c7-copy" data-id="'+esc2(x[1])+'">Copy</button></div>'}).join('')+'</div>':'<div class="sub" style="margin-top:10px">No phone or email on file yet.</div>')+'</div>'+
+   '<div class="card pad"><h3>Log a meeting or call</h3><div class="c7-form"><label>Date<input type="date" class="inp" id="c7-m-at" value="'+today()+'"></label><label>Type<select class="inp" id="c7-m-type">'+MTYPES.map(function(t){return '<option>'+t+'</option>'}).join('')+'</select></label>'+
+   '<label class="c7-wide">What you talked about<textarea class="inp" id="c7-m-notes" placeholder="Goals, questions they asked, what you promised to send"></textarea></label>'+
+   '<label>Next follow-up<input type="date" class="inp" id="c7-m-fu" value="'+addDays(7)+'"></label><label>Follow-up to do<input class="inp" id="c7-m-fut" placeholder="Send rollover options"></label></div>'+
+   '<div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn pri" data-act="c7-log" data-id="'+esc2(c.cid)+'">Save to history</button></div></div>'+
+   '<div class="card pad"><h3>Meeting history</h3>'+(ms.length?'<div class="c7-tl">'+ms.map(function(m,i){return '<div class="c7-ev"><div class="c7-dot"></div><div class="grow"><div><b>'+fdt(m.at)+'</b> · '+esc2(m.type)+(m.by?' · '+esc2(m.by):'')+'</div>'+(m.notes?'<div class="c7-note">'+esc2(m.notes)+'</div>':'')+'</div>'+(m.auto?'':'<button class="btn sm" data-act="c7-mdel" data-id="'+esc2(c.cid)+'|'+i+'">Remove</button>')+'</div>'}).join('')+'</div>':'<p class="sub">No meetings logged yet. Log the first call above.</p>')+'</div>'+
+   '<div class="card pad"><h3>Follow-ups</h3>'+(tasks.length?'<div class="list">'+tasks.map(function(t){return '<div class="li"><input type="checkbox" data-c7task="'+t.id+'"'+(t.done?' checked':'')+' aria-label="Done"><div class="grow"><div style="'+(t.done?'text-decoration:line-through;opacity:.6':'')+'">'+esc2(t.title)+'</div><div class="sub">'+(t.due?fdt(t.due):'No date')+' · '+esc2(t.owner||'')+'</div></div>'+(!t.done&&t.due&&t.due<today()?'<span class="pill bad">Overdue</span>':'')+'</div>'}).join('')+'</div>':'<p class="sub">Nothing scheduled. Add one when you log a meeting.</p>')+'</div>'+
+   '<div class="card pad"><h3>Case notes</h3><p class="sub" style="margin-top:-6px">Shared between '+esc2(OWNERS.join(' and '))+'. No account numbers or Social Security numbers.</p><textarea class="inp" style="min-height:120px" data-c7note="'+esc2(c.cid)+'" placeholder="Everything the team should know about this person">'+esc2(r.notes||'')+'</textarea><div class="sub" id="c7-saved"></div></div>'+
+   '</div><div class="c7-side">'+
+   '<div class="card pad"><h3>Why they are on the list</h3>'+why+'</div>'+
+   '<div class="card pad"><h3>Fact-finding checklist</h3><p class="sub" style="margin-top:-6px">For your notes during the conversation. Internal only. Nothing is sent to the client.</p>'+FF.map(function(q){var v=(r.ff||{})[q[0]]||'';return '<label class="c7-ff"><span><b>'+q[1]+'</b> <span class="sub">'+q[2]+'</span></span><input class="inp" data-c7ff="'+esc2(c.cid)+'" data-q="'+q[0]+'" value="'+esc2(v)+'" placeholder="Not covered yet"></label>'}).join('')+
+   '<div class="sub">'+FF.filter(function(q){return (r.ff||{})[q[0]]}).length+' of '+FF.length+' covered</div></div>'+
+   (area?'<div class="card pad"><h3>Places to meet</h3>'+spotsHtml(area,2)+'</div>':'')+
+   '</div></div>'}
+ /* ---------- team ---------- */
+ function teamCard(){return '<div class="card pad" style="margin-top:14px"><h3>Team</h3><p class="sub" style="margin-top:-6px">Everyone who can own contacts and follow-ups. Up to 7 people. Each person is one seat when the portal goes live.</p>'+
+  '<div class="list">'+C.team.map(function(n,i){return '<div class="li"><span class="av">'+esc2(initials(n))+'</span><div class="grow"><b>'+esc2(n)+'</b><div class="sub">'+(i<2?'Founding advisor':'Team member')+' · '+people().filter(function(c){return c.owner===n}).length+' contacts</div></div>'+(C.team.length>1&&i>=2?'<button class="btn sm" data-act="c7-team-del" data-id="'+i+'">Remove</button>':'')+'</div>'}).join('')+'</div>'+
+  (C.team.length<7?'<div style="display:flex;gap:8px;margin-top:10px"><input class="inp" id="c7-team-n" placeholder="New advisor name" style="max-width:260px"><button class="btn pri sm" data-act="c7-team-add">Add to team</button></div>':'<p class="sub">Seven seats in use.</p>')+'</div>'}
+ /* ---------- actions ---------- */
+ function cur(){return people().find(function(x){return x.cid===S.crid})}
+ function setStatus(cid,s){rec(cid).status=s;var c=people().find(function(x){return x.cid===cid});if(s==='In pipeline'&&c&&c.k==='p'&&!c.p.added){addToPipeline(c.p)}save()}
+ Object.assign(ACT,{
+  'ct-open':function(id){if(!/^[ph]:/.test(String(id))){if(String(id).indexOf('l:')===0)return ACT['radar-open'](String(id).slice(2));id='p:'+id}S.crid=id;closeDrawer();UI.view='cr';renderNav();renderMain();window.scrollTo(0,0)},
+  'c7-back':function(){S.crid=null;go('ct')},
+  'c7-jump':function(l){var e=document.getElementById('c7-L-'+l);if(e)e.scrollIntoView({block:'start',behavior:'smooth'})},
+  'c7-own':function(o){S.own=o;renderMain()},
+  'c7-add':function(){S.adding=true;renderMain();setTimeout(function(){var n=document.getElementById('c7-f-name');if(n)n.focus()},30)},
+  'c7-add-x':function(){S.adding=false;renderMain()},
+  'c7-add-save':function(){var g=function(i){var e=document.getElementById('c7-f-'+i);return e?e.value.trim():''};var nm=g('name');
+   if(!nm){document.getElementById('c7-f-msg').textContent='Add a name first.';return}
+   var p={id:uid(),real:true,manual:true,src:g('src'),addedAt:today(),name:nm,segment:g('seg'),title:g('title')||'Not given',employer:g('co')||'Not given',town:g('town'),age:'',years:'',signal:'Profile match',why:(g('src')==='Referral'?'Referral. ':g('src')==='Facebook group'?'Found in a Facebook group. ':'')+(g('notes')||'Added by '+g('own')+'.'),profile:'',owner:g('own'),linkedin:'',workEmail:g('email'),personalEmail:'',mobile:g('phone'),added:false};
+   var tw=norm7(String(p.town).split(',')[0]);var ar=Object.keys(PAGEO.areas).find(function(k){var n=norm7(PAGEO.areas[k][0].replace(', Pittsburgh',''));return n===tw});p.area=ar||(tw==='pittsburgh'?'dt':'none');
+   DB.prospects.unshift(p);var r=rec('p:'+p.id);r.status=g('st');if(g('notes'))r.notes=g('notes');
+   if(g('st')==='In pipeline')addToPipeline(p);
+   S.adding=false;save();toast(nm+' added');ACT['ct-open']('p:'+p.id)},
+  'c7-log':function(cid){var at=document.getElementById('c7-m-at').value||today(),ty=document.getElementById('c7-m-type').value,nt=document.getElementById('c7-m-notes').value.trim(),fu=document.getElementById('c7-m-fu').value,fut=document.getElementById('c7-m-fut').value.trim();
+   var c=cur();if(!c)return;var r=rec(cid);r.meetings=r.meetings||[];r.meetings.push({at:at,type:ty,notes:nt,by:c.owner});
+   if(fu)DB.tasks.push({id:uid(),cid:cid,title:(fut||'Follow up')+' · '+c.name,due:fu,owner:c.owner,deal:'',done:false});
+   if(!r.status||r.status==='New')r.status='Contacted';
+   save();renderNav();renderMain();toast(fu?'Saved. Follow-up set for '+fdt(fu):'Saved to history')},
+  'c7-mdel':function(id){var p=id.split('|'),r=rec(p[0]);r.meetings.splice(+p[1],1);save();renderMain()},
+  'c7-copy':function(v){try{navigator.clipboard.writeText(v).then(function(){toast('Copied')}).catch(function(){toast('Select the text to copy it')})}catch(e){toast('Select the text to copy it')}},
+  'c7-team-add':function(){var e=document.getElementById('c7-team-n'),n=e&&e.value.trim();if(!n||C.team.indexOf(n)>-1||C.team.length>=7)return;C.team.push(n);OWNERS.push(n);save();renderMain();toast(n+' added to the team')},
+  'c7-team-del':function(i){var n=C.team[+i];C.team.splice(+i,1);var j=OWNERS.indexOf(n);if(j>-1)OWNERS.splice(j,1);save();renderMain();toast(n+' removed')},
+  'c7-bulk':function(a){var all=people(),L=Object.keys(S.pick).filter(function(k){return S.pick[k]}).map(function(k){return all.find(function(c){return c.cid===k})}).filter(Boolean);
+   if(a==='clear'){S.pick={};renderMain();return}if(!L.length)return;var n=0;
+   if(a==='task'){L.forEach(function(c){DB.tasks.push({id:uid(),cid:c.cid,title:'Follow up · '+c.name,due:addDays(2),owner:c.owner,deal:'',done:false});n++});toast(n+' follow-ups set for '+fdt(addDays(2)))}
+   else if(a==='draft'){var dt=window.TAZCRM&&TAZCRM.draftText;L.forEach(function(c){if(c.k!=='p'||!dt)return;DB.drafts.unshift({id:uid(),who:c.name,owner:c.owner,signal:c.seg,text:dt(c.p,c.seg),status:'pending'});n++});toast(n?n+' drafts waiting in Outreach for review':'Drafts work for prospects, not households')}
+   else if(a==='pipe'){L.forEach(function(c){if(c.k==='p'&&!c.p.added){addToPipeline(c.p);n++}});toast(n?n+' added to the pipeline':'Already in the pipeline')}
+   else if(a.indexOf('own:')===0){var o=a.slice(4);L.forEach(function(c){rec(c.cid).owner=o;if(c.k==='p')c.p.owner=o;n++});toast(n+' assigned to '+o)}
+   S.pick={};save();renderNav();renderMain()}
+ });
+ function refreshRows(){var all=people(),r=filtered(all);var t=document.getElementById('c7-rows');if(t)t.innerHTML=rows(r);var c=document.getElementById('c7-count');if(c)c.textContent='Showing '+r.length+' of '+all.length+'. Click a name to open the full record: meetings, follow-ups, case notes.';bar()}
+ function bar(){var n=Object.keys(S.pick).filter(function(k){return S.pick[k]}).length,b=document.getElementById('c7-bulk');if(b){b.classList.toggle('on',n>0);document.getElementById('c7-n').textContent=n+' selected'}}
+ var tmr;
+ document.addEventListener('input',function(e){var t=e.target;
+  if(t.id==='c7-q'){S.q=t.value;refreshRows()}
+  if(t.dataset&&t.dataset.c7note){rec(t.dataset.c7note).notes=t.value;clearTimeout(tmr);tmr=setTimeout(function(){save();var s=document.getElementById('c7-saved');if(s)s.textContent='Saved'},400)}
+  if(t.dataset&&t.dataset.c7ff){var r=rec(t.dataset.c7ff);r.ff=r.ff||{};r.ff[t.dataset.q]=t.value;clearTimeout(tmr);tmr=setTimeout(save,400)}});
+ document.addEventListener('change',function(e){var t=e.target;
+  if(t.id==='c7-status'){S.status=t.value;refreshRows()}if(t.id==='c7-seg'){S.seg=t.value;refreshRows()}if(t.id==='c7-src'){S.src=t.value;refreshRows()}
+  if(t.id==='c7-sort'){S.sort=t.value;renderMain()}
+  if(t.classList&&t.classList.contains('c7-pick')){S.pick[t.dataset.id]=t.checked;bar()}
+  if(t.id==='c7-all'){document.querySelectorAll('.c7-pick').forEach(function(c){c.checked=t.checked;S.pick[c.dataset.id]=t.checked});bar()}
+  if(t.dataset&&t.dataset.c7==='status'){setStatus(t.dataset.cid,t.value);renderNav();renderMain();toast('Status: '+t.value)}
+  if(t.dataset&&t.dataset.c7==='owner'){var c=people().find(function(x){return x.cid===t.dataset.cid});rec(t.dataset.cid).owner=t.value;if(c&&c.k==='p')c.p.owner=t.value;save();renderMain();toast('Owner: '+t.value)}
+  if(t.dataset&&t.dataset.c7task){var k=DB.tasks.find(function(x){return x.id===t.dataset.c7task});if(k){k.done=t.checked;save();renderNav();renderMain()}}});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&S.adding){S.adding=false;renderMain()}});
+ /* ---------- grouped menu, Fact Finder retired ---------- */
+ for(var i=NAV.length-1;i>=0;i--)if(NAV[i][0]==='fact')NAV.splice(i,1);
+ var GROUPS=[['',['dashboard']],['CRM',['ct','co','pipeline','meet','tasks','households']],['Find leads',['finder','upl','radar','social','pmap','calls','outreach']],['Admin',['score','arch','settings']]];
+ renderNav=function(){var due=dueCount(),byK={};NAV.forEach(function(n){byK[n[0]]=n});var used={};
+  var btn=function(n){used[n[0]]=1;var on=UI.view===n[0]||(UI.view==='cr'&&n[0]==='ct');return '<button class="nav '+(on?'on':'')+'" data-nav="'+n[0]+'">'+n[2]+'<span>'+n[1]+'</span>'+(n[0]==='tasks'&&due?'<span class="badge">'+due+'</span>':'')+'</button>'};
+  var h=GROUPS.map(function(g){var items=g[1].filter(function(k){return byK[k]}).map(function(k){return btn(byK[k])}).join('');return items?(g[0]?'<div class="c7-grp">'+g[0]+'</div>':'')+items:''}).join('');
+  var rest=NAV.filter(function(n){return !used[n[0]]}).map(btn).join('');
+  document.getElementById('side').innerHTML='<div class="brand"><img src="https://www.silveroakfs.com/airo-assets/images/logo/horizontal/dark" alt="Silver Oak Financial" onerror="this.outerHTML=\'<span class=&quot;nm&quot;>Silver Oak Financial</span>\'"><span class="by">by <b>TAZ</b> &middot; demo build</span></div>'+h+rest+'<div class="foot">'+(storageOK?'Saved in this browser':'Browser storage is off, changes will not be kept')+'</div>';
+  document.getElementById('mobnav').innerHTML=['ct','co','radar','pipeline','tasks'].map(function(k){return byK[k]}).filter(Boolean).map(function(n){return '<button class="nav '+(UI.view===n[0]||(UI.view==='cr'&&n[0]==='ct')?'on':'')+'" data-nav="'+n[0]+'">'+n[2]+'<span>'+n[1].replace('Lead Radar','Radar').replace('Companies','Firms')+'</span></button>'}).join('')};
+ var oldSettings=vSettings;vSettings=function(){return oldSettings()+teamCard()};
+ var oldMain=renderMain;
+ renderMain=function(){if(UI.view==='fact')UI.view='ct';var v={ct:vContacts,cr:vRecord}[UI.view];if(!v)return oldMain();
+  document.getElementById('main').innerHTML=v()+'<div class="taz-foot">Silver Oak by TAZ &middot; demo build &middot; Powered by <b>TAZ</b></div>'};
+ var st=document.createElement('style');st.textContent=
+  '.c7-grp{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold3,#e7d3a0);opacity:.75;padding:12px 10px 4px}'+
+  '.c7-sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}.c7-sum div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}.c7-sum b{display:block;font:700 26px/1.1 "Playfair Display",Georgia,serif;color:var(--oak);font-variant-numeric:tabular-nums}.c7-sum span{font-size:12.5px;color:var(--muted)}.c7-sum .warn{border-color:var(--warn)}.c7-sum .warn b{color:var(--warn)}'+
+  '.c7-az{display:flex;flex-wrap:wrap;gap:2px;margin:0 0 10px}.c7-az button,.c7-az span{width:28px;height:28px;border-radius:7px;border:0;font-weight:800;font-size:12.5px;display:grid;place-items:center}.c7-az button{background:var(--panel);color:var(--oak);cursor:pointer;border:1px solid var(--line)}.c7-az button:hover{background:var(--warns)}.c7-az span{color:var(--line)}'+
+  '.c7-letter td{background:var(--panel2);font:800 12px/1 Lato,system-ui;letter-spacing:.1em;color:var(--gold);padding:6px 14px!important;scroll-margin-top:70px}.c7-od{color:var(--bad)}.c7-clip{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'+
+  '.c7-modal{position:fixed;inset:0;background:rgba(43,33,24,.45);z-index:90;display:grid;place-items:center;padding:16px}.c7-box{background:var(--panel);border-radius:16px;padding:18px;width:min(640px,100%);max-height:calc(100vh - 32px);overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,.3)}'+
+  '.c7-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.c7-form label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;font-weight:700;color:var(--muted)}.c7-form .c7-wide{grid-column:1/-1}.c7-form textarea{min-height:80px}'+
+  '.c7-rec{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:14px;align-items:start}.c7-main,.c7-side{display:flex;flex-direction:column;gap:14px;min-width:0}.c7-big{width:52px;height:52px;font-size:18px}.c7-nm{font:700 24px/1.2 "Playfair Display",Georgia,serif;color:var(--oak)}'+
+  '.c7-ctl{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.c7-ctl label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:var(--muted)}.c7-info{display:flex;flex-direction:column;gap:6px;margin-top:12px}.c7-info div{display:flex;gap:10px;align-items:center}.c7-info .k{width:70px;font-size:12.5px;color:var(--muted)}.c7-sel{user-select:all;font-weight:700;min-width:0;overflow-wrap:anywhere;flex:1}'+
+  '.c7-tl{display:flex;flex-direction:column}.c7-ev{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line)}.c7-ev:first-child{border-top:0}.c7-dot{width:10px;height:10px;border-radius:50%;background:var(--gold2);margin-top:5px;flex:none}.c7-note{margin-top:4px;white-space:pre-wrap}'+
+  '.c7-ff{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;font-size:13px}'+
+  '@media(max-width:1000px){.c7-rec{grid-template-columns:1fr}}@media(max-width:800px){.c7-sum{grid-template-columns:1fr 1fr}.c7-form{grid-template-columns:1fr}.c7-clip{max-width:160px}}';
+ document.head.appendChild(st);
+ window.TAZCRM7={people:people};
+ if(UI.view==='dashboard'&&!/[?&]tour=1/.test(location.search))UI.view='ct';
+ renderNav();renderMain();
 })();
 
 </script>
@@ -1524,7 +2475,7 @@ load();renderNav();renderMain();renderTick();
   };
 
   /* ---------- Ask TAZ ---------- */
-  var PAGES={score:['scorecard','pilot','results'],meet:['meeting','prep','brief','follow-up notes'],fact:['fact finder','factfinder','questionnaire'],arch:['compliance','archive'],dashboard:['dashboard','home','overview'],radar:['radar','lead radar','hot leads'],social:['social','posts'],finder:['finder','prospect','prospects'],calls:['call desk','calls','call'],outreach:['outreach','emails'],pipeline:['pipeline','deals'],households:['households','clients','household'],tasks:['tasks','to do','todo'],settings:['settings']};
+  var PAGES={score:['scorecard','pilot','results'],meet:['meeting','prep','brief','follow-up notes'],arch:['compliance','archive'],dashboard:['dashboard','home','overview'],radar:['radar','lead radar','hot leads'],social:['social','posts'],finder:['finder','prospect','prospects'],co:['companies','company','accounts','employers'],ct:['contacts','contact','people','everyone'],upl:['upload leads','upload','csv','import leads','my leads'],pmap:['prospect map','map','pennsylvania'],calls:['call desk','calls','call'],outreach:['outreach','emails'],pipeline:['pipeline','deals'],households:['households','clients','household'],tasks:['tasks','to do','todo'],settings:['settings']};
   function demoAnswer(q){
     var l=q.toLowerCase();
     var nav=/\b(go to|open|show me|take me|navigate)\b/.test(l);
@@ -1579,9 +2530,13 @@ load();renderNav();renderMain();renderTick();
   /* ---------- Guided demo: presenter drives with arrow keys or the buttons ---------- */
   var STEPS=[
    ['dashboard','Your day at a glance','Hot leads, tasks due and the pipeline on one screen, built around the answers you gave us.'],
+   ['ct','Contacts','Your CRM. Everyone A to Z with their last meeting, next follow-up and status. Open anyone to log a call, see their history, keep case notes and assign them to someone on the team.'],
+   ['co','Companies','Every employer on your list rolled up, ranked by warmth. TAZ suggests the next move for each account, like a lunch-and-learn or an owners meeting, and you approve it.'],
    ['radar','Lead Radar','Saved leads that just did something: opened an email, visited a page, changed jobs. Call the warm ones first.'],
    ['social','Social','Facebook, Instagram and TikTok activity and the posts planned for Silver Oak.'],
    ['finder','Prospect Finder','Describe who you want to reach. Each lookup shows its data cost and our margin before you spend.'],
+   ['upl','Upload Leads','Already have a list? Drop in a CSV. The portal removes duplicates and people you already have, shows what the file tells us, then TAZ researches each person for signals like a new job or a business sale.'],
+   ['pmap','Prospect Map','Where your list lives across Pennsylvania, shaded by county, with coffee shops near each prospect for a first conversation. Radar and Social now show the source of every activity and a saved capture.'],
    ['calls','Call Desk','Question bank by segment, voicemail and objection scripts, and one-tap call outcomes.'],
    ['outreach','Outreach and connections','Sequences that run on your behalf, and where each of you connects your own LinkedIn. Sales Navigator rides on Aidan\'s sign-in. Nothing goes out until you approve it.'],
    ['pipeline','Pipeline','Every conversation by stage, with the next step always visible.'],
@@ -1589,7 +2544,6 @@ load();renderNav();renderMain();renderTick();
    ['tasks','Tasks','Follow-ups created automatically from calls and replies.'],
    ['score','Pilot scorecard','Your decision page. The pilot goals, where you stand against them, and who is sending you business, ready for Dec 2.'],
    ['meet','Meetings','Before a meeting: a one-page brief. After: paste your notes and get the follow-up email, a CRM note and your to-dos. You approve, nothing sends itself.'],
-   ['fact','Fact Finder','Send clients a short, safe form. Answers land here and in their household. It asks for ranges and goals, never account numbers.'],
    ['arch','Compliance archive','One searchable record of every message, with risky wording flagged and held back before it goes out.'],
    ['settings','Settings','What is live in this draft, what arrives in the pilot, and your data: export it or clear it anytime.'],
    ['wallet','Your wallet, in dollars','$160 a seat each month. Every charge is the real data cost plus our margin, shown openly. Calls are a flat add-on, never metered by the minute.'],
