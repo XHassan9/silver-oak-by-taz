@@ -73,6 +73,7 @@ textarea,input{width:100%;border:1px solid var(--line);border-radius:12px;paddin
     <div class="hrow">
       <div class="brand"><div class="logo">SO</div><div><b>Silver Oak Autopilot</b><small>by TAZ</small></div></div>
       <div class="pill" id="credPill" style="display:none">$127.40</div>
+      <button onclick="reqChange()" style="background:#c9a24a;color:#2b2118;border:0;border-radius:99px;padding:8px 13px;font:800 13px system-ui;cursor:pointer">Feedback</button>
     </div>
   </header>
   <div class="ticker"><div id="tk"></div></div>
@@ -225,8 +226,12 @@ function togAl(k){S.alerts[k]=!S.alerts[k];render()}
 function pushTest(){
   if('Notification' in window && Notification.permission==='default'){Notification.requestPermission().then(function(p){toast(p==='granted'?'Alerts on. Add to Home Screen first on iPhone.':'Alerts blocked in Safari settings')});return}
   toast('Test alert: Dana Whitfield replied')}
+var HOOK='https://cloud.activepieces.com/api/v1/webhooks/8unh4SJmaRyIrOit64AeN';
+function sendReq(){var t=($('rq')||{}).value||'';if(!t.trim()){toast('Type a note first');return}
+  closeSheet();toast('Sent. You will hear back within two business days.');
+  try{fetch(HOOK,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({workspace:'silver-oak',from:'iPhone app',title:t.slice(0,80),body:t,at:new Date().toISOString()})}).catch(function(){})}catch(e){}}
 function reqChange(){
-  sheet('<h3>Request a change</h3><p>Tell us what you would like different. It goes straight to the TAZ team.</p><textarea id="rq" rows="4" placeholder="What would you like changed or added?"></textarea><div class="btns"><button class="btn ok" onclick="closeSheet();toast(\'Sent. You will hear back within two business days.\')">Send</button><button class="btn alt" onclick="closeSheet()">Cancel</button></div>')}
+  sheet('<h3>Request a change</h3><p>Tell us what you would like different. It goes straight to the TAZ team.</p><textarea id="rq" rows="4" placeholder="What would you like changed or added?"></textarea><div class="btns"><button class="btn ok" onclick="sendReq()">Send</button><button class="btn alt" onclick="closeSheet()">Cancel</button></div>')}
 
 /* ---------- Ask TAZ ---------- */
 function openAsk(){
