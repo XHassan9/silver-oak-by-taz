@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Autopilot">
+<meta name="theme-color" content="#3b2412">
+<title>Silver Oak Autopilot by TAZ</title>
+<style>
+:root{--bg:#faf6f0;--panel:#fff;--line:#e8ddcf;--text:#2b2118;--muted:#7a6a5a;--oak:#5c3d1e;--oak-d:#3b2412;--gold:#c9a24a;--gold-d:#8a6914;--ok:#14996a;--oks:#e1f5ec;--warn:#c97f0c;--warns:#fdf1dc;--bad:#d24343;--bads:#fbe6e6;--soft:#efe4d6;
+--top:env(safe-area-inset-top,0px);--bot:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#1d120a;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;color:var(--text)}
+#app{position:relative;max-width:430px;height:100%;margin:0 auto;background:var(--bg);display:flex;flex-direction:column;overflow:hidden}
+@media(min-width:500px){#app{height:min(900px,100%);margin-top:max(0px,calc((100% - 900px)/2));border-radius:34px;box-shadow:0 20px 80px #000a}}
+header{background:linear-gradient(180deg,var(--oak-d),var(--oak));color:#fff;padding:calc(var(--top) + 12px) 16px 12px}
+.hrow{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:10px;align-items:center}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--gold);color:var(--oak-d);display:grid;place-items:center;font-weight:800;font-size:15px}
+.brand b{display:block;font-size:15px;letter-spacing:.2px}.brand small{opacity:.7;font-size:11px}
+.pill{background:#ffffff22;border-radius:99px;padding:5px 10px;font-size:12px;font-weight:600}
+.ticker{background:var(--oak-d);color:var(--gold);font-size:12px;overflow:hidden;white-space:nowrap;padding:7px 0;border-top:1px solid #ffffff15}
+.ticker div{display:inline-block;padding-left:100%;animation:tk 38s linear infinite}
+@keyframes tk{to{transform:translateX(-100%)}}
+main{flex:1;overflow-y:auto;padding:14px 14px 20px;-webkit-overflow-scrolling:touch}
+nav{display:flex;background:#fff;border-top:1px solid var(--line);padding:6px 4px calc(var(--bot) + 6px)}
+nav button{flex:1;border:0;background:none;padding:6px 0;font-size:10.5px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
+nav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--oak);font-weight:700}
+nav .dot{position:absolute;top:2px;right:26%;background:var(--bad);color:#fff;border-radius:99px;font-size:9px;min-width:16px;height:16px;display:grid;place-items:center;font-weight:700}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin:18px 2px 8px}
+h2:first-child{margin-top:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:10px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.av{width:40px;height:40px;border-radius:50%;background:var(--soft);color:var(--oak);display:grid;place-items:center;font-weight:700;flex:none}
+.grow{flex:1;min-width:0}.grow b{display:block;font-size:15px}.grow span{font-size:12.5px;color:var(--muted)}
+.tag{font-size:11px;font-weight:700;border-radius:99px;padding:3px 9px;white-space:nowrap}
+.hot{background:var(--bads);color:var(--bad)}.warm{background:var(--warns);color:var(--warn)}.new{background:var(--soft);color:var(--oak)}.good{background:var(--oks);color:var(--ok)}
+.btns{display:flex;gap:8px;margin-top:11px}
+.btn{flex:1;border:0;border-radius:12px;padding:11px;font-size:14px;font-weight:700;background:var(--oak);color:#fff}
+.btn.alt{background:var(--soft);color:var(--oak)}.btn.ok{background:var(--ok)}.btn.gold{background:var(--gold);color:var(--oak-d)}
+.btn:active{transform:scale(.97)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.kpi b{font-size:22px;display:block;color:var(--oak)}.kpi span{font-size:11px;color:var(--muted)}
+.bar{height:8px;border-radius:9px;background:var(--soft);overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--oak))}
+.sw{width:46px;height:28px;border-radius:99px;background:#cfc3b3;position:relative;flex:none;transition:.2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px #0003}
+.sw.on{background:var(--ok)}.sw.on::after{left:21px}
+.draft{background:#fffaf1;border:1px dashed var(--gold);border-radius:12px;padding:10px;font-size:13.5px;line-height:1.45;margin-top:9px}
+.fab{position:absolute;right:14px;bottom:calc(var(--bot) + 76px);background:var(--gold);color:var(--oak-d);border:0;border-radius:99px;padding:12px 16px;font-weight:800;font-size:14px;box-shadow:0 6px 18px #0004}
+.sheet{position:absolute;inset:0;background:#0007;display:none;align-items:flex-end;z-index:20}
+.sheet.show{display:flex}
+.sheet .in{background:var(--bg);width:100%;border-radius:22px 22px 0 0;padding:16px 16px calc(var(--bot) + 18px);max-height:84%;overflow:auto}
+.sheet h3{margin:0 0 4px}.sheet p{margin:0 0 10px;color:var(--muted);font-size:13px}
+textarea,input{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;font:inherit;background:#fff;margin-bottom:8px}
+.toast{position:absolute;left:50%;top:calc(var(--top) + 70px);transform:translateX(-50%) translateY(-20px);background:var(--oak-d);color:#fff;padding:10px 14px;border-radius:12px;font-size:13px;opacity:0;transition:.25s;z-index:30;max-width:88%;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.step{display:flex;gap:10px;align-items:center;font-size:13px;margin:6px 0}.step i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-style:normal;font-weight:700;flex:none}
+.install{background:var(--oak-d);color:#fff;border-radius:14px;padding:12px;margin-bottom:12px;font-size:13px;display:none}
+.install b{color:var(--gold)}
+.small{font-size:12px;color:var(--muted)}
+.demo{background:var(--warns);color:var(--warn);font-size:11px;text-align:center;padding:4px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="demo">DEMO MODE · sample data only · nothing is sent</div>
+  <header>
+    <div class="hrow">
+      <div class="brand"><div class="logo">SO</div><div><b>Silver Oak Autopilot</b><small>by TAZ</small></div></div>
+      <div class="pill" id="credPill" style="display:none">$127.40</div>
+    </div>
+  </header>
+  <div class="ticker"><div id="tk"></div></div>
+  <main id="main"></main>
+  <button class="fab" onclick="openAsk()">✦ Ask TAZ</button>
+  <nav id="nav"></nav>
+  <div class="sheet" id="sheet"><div class="in" id="sheetIn"></div></div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* ---------- demo data (made-up, replace with live feed via TAZ_CONFIG) ---------- */
+var CFG = window.TAZ_CONFIG || null;
+var SHOWP = false; /* pricing hidden for the first walkthrough; flip to true to show the wallet and costs */   // {api, workspace, token} -> live mode (wired later)
+var S = {
+  tab:'today', cents:12740, monthCents:16000,
+  prices:[{c:'lead_lookup',n:'Lead lookup with contact data',cost:7,mar:11},{c:'enrich',n:'Verify an email or number',cost:4,mar:6},{c:'report',n:'Ask TAZ report',cost:12,mar:18},{c:'research_brief',n:'Prospect research brief',cost:32,mar:48},{c:'free',n:'Drafts, questions, navigation, wording checks',cost:0,mar:0}],
+  leads:[
+    {id:1,n:'Marcus Reilly',co:'Reilly & Sons Roofing',seg:'Business owner',ph:'412-555-0142',why:'Opened your email 4 times today',t:'hot',when:'8 min ago'},
+    {id:2,n:'Dana Whitfield',co:'Whitfield Dental Group',seg:'Practice owner',ph:'412-555-0178',why:'Replied: "Can you call Thursday?"',t:'hot',when:'31 min ago'},
+    {id:3,n:'Tom Okafor',co:'Okafor Logistics',seg:'Business owner',ph:'724-555-0119',why:'Visited the scheduling page twice',t:'warm',when:'2 hrs ago'},
+    {id:4,n:'Priya Nair',co:'Nair Family Pharmacy',seg:'Business owner',ph:'412-555-0166',why:'Clicked the retirement-planning link',t:'warm',when:'Yesterday'},
+    {id:5,n:'Gene Kowalski',co:'Kowalski Auto Body',seg:'Business owner',ph:'724-555-0133',why:'New match from Lead Radar',t:'new',when:'Yesterday'}
+  ],
+  drafts:[
+    {id:1,to:'Marcus Reilly',step:'Follow-up 2 of 4',txt:'Hi Marcus, thanks for taking a look at my note. Many business owners in Pittsburgh are re-checking their retirement plans this quarter. Would a 15-minute conversation next week be useful? No obligation.'},
+    {id:2,to:'Priya Nair',step:'Follow-up 1 of 4',txt:'Hi Priya, I saw you had a look at the planning guide. If it is helpful, I can walk you through how owners typically think about timing. Happy to find a time that suits you.'}
+  ],
+  seqs:[
+    {id:1,n:'Pittsburgh business owners, 50+',on:true,sent:46,reply:7,meet:2,next:'Next send 9:15 AM'},
+    {id:2,n:'Medical and dental practice owners',on:true,sent:31,reply:5,meet:1,next:'Next send 10:30 AM'},
+    {id:3,n:'Referral partners (CPAs, attorneys)',on:false,sent:0,reply:0,meet:0,next:'Paused · tap to start'}
+  ],
+  replies:[
+    {id:1,n:'Dana Whitfield',txt:'Thanks for reaching out. Can you call Thursday afternoon?',unread:true,when:'31 min'},
+    {id:2,n:'Frank Delmonico',txt:'Not right now, maybe next year.',unread:true,when:'3 hrs'},
+    {id:3,n:'Linda Park',txt:'Please send details to my assistant.',unread:false,when:'Yesterday'}
+  ],
+  alerts:{reply:true,hot:true,approve:true,meeting:true,digest:false}
+};
+var TAB=[['today','Today','<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>'],
+['auto','Autopilot','<path d="M4 12h4l3-8 3 16 3-8h3"/>'],
+['inbox','Replies','<path d="M4 5h16v12H8l-4 4z"/>'],
+['dial','Call','<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>'],
+['more','More','<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>']];
+
+/* ---------- compliance wording check (financial services) ---------- */
+var BAD=/\b(guarantee[sd]?|risk[- ]free|no risk|can'?t lose|double your|beat the market|get rich|promised? returns?|sure thing)\b/i;
+function wording(t){return BAD.test(t)?{ok:false,m:t.match(BAD)[0]}:{ok:true}}
+
+/* ---------- helpers ---------- */
+function $(i){return document.getElementById(i)}
+function toast(m){var t=$('toast');t.textContent=m;t.className='toast show';clearTimeout(toast.h);toast.h=setTimeout(function(){t.className='toast'},2600)}
+function ini(n){return n.split(' ').map(function(x){return x[0]}).join('').slice(0,2)}
+function tag(t){return '<span class="tag '+t+'">'+({hot:'HOT',warm:'WARM',new:'NEW'}[t])+'</span>'}
+function usd(c){return '$'+(c/100).toFixed(2)}
+function price(code){var p=S.prices.filter(function(x){return x.c===code})[0];return p?p.cost+p.mar:0}
+function spend(code){var c=price(code);if(SHOWP&&S.cents<c){toast('Wallet is low. Tap More to add funds.');return false}
+  S.cents-=c;$('credPill').textContent=usd(S.cents);return true}
+function sheet(h){$('sheetIn').innerHTML=h;$('sheet').classList.add('show')}
+function closeSheet(){$('sheet').classList.remove('show')}
+$('sheet').addEventListener('click',function(e){if(e.target.id==='sheet')closeSheet()});
+
+/* ---------- views ---------- */
+function vToday(){
+  var hot=S.leads.filter(function(l){return l.t==='hot'}).length;
+  var h='';
+  if(!window.navigator.standalone && /iphone|ipad/i.test(navigator.userAgent)){
+    h+='<div class="install"><b>Install on your iPhone:</b> tap the Share button in Safari, then <b>Add to Home Screen</b>. It opens full screen like a regular app.</div>'}
+  h+='<div class="kpis"><div class="kpi"><b>'+hot+'</b><span>Hot leads</span></div><div class="kpi"><b>'+S.drafts.length+'</b><span>To approve</span></div><div class="kpi"><b>3</b><span>Meetings this wk</span></div></div>';
+  h+='<h2>Call these first</h2>';
+  S.leads.forEach(function(l){
+    h+='<div class="card"><div class="row"><div class="av">'+ini(l.n)+'</div><div class="grow"><b>'+l.n+'</b><span>'+l.co+'</span></div>'+tag(l.t)+'</div>'+
+    '<div class="small" style="margin-top:9px">'+l.why+' · '+l.when+'</div>'+
+    '<div class="btns"><a class="btn" style="text-align:center;text-decoration:none" href="tel:'+l.ph+'" onclick="logCall('+l.id+')">Call</a><button class="btn alt" onclick="brief('+l.id+')">Brief me</button></div></div>'});
+  return h}
+function logCall(id){toast('Call logged for follow-up')}
+function brief(id){
+  var l=S.leads.filter(function(x){return x.id===id})[0];
+  var pr=S.prices.filter(function(x){return x.c==='research_brief'})[0];if(!spend('research_brief'))return;
+  sheet('<h3>'+l.n+'</h3><p>'+l.co+' · '+l.seg+'</p>'+(SHOWP?'<div class="card"><div class="row small"><span>Data cost</span><span>'+usd(pr.cost)+'</span></div><div class="row small"><span>TAZ service margin</span><span>'+usd(pr.mar)+'</span></div><div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px"><b>Charged</b><b>'+usd(pr.cost+pr.mar)+'</b></div></div>':'')+
+  '<div class="card"><b>Why now</b><div class="small">'+l.why+'. Active in the last '+l.when+'.</div></div>'+
+  '<div class="card"><b>Opening line</b><div class="small">"Marcus, I noticed you had a look at the retirement note. Is this a good moment for two minutes?"</div></div>'+
+  '<div class="card"><b>Likely question</b><div class="small">"What does this cost?" Answer with how you are paid, then ask what matters most to them.</div></div>'+
+  '<button class="btn" onclick="closeSheet()">Done</button>')}
+
+function vAuto(){
+  var h='<h2>Needs your approval ('+S.drafts.length+')</h2>';
+  if(!S.drafts.length)h+='<div class="card small">All caught up. Autopilot sends approved steps on schedule.</div>';
+  S.drafts.forEach(function(d){
+    var w=wording(d.txt);
+    h+='<div class="card"><div class="row"><b>'+d.to+'</b><span class="tag new">'+d.step+'</span></div><div class="draft">'+d.txt+'</div>'+
+    '<div class="small" style="margin-top:8px">'+(w.ok?'✓ Wording check passed':'⚠ Flagged phrase: '+w.m)+'</div>'+
+    '<div class="btns"><button class="btn ok" '+(w.ok?'':'disabled style="opacity:.4"')+' onclick="approve('+d.id+')">Approve</button><button class="btn alt" onclick="skip('+d.id+')">Skip</button></div></div>'});
+  h+='<h2>Running sequences</h2>';
+  S.seqs.forEach(function(q){
+    h+='<div class="card"><div class="row"><div class="grow"><b>'+q.n+'</b><span>'+q.next+'</span></div><div class="sw '+(q.on?'on':'')+'" onclick="togSeq('+q.id+')"></div></div>'+
+    '<div class="row small" style="margin-top:10px"><span>'+q.sent+' sent</span><span>'+q.reply+' replies</span><span>'+q.meet+' meetings</span></div>'+
+    '<div class="bar"><i style="width:'+Math.min(100,q.sent?Math.round(q.reply/q.sent*100*4):0)+'%"></i></div></div>'});
+  h+='<div class="card small">Autopilot only sends steps you have approved in a sequence, only in business hours, and stops the moment a prospect replies.</div>';
+  return h}
+function approve(id){S.drafts=S.drafts.filter(function(d){return d.id!==id});toast('Approved. Scheduled for the next send window.');render()}
+function skip(id){S.drafts=S.drafts.filter(function(d){return d.id!==id});toast('Skipped');render()}
+function togSeq(id){S.seqs.forEach(function(q){if(q.id===id){q.on=!q.on;q.next=q.on?'Starts next send window':'Paused · tap to start'}});render()}
+
+function vInbox(){
+  var h='<h2>Replies</h2>';
+  S.replies.forEach(function(r){
+    h+='<div class="card"><div class="row"><div class="av">'+ini(r.n)+'</div><div class="grow"><b>'+r.n+(r.unread?' •':'')+'</b><span>'+r.txt+'</span></div><span class="small">'+r.when+'</span></div>'+
+    '<div class="btns"><button class="btn" onclick="draftReply('+r.id+')">Draft reply</button><button class="btn alt" onclick="toast(\'Marked handled\')">Done</button></div></div>'});
+  return h}
+function draftReply(id){
+  var r=S.replies.filter(function(x){return x.id===id})[0];
+  if(!spend('free'))return;
+  var t=/call/i.test(r.txt)?'Absolutely, Thursday afternoon works. Does 2:30 PM suit you? I will call the number you replied from.':'Understood, thank you for letting me know. I will check back later in the year.';
+  sheet('<h3>Draft reply to '+r.n+'</h3><p>Drafting is always free</p><div class="draft" id="dr" contenteditable="true">'+t+'</div>'+
+  '<div class="small" id="wc" style="margin:8px 0">✓ Wording check passed</div>'+
+  '<div class="btns"><button class="btn ok" onclick="closeSheet();toast(\'Queued. In live mode this goes out from your connected inbox.\')">Approve and send</button><button class="btn alt" onclick="closeSheet()">Cancel</button></div>');
+  $('dr').addEventListener('input',function(){var w=wording(this.textContent);$('wc').textContent=w.ok?'✓ Wording check passed':'⚠ Flagged phrase: '+w.m})}
+
+function vDial(){
+  var h='<h2>Call queue</h2>';
+  S.leads.slice(0,3).forEach(function(l,i){
+    h+='<div class="card"><div class="row"><div class="grow"><b>'+(i+1)+'. '+l.n+'</b><span>'+l.co+' · '+l.ph+'</span></div>'+tag(l.t)+'</div>'+
+    '<div class="small" style="margin:9px 0 2px"><b>Open with:</b> "Hi '+l.n.split(' ')[0]+', it is [your name] from Silver Oak Financial. Did I catch you at an okay time?"</div>'+
+    '<div class="btns"><a class="btn" style="text-align:center;text-decoration:none" href="tel:'+l.ph+'">Call</a></div>'+
+    '<div class="btns"><button class="btn alt" onclick="outcome(\'Connected\')">Connected</button><button class="btn alt" onclick="outcome(\'Voicemail\')">Voicemail</button><button class="btn alt" onclick="outcome(\'No answer\')">No answer</button></div></div>'});
+  h+='<div class="card small"><b>Voicemail script</b><br>"Hi, this is [name] with Silver Oak Financial in Pittsburgh. I sent you a short note about retirement planning for business owners. I will try again later this week. My number is on the email."</div>';
+  return h}
+function outcome(o){toast(o+' logged. Follow-up task created.')}
+
+function vMore(){
+  var a=S.alerts,h='<h2>Alerts to my phone</h2><div class="card">';
+  [['reply','A prospect replies'],['hot','A lead turns hot'],['approve','A draft needs my approval'],['meeting','A meeting is booked'],['digest','Daily 8:00 AM summary']].forEach(function(x){
+    h+='<div class="row" style="padding:9px 0;border-bottom:1px solid var(--line)"><span>'+x[1]+'</span><div class="sw '+(a[x[0]]?'on':'')+'" onclick="togAl(\''+x[0]+'\')"></div></div>'});
+  h+='</div><button class="btn alt" style="width:100%" onclick="pushTest()">Send me a test alert</button>';
+  if(SHOWP){ h+='<h2>Wallet</h2><div class="card"><div class="row"><b style="font-size:22px">'+usd(S.cents)+'</b><span class="small">left of '+usd(S.monthCents)+' this month</span></div><div class="bar"><i style="width:'+Math.round(S.cents/S.monthCents*100)+'%"></i></div><div class="row small" style="margin-top:8px"><span>Used so far: '+usd(S.monthCents-S.cents)+'</span><span>Renews monthly</span></div><div class="btns"><button class="btn gold" onclick="toast(\'In live mode this opens secure checkout.\')">Add $25</button><button class="btn alt" onclick="toast(\'In live mode this opens secure checkout.\')">Add $50</button></div></div>';
+  h+='<h2>What things cost</h2><div class="card">';
+  S.prices.forEach(function(x){h+='<div style="padding:9px 0;border-bottom:1px solid var(--line)"><div class="row"><span>'+x.n+'</span><b>'+(x.cost+x.mar?usd(x.cost+x.mar):'Free')+'</b></div>'+(x.cost+x.mar?'<div class="small">Data cost '+usd(x.cost)+' + TAZ margin '+usd(x.mar)+' ('+Math.round(100*x.mar/(x.cost+x.mar))+'%)</div>':'')+'</div>'});
+  h+='<div class="small" style="margin-top:8px">Every price is the real data cost plus our margin, shown openly. Spend is totalled in dollars each month. Calls are a flat monthly add-on, not metered by the minute.</div></div>';
+   }
+  h+='<h2>Connected</h2><div class="card">'+
+   step('ok','Email and calendar','Connect to send from your own inbox')+
+   step('warn','LinkedIn sender','Each teammate connects their own account')+
+   step('warn','Sales Navigator','Optional. Uses your LinkedIn sign-in')+'</div>';
+  h+='<h2>Help</h2><button class="btn" style="width:100%" onclick="reqChange()">Request a change</button><div class="small" style="margin:8px 2px">Small fixes are included. A reply comes within two business days.</div>';
+  return h}
+function step(k,a,b){var c=k==='ok'?'good':'warn';return '<div class="step"><i class="tag '+c+'" style="padding:0">'+(k==='ok'?'✓':'!')+'</i><div><b>'+a+'</b><div class="small">'+b+'</div></div></div>'}
+function togAl(k){S.alerts[k]=!S.alerts[k];render()}
+function pushTest(){
+  if('Notification' in window && Notification.permission==='default'){Notification.requestPermission().then(function(p){toast(p==='granted'?'Alerts on. Add to Home Screen first on iPhone.':'Alerts blocked in Safari settings')});return}
+  toast('Test alert: Dana Whitfield replied')}
+function reqChange(){
+  sheet('<h3>Request a change</h3><p>Tell us what you would like different. It goes straight to the TAZ team.</p><textarea id="rq" rows="4" placeholder="What would you like changed or added?"></textarea><div class="btns"><button class="btn ok" onclick="closeSheet();toast(\'Sent. You will hear back within two business days.\')">Send</button><button class="btn alt" onclick="closeSheet()">Cancel</button></div>')}
+
+/* ---------- Ask TAZ ---------- */
+function openAsk(){
+  sheet('<h3>✦ Ask TAZ</h3><p>Ask for a report or take me somewhere.</p>'+
+  '<input id="aq" placeholder="e.g. who should I call first?" onkeydown="if(event.key===\'Enter\')ask()">'+
+  '<div class="btns" style="flex-wrap:wrap"><button class="btn alt" onclick="q(\'Who should I call first?\')">Who to call</button><button class="btn alt" onclick="q(\'Show drafts to approve\')">Approve drafts</button><button class="btn alt" onclick="q(\'Open replies\')">Replies</button></div><div id="ar" style="margin-top:10px"></div>')}
+function q(t){$('aq').value=t;ask()}
+function ask(){
+  var t=$('aq').value.toLowerCase(),r=$('ar');
+  if(/call|first|hot/.test(t)){var l=S.leads[0];r.innerHTML='<div class="card"><b>Start with '+l.n+'</b><div class="small">'+l.why+'. Then '+S.leads[1].n+'.</div><div class="btns"><button class="btn" onclick="closeSheet();go(\'dial\')">Open call queue</button></div></div>'}
+  else if(/draft|approve/.test(t)){r.innerHTML='<div class="card"><b>'+S.drafts.length+' drafts waiting</b><div class="btns"><button class="btn" onclick="closeSheet();go(\'auto\')">Review them</button></div></div>'}
+  else if(/repl|inbox/.test(t)){r.innerHTML='<div class="card"><b>2 unread replies</b><div class="btns"><button class="btn" onclick="closeSheet();go(\'inbox\')">Open replies</button></div></div>'}
+  else {r.innerHTML='<div class="card small">I can take you to your call queue, drafts or replies. Reports arrive in the live version.</div>'}}
+
+/* ---------- shell ---------- */
+function go(t){S.tab=t;render();$('main').scrollTop=0}
+function render(){
+  $('main').innerHTML={today:vToday,auto:vAuto,inbox:vInbox,dial:vDial,more:vMore}[S.tab]();
+  var unread=S.replies.filter(function(r){return r.unread}).length;
+  $('nav').innerHTML=TAB.map(function(t){
+    var d=(t[0]==='inbox'&&unread)?'<span class="dot">'+unread+'</span>':(t[0]==='auto'&&S.drafts.length?'<span class="dot">'+S.drafts.length+'</span>':'');
+    return '<button class="'+(S.tab===t[0]?'on':'')+'" onclick="go(\''+t[0]+'\')">'+d+'<svg viewBox="0 0 24 24">'+t[2]+'</svg>'+t[1]+'</button>'}).join('')}
+$('tk').textContent='●  Dana Whitfield replied 31 min ago     ●  Marcus Reilly opened 4 times     ●  2 meetings booked this week     ●  3 new matches from Lead Radar     ';
+
+/* ---------- home screen icon, drawn at load so the file stays self-contained ---------- */
+(function(){try{var c=document.createElement('canvas');c.width=c.height=180;var x=c.getContext('2d');
+ var g=x.createLinearGradient(0,0,180,180);g.addColorStop(0,'#3b2412');g.addColorStop(1,'#5c3d1e');x.fillStyle=g;x.fillRect(0,0,180,180);
+ x.fillStyle='#c9a24a';x.font='800 84px -apple-system,Helvetica,Arial';x.textAlign='center';x.textBaseline='middle';x.fillText('SO',90,84);
+ x.fillStyle='#faf6f0';x.font='700 20px -apple-system,Helvetica,Arial';x.fillText('AUTOPILOT',90,142);
+ var l=document.createElement('link');l.rel='apple-touch-icon';l.href=c.toDataURL('image/png');document.head.appendChild(l)}catch(e){}})();
+render();
+</script>
+</body>
+</html>

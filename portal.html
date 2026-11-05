@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Silver Oak by TAZ (bone draft)</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf6f0;--panel:#fff;--panel2:#f4ede4;--line:#e8ddcf;--text:#2b2118;--muted:#7a6a5a;--oak:#5c3d1e;--oak2:#7a5530;--soft:#efe4d6;--gold:#8a6914;--ok:#14996a;--oks:#e1f5ec;--warn:#c97f0c;--warns:#fdf1dc;--bad:#d24343;--bads:#fbe6e6;--sh:0 1px 2px rgba(16,24,40,.06),0 6px 20px rgba(16,24,40,.06)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Lato,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{margin:0}
+svg{width:18px;height:18px;fill:currentColor;flex:0 0 auto}
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+.side{background:var(--panel);border-right:1px solid var(--line);padding:18px 12px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
+.brand{display:flex;flex-direction:column;gap:6px;padding:4px 10px 16px}
+.brand img{width:100%;max-width:190px;height:auto}
+.brand .nm{font:700 17px "Playfair Display",Georgia,serif}
+.by{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.by b{color:var(--gold)}
+.nav{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;border:0;background:none;color:var(--muted);cursor:pointer;text-align:left;width:100%;font-weight:700}
+.nav:hover{background:var(--panel2);color:var(--text)}
+.nav.on{background:var(--soft);color:var(--oak)}
+.badge{margin-left:auto;background:var(--bad);color:#fff;border-radius:999px;font-size:11px;padding:1px 7px;font-weight:700}
+.side .foot{margin-top:auto;font-size:12px;color:var(--muted);padding:10px}
+main{padding:22px 28px 110px;min-width:0}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.top h1{font:700 26px "Playfair Display",Georgia,serif;letter-spacing:-.01em}
+.sp{flex:1}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:9px;cursor:pointer;font-weight:700;white-space:nowrap}
+.btn:hover{background:var(--panel2)}
+.btn.pri{background:var(--oak);border-color:var(--oak);color:#fff}
+.btn.pri:hover{background:var(--oak2)}
+.btn.sm{padding:5px 9px;font-size:13px}
+.btn.danger{color:var(--bad)}
+.btn:disabled{opacity:.5;cursor:default}
+a.btn{text-decoration:none;color:var(--text)}
+a.btn.pri{color:#fff}
+.banner{background:var(--warns);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.banner b{color:var(--warn)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh)}
+.pad{padding:16px 18px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.kpi .l{color:var(--muted);font-size:12.5px;font-weight:700}
+.kpi .v{font-size:26px;font-weight:900;margin-top:4px}
+.kpi .s{color:var(--muted);font-size:12px;margin-top:2px}
+.meter{height:6px;background:var(--panel2);border-radius:6px;overflow:hidden;margin-top:8px}
+.meter div{height:100%;background:var(--oak)}
+.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:14px}
+.grid2>*,.kpis>*{min-width:0}
+.card h3{font-size:14px;font-weight:900;margin-bottom:12px}
+.hbar{display:grid;grid-template-columns:150px 1fr 40px;align-items:center;gap:10px;margin:9px 0;font-size:13px}
+.track{height:10px;background:var(--panel2);border-radius:6px;overflow:hidden}
+.fill{height:100%;background:var(--oak);border-radius:6px}
+.fill.g{background:var(--gold)}
+.n{text-align:right;color:var(--muted)}
+.list{display:flex;flex-direction:column}
+.li{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.li:first-child{border-top:0}
+.grow{flex:1;min-width:0}
+.sub{color:var(--muted);font-size:12.5px}
+.pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:700;background:var(--panel2);color:var(--muted);white-space:nowrap}
+.pill.ok{background:var(--oks);color:var(--ok)}
+.pill.bad{background:var(--bads);color:var(--bad)}
+.pill.warn{background:var(--warns);color:var(--warn)}
+.pill.acc{background:var(--soft);color:var(--oak)}
+.link{color:var(--oak);cursor:pointer;background:none;border:0;padding:0;font-weight:700;text-align:left}
+.link:hover{text-decoration:underline}
+.board{display:flex;gap:12px;overflow-x:auto;padding-bottom:12px;align-items:flex-start}
+.colm{flex:0 0 250px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column}
+.colm.drop{outline:2px dashed var(--oak);outline-offset:-3px}
+.colh{padding:12px 12px 8px;display:flex;align-items:baseline;gap:8px}
+.colh b{font-size:13.5px}
+.cards{padding:4px 8px 10px;display:flex;flex-direction:column;gap:8px;min-height:60px}
+.deal{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 11px;cursor:pointer}
+.deal:hover{border-color:var(--oak)}
+.deal.dragging{opacity:.45}
+.deal .tt{font-weight:900;margin-bottom:2px}
+.deal .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 12px;cursor:pointer;font-weight:700;font-size:13px}
+.chip.on{background:var(--oak);border-color:var(--oak);color:#fff}
+.toolbar{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:var(--muted);font-weight:900;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr{cursor:pointer}
+tbody tr:hover td{background:var(--panel2)}
+tbody tr:last-child td{border-bottom:0}
+.tablewrap{overflow-x:auto}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+.av{width:30px;height:30px;border-radius:50%;background:var(--soft);color:var(--oak);display:inline-grid;place-items:center;font-weight:900;font-size:12px;flex:0 0 auto}
+.namecell{display:flex;align-items:center;gap:10px}
+.task{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--line)}
+.cbx{width:20px;height:20px;border-radius:6px;border:2px solid var(--line);background:none;cursor:pointer;display:grid;place-items:center;padding:0;flex:0 0 auto}
+.cbx.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.cbx svg{width:14px;height:14px}
+.grp{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:18px 0 8px}
+.overlay{position:fixed;inset:0;background:rgba(10,14,22,.42);z-index:40;display:none}
+.overlay.show{display:block}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(520px,100%);background:var(--panel);border-left:1px solid var(--line);z-index:45;transform:translateX(100%);transition:transform .2s;display:flex;flex-direction:column}
+.drawer.show{transform:none}
+.dh{padding:18px 20px 14px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+.dh h2{font:700 20px "Playfair Display",Georgia,serif}
+.db{padding:16px 20px 40px;overflow-y:auto;flex:1}
+.x{border:0;background:none;cursor:pointer;color:var(--muted);font-size:22px;line-height:1;padding:2px 6px;border-radius:6px}
+.x:hover{background:var(--panel2)}
+.facts{display:grid;grid-template-columns:130px 1fr;gap:8px 12px;margin:4px 0 16px}
+.facts .k{color:var(--muted);font-size:13px}
+.sec{margin-top:20px}
+.sec h4{margin:0 0 8px;font-size:13px;font-weight:900;display:flex;align-items:center;gap:8px}
+.sec h4 .btn{margin-left:auto}
+.notes{white-space:pre-wrap;background:var(--panel2);border-radius:9px;padding:10px 12px;font-size:13.5px}
+.modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(10,14,22,.42)}
+.modal.show{display:flex}
+.mbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh);width:min(500px,100%);max-height:92vh;display:flex;flex-direction:column}
+.mbox h2{font:700 19px "Playfair Display",Georgia,serif;padding:18px 20px 6px}
+.mform{padding:10px 20px;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:12.5px;color:var(--muted);font-weight:700}
+.inp{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:8px 10px;width:100%}
+.inp:focus{outline:2px solid var(--soft);border-color:var(--oak)}
+textarea.inp{min-height:84px;resize:vertical}
+.mfoot{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--line);justify-content:flex-end}
+.toast{position:fixed;left:50%;bottom:78px;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:700;opacity:0;transition:.2s;z-index:80;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.ribbon{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--oak);color:#f6efe4;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;padding:9px 16px;font-size:13px}
+.ribbon b{color:#d9b45a;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+.check{border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px;font-size:13.5px}
+.check.ok{border-color:var(--ok);background:var(--oks)}
+.check.bad{border-color:var(--bad);background:var(--bads)}
+.mobnav{display:none}
+.taz-foot{margin-top:28px;text-align:center;font-size:12px;color:var(--muted)}
+.taz-foot b{color:var(--gold)}
+.callgrid{display:grid;grid-template-columns:310px 1fr;gap:14px;align-items:start}
+.callgrid>*{min-width:0}
+.qlist{max-height:calc(100vh - 330px);min-height:200px;overflow:auto}
+.qi{display:flex;gap:10px;align-items:center;padding:9px 8px;border-radius:9px;border:0;background:none;width:100%;text-align:left;cursor:pointer;border-top:1px solid var(--line)}
+.qi:hover{background:var(--panel2)}.qi.on{background:var(--soft)}
+.q{border:1.5px solid var(--line);border-left:4px solid var(--oak);border-radius:10px;padding:11px 14px;margin:8px 0;cursor:pointer;font-size:15.5px;line-height:1.55;background:var(--panel)}
+.q:hover{border-color:var(--oak2)}.q.done{opacity:.5;background:var(--panel2);border-left-color:var(--ok)}
+.adlib{background:var(--warns);color:var(--warn);border-radius:4px;padding:0 4px;font-weight:700}
+.stg{background:var(--panel2);border-radius:10px;padding:10px 12px;margin-bottom:6px;font-size:13.5px}
+.stg-g{margin-bottom:4px}
+.obj{margin-top:8px;padding-left:10px;border-left:3px solid var(--line);font-size:14.5px}
+
+/* ===== brand enhancement: Silver Oak oak + gold ===== */
+:root{--oak-d:#3b2412;--oak-m:#4a2f17;--gold2:#c9a24a;--gold3:#e7d3a0;--cream:#f6efe4;--sand:#dad0c3;--sh:0 1px 2px rgba(60,36,14,.06),0 10px 28px rgba(60,36,14,.08)}
+html,body{background:radial-gradient(1200px 500px at 85% -10%,rgba(201,162,74,.14),transparent 60%),radial-gradient(900px 500px at -10% 110%,rgba(92,61,30,.08),transparent 60%),var(--bg);background-attachment:fixed}
+.side{background:linear-gradient(180deg,var(--oak-d) 0%,var(--oak) 100%);border-right:0;box-shadow:4px 0 24px rgba(40,24,8,.18);color:var(--cream);position:sticky;overflow:hidden}
+.side::after{content:"";position:absolute;left:-40px;bottom:-30px;width:260px;height:260px;opacity:.09;pointer-events:none;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g fill='%23e7d3a0'><path d='M50 6c10 8 18 20 18 34 0 8-3 14-8 19 6-1 12-5 16-11 3 12-3 25-14 31v21h-4V79C46 73 40 61 43 49c5 6 10 9 16 10-6-5-9-12-9-19 0-14-6-24 0-34z' transform='translate(-3 -2)'/><circle cx='28' cy='34' r='9'/><circle cx='74' cy='28' r='7'/><circle cx='20' cy='56' r='7'/><circle cx='80' cy='52' r='9'/></g></svg>") no-repeat center/contain}
+.side{padding-bottom:48px}.side>*{position:relative;z-index:1}
+.brand{padding:6px 10px 18px;margin-bottom:8px;border-bottom:1px solid rgba(231,211,160,.22)}
+.brand img{max-width:176px}
+.brand .nm{color:#fff;font-size:19px}
+.by{color:var(--gold3)}.by b{color:var(--gold2)}
+.nav{color:#e9dcc6;border-radius:6px;position:relative;transition:background .15s,color .15s}
+.nav svg{opacity:.85}
+.nav:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav.on{background:linear-gradient(90deg,rgba(201,162,74,.28),rgba(201,162,74,.08));color:#fff}
+.nav.on::before{content:"";position:absolute;left:-12px;top:7px;bottom:7px;width:4px;border-radius:0 4px 4px 0;background:var(--gold2)}
+.nav.on svg{color:var(--gold2);opacity:1}
+.side .foot{color:rgba(246,239,228,.6);font-size:11.5px;border-top:1px solid rgba(231,211,160,.18)}
+.badge{background:var(--gold2);color:var(--oak-d)}
+/* page header */
+.top{position:relative;padding:20px 24px;margin:-4px 0 18px;border-radius:12px;background:linear-gradient(120deg,var(--oak-d) 0%,var(--oak) 55%,#7a5530 100%);box-shadow:var(--sh);overflow:hidden;color:#fff}
+.top::before{content:"";position:absolute;right:-20px;top:-34px;width:210px;height:210px;opacity:.13;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g fill='%23e7d3a0'><path d='M50 6c10 8 18 20 18 34 0 8-3 14-8 19 6-1 12-5 16-11 3 12-3 25-14 31v21h-4V79C46 73 40 61 43 49c5 6 10 9 16 10-6-5-9-12-9-19 0-14-6-24 0-34z' transform='translate(-3 -2)'/><circle cx='28' cy='34' r='9'/><circle cx='74' cy='28' r='7'/><circle cx='20' cy='56' r='7'/><circle cx='80' cy='52' r='9'/></g></svg>") no-repeat center/contain}
+.top::after{content:"";position:absolute;left:24px;bottom:0;width:72px;height:3px;background:var(--gold2);border-radius:3px 3px 0 0}
+.top>*{position:relative;z-index:1}
+.top h1{color:#fff;font-size:30px;letter-spacing:-.005em}
+.top .chip{background:rgba(255,255,255,.1);border-color:rgba(231,211,160,.35);color:#f3e8d3}
+.top .chip:hover{background:rgba(255,255,255,.18)}
+.top .chip.on{background:var(--gold2);border-color:var(--gold2);color:var(--oak-d)}
+.top .btn{background:rgba(255,255,255,.1);border-color:rgba(231,211,160,.4);color:#fff}
+.top .btn:hover{background:rgba(255,255,255,.2)}
+.top .btn.pri{background:var(--gold2);border-color:var(--gold2);color:var(--oak-d)}
+.top .inp{background:rgba(255,255,255,.95);color:var(--text)}
+/* cards */
+.card{border-radius:10px;border-color:var(--line);position:relative}
+.kpi{border-top:3px solid var(--gold2);overflow:hidden}
+.kpi::after{content:"";position:absolute;right:-14px;bottom:-14px;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,74,.18),transparent 70%)}
+.kpi .l{text-transform:uppercase;letter-spacing:.07em;font-size:11px;color:var(--gold)}
+.kpi .v{font:700 34px "Playfair Display",Georgia,serif;color:var(--oak);margin-top:6px}
+.kpi .v .sub{font:700 14px Lato,sans-serif}
+.meter{height:7px;background:var(--soft)}
+.meter div{background:linear-gradient(90deg,var(--oak),var(--gold2))}
+.card h3{font:700 17px "Playfair Display",Georgia,serif;color:var(--oak);padding-bottom:9px;border-bottom:1px solid var(--line);margin-bottom:12px;position:relative}
+.card h3::after{content:"";position:absolute;left:0;bottom:-1px;width:36px;height:2px;background:var(--gold2)}
+.fill{background:linear-gradient(90deg,var(--oak),var(--oak2))}.fill.g{background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.track{background:var(--soft)}
+/* buttons per site: 4px radius */
+.btn{border-radius:4px;background:#fff;border-color:var(--sand);color:var(--oak)}
+.btn:hover{background:var(--soft)}
+.btn.pri{background:var(--oak);border-color:var(--oak);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 2px 6px rgba(60,36,14,.25)}
+.btn.pri:hover{background:var(--oak-d)}
+a.btn{color:var(--oak)}
+.chip{border-color:var(--sand);color:var(--oak)}.chip.on{background:var(--oak);border-color:var(--oak)}
+.pill{background:var(--soft);color:var(--oak2)}
+.pill.acc{background:var(--gold3);color:var(--oak-d)}
+/* tables, lists, board */
+th{background:var(--panel2);color:var(--oak);text-transform:uppercase;letter-spacing:.06em;font-size:11px;border-bottom:2px solid var(--sand)}
+tbody tr:hover td{background:#fbf6ec}
+.av{background:linear-gradient(135deg,var(--oak),var(--oak2));color:var(--gold3)}
+.colm{background:#f1e8da;border-top:3px solid var(--gold2)}
+.deal{border-radius:8px}.deal:hover{border-color:var(--gold2);box-shadow:0 4px 14px rgba(60,36,14,.12)}
+.grp{color:var(--gold)}
+.sec h4{font-family:"Playfair Display",Georgia,serif;font-size:15px;color:var(--oak)}
+/* drawer, modal */
+.dh{background:linear-gradient(120deg,var(--oak-d),var(--oak));color:#fff;border-bottom:3px solid var(--gold2)}
+.dh h2{color:#fff}.dh .sub{color:var(--gold3)}.dh .x{color:#fff}.dh .x:hover{background:rgba(255,255,255,.15)}
+.mbox{border-radius:10px;border-top:4px solid var(--gold2)}.mbox h2{color:var(--oak)}
+.overlay,.modal{background:rgba(40,24,8,.5)}
+.inp{border-color:var(--sand);border-radius:4px}.inp:focus{outline:2px solid var(--gold3);border-color:var(--gold)}
+/* call desk */
+.q{border-left-color:var(--gold2);border-radius:6px;background:linear-gradient(90deg,#fffdf8,#fff)}
+.q:hover{border-color:var(--gold2);box-shadow:0 2px 10px rgba(60,36,14,.1)}
+.qi.on{background:linear-gradient(90deg,rgba(201,162,74,.22),var(--soft));box-shadow:inset 3px 0 0 var(--gold2)}
+.stg{border-left:3px solid var(--gold2);background:#f8f1e4}
+.adlib{background:var(--gold3);color:var(--oak-d)}
+/* footer ribbon */
+.ribbon{background:linear-gradient(90deg,var(--oak-d),var(--oak),var(--oak-d));border-top:2px solid var(--gold2);color:var(--cream)}
+.ribbon b{color:var(--gold2)}
+.banner{background:#fbf3df;border-color:var(--gold3);border-left:4px solid var(--gold2)}.banner b{color:var(--gold)}
+.mobnav{background:var(--oak-d);border-top:2px solid var(--gold2)}
+.mobnav .nav{color:#e9dcc6}.mobnav .nav.on{color:#fff;background:rgba(201,162,74,.22)}.mobnav .nav.on::before{display:none}
+@media (max-width:820px){.mobnav{background:var(--oak-d)!important;border-top:2px solid var(--gold2)!important}.top{padding:14px 16px}.top h1{font-size:24px}.kpi .v{font-size:28px}}
+
+/* ===== demo layer ===== */
+.tickwrap{position:sticky;top:0;z-index:25;margin:-22px -28px 16px;background:var(--oak-d);border-bottom:2px solid var(--gold2);box-shadow:0 4px 14px rgba(40,24,8,.2)}
+.trk{display:flex;align-items:center;height:34px;overflow:hidden;color:#f3e8d3;font-size:13px}
+.trk+.trk{border-top:1px solid rgba(231,211,160,.18)}
+.tlab{flex:0 0 auto;height:100%;display:flex;align-items:center;padding:0 14px;font-weight:900;font-size:11px;letter-spacing:.09em;text-transform:uppercase;background:var(--gold2);color:var(--oak-d);position:relative;z-index:2}
+.t2 .tlab{background:var(--gold3)}
+.mq{flex:1;overflow:hidden;min-width:0;mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
+.mqi{display:inline-flex;white-space:nowrap;animation:mq linear infinite;will-change:transform}
+.mq:hover .mqi{animation-play-state:paused}
+.t2 .mqi{animation-direction:normal}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mqg{display:inline-flex}
+.ti{display:inline-flex;align-items:center;gap:8px;border:0;background:none;color:inherit;padding:0 22px 0 0;margin-right:22px;border-right:1px solid rgba(231,211,160,.25);cursor:pointer;height:34px;font:inherit}
+.ti:hover{color:#fff;text-decoration:underline}
+.ti b{color:#fff}
+.ti .tm,.ti .ago{color:var(--gold3);font-size:12px}
+.ti .tx{max-width:380px;overflow:hidden;text-overflow:ellipsis}
+.flame{background:var(--bad);background:#b5451b;color:#fff;border-radius:3px;padding:1px 6px;font-weight:900;font-size:11px;letter-spacing:.04em}
+.ch{display:inline-grid;place-items:center;min-width:24px;height:18px;padding:0 4px;border-radius:3px;color:#fff;font-size:9.5px;font-weight:900;letter-spacing:.03em;flex:0 0 auto}
+@media (prefers-reduced-motion:reduce){.mqi{animation:none}.mq{overflow-x:auto}}
+.banner.demo{background:#fbf3df}
+.ring{--sz:44px;width:var(--sz);height:var(--sz);border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),#eadfce 0);display:inline-grid;place-items:center;flex:0 0 auto;position:relative}
+.ring::before{content:"";position:absolute;inset:5px;background:#fff;border-radius:50%}
+.ring b{position:relative;font:700 15px "Playfair Display",Georgia,serif;color:var(--oak)}
+.ring.big{--sz:76px}.ring.big::before{inset:8px}.ring.big b{font-size:24px}
+.radargrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:14px;align-items:start}
+.rsticky{position:sticky;top:96px}
+.rh{margin:16px 0 6px;font:700 14px "Playfair Display",Georgia,serif;color:var(--oak)}
+.lrow{display:flex;gap:12px;align-items:center;width:100%;text-align:left;border:0;border-top:1px solid var(--line);background:none;padding:9px 6px;cursor:pointer;border-radius:6px}
+.lrow:hover{background:var(--panel2)}.lrow.on{background:linear-gradient(90deg,rgba(201,162,74,.22),var(--soft));box-shadow:inset 3px 0 0 var(--gold2)}
+.chs{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end;max-width:90px}
+.linkbar{border:0;background:none;width:100%;text-align:left;cursor:pointer;padding:0}
+.linkbar:hover .track{outline:2px solid var(--gold3)}
+.hist{display:flex;gap:6px;align-items:flex-end;height:110px}
+.hb{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:10px;color:var(--muted)}
+.hb div{width:100%;border-radius:3px 3px 0 0;min-height:2px}
+.chart{width:100%;height:auto;display:block}
+.pk{cursor:pointer;font:inherit;color:inherit}.pk.sel{outline:2px solid var(--gold2)}
+.chip.sm{padding:3px 9px;font-size:12px;display:inline-flex;gap:6px;align-items:center}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.cd{border:1px solid var(--line);border-radius:8px;background:#fffdf8;min-height:96px;padding:6px}
+.cd.today{border-color:var(--gold2);box-shadow:inset 0 0 0 1px var(--gold2)}
+.cdh{font-size:11px;font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.cp{display:flex;gap:6px;align-items:flex-start;width:100%;text-align:left;border:1px solid var(--line);border-left-width:4px;border-radius:5px;background:#fff;padding:4px 6px;margin-bottom:4px;font-size:11.5px;line-height:1.3;cursor:pointer}
+.cp:hover,.cp.on{box-shadow:0 2px 8px rgba(60,36,14,.15)}.cp.on{outline:2px solid var(--gold2)}
+.cp.st-draft{border-left-color:var(--warn)}.cp.st-approved{border-left-color:var(--gold2)}.cp.st-scheduled{border-left-color:var(--ok)}
+.postprev{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff;max-width:620px}
+.pph{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.disc{font-size:11.5px;color:var(--muted);margin-top:8px;border-top:1px dashed var(--line);padding-top:6px}
+.flow{display:flex;gap:6px;align-items:stretch;flex-wrap:wrap}
+.fs{flex:1 1 90px;background:var(--panel2);border-radius:8px;padding:8px;font-size:13px;display:flex;flex-direction:column;gap:2px}
+.fs b{width:20px;height:20px;border-radius:50%;background:var(--oak);color:#fff;display:grid;place-items:center;font-size:11px}
+.fs .sub{font-size:11.5px}
+.fa{align-self:center;color:var(--gold)}
+@media (max-width:980px){.radargrid{grid-template-columns:1fr}.rsticky{position:static}.cal{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:820px){.tickwrap{margin:-16px -14px 14px}.ti .tx{max-width:220px}.tlab{padding:0 8px;font-size:10px}}
+@media (max-width:980px){.callgrid{grid-template-columns:1fr}.qlist{max-height:260px}}
+@media (max-width:980px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media (max-width:820px){
+ .app{grid-template-columns:1fr}.side{display:none}
+ main{padding:16px 14px 120px}
+ .mobnav{display:flex;position:fixed;bottom:38px;left:0;right:0;background:var(--panel);border-top:1px solid var(--line);z-index:35;padding:6px 4px}
+ .mobnav .nav{flex-direction:column;gap:2px;font-size:11px;padding:6px 2px;align-items:center;justify-content:center}
+ .mform{grid-template-columns:1fr}
+ .hide-m{display:none}
+ .colm{flex-basis:84vw}
+ .hbar{grid-template-columns:110px 1fr 34px}
+ .facts{grid-template-columns:105px 1fr}
+ .ribbon{font-size:12px;padding:6px 10px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="side" id="side"></nav>
+  <main class="mainwrap"><div class="tickwrap" id="tick"></div><div id="main"></div></main>
+</div>
+<nav class="mobnav" id="mobnav"></nav>
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+<div class="modal" id="modal"><div class="mbox" id="mbox"></div></div>
+<div class="toast" id="toast"></div>
+<div class="ribbon"><b>Demo build</b><span>Lead Radar, Social and the scrolling bars use made-up demo data. Households, deals and tasks are samples. The Prospect Finder list is real.</span></div>
+
+<script>
+/* ---------- utilities ---------- */
+const KEY='silver-oak-by-taz-bone-draft-v2';
+const uid=()=>Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-4);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const iso=d=>{const x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)};
+const today=()=>iso(new Date());
+const addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return iso(d)};
+const fdate=s=>s?new Date(s+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:s.slice(0,4)!==today().slice(0,4)?'numeric':undefined}):'';
+const initials=s=>String(s||'?').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('')||'?';
+const CHECK='<svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>';
+const ICON={
+ dash:'<svg viewBox="0 0 24 24"><path d="M4 13h6V4H4zm0 7h6v-5H4zm10 0h6v-9h-6zm0-16v5h6V4z"/></svg>',
+ find:'<svg viewBox="0 0 24 24"><path d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.8l5 5 1.5-1.5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>',
+ pipe:'<svg viewBox="0 0 24 24"><path d="M4 4h4v16H4zm6 0h4v11h-4zm6 0h4v7h-4z"/></svg>',
+ home:'<svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg>',
+ check:CHECK,
+ gear:'<svg viewBox="0 0 24 24"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3h-4l-.4 2.9a7.6 7.6 0 0 0-1.7 1l-2.5-1-2 3.5L4.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.6 7.6 0 0 0 1.7 1L11 21h4l.4-2.9a7.6 7.6 0 0 0 1.7-1l2.5 1 2-3.5zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>',
+ plus:'<svg viewBox="0 0 24 24"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>',
+ send:'<svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>',
+ radar:'<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10h-2a8 8 0 1 1-8-8zm0 4a6 6 0 1 0 6 6h-2a4 4 0 1 1-4-4zm0 4a2 2 0 1 0 2 2l7-7-1.4-1.4-5.2 5.2a2 2 0 0 0-1.4-.8z"/></svg>',
+ social:'<svg viewBox="0 0 24 24"><path d="M3 10v4h3l5 4V6L6 10zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>',
+ phone:'<svg viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>'
+};
+const OWNERS=['Jesse','Aidan'];
+const SOURCES=['Client referral','Personal network','CPA / attorney','LinkedIn / Sales Navigator','Facebook group','Prospect Finder','Website','Other'];
+const SEGMENTS=['Pre-retiree','Business owner','Young professional','Client'];
+const SIGNALS=['Profile match','Job change','Turning 59½, 62 or 65','Promotion','Selling a business','Selling or buying a home','Marriage or new baby'];
+
+/* ---------- data ---------- */
+let DB, storageOK=true;
+function stages(){return [
+ {id:'s1',name:'Intro / Discovery',type:'open'},
+ {id:'s2',name:'Planning meeting 1',type:'open'},
+ {id:'s3',name:'Planning meeting 2 / Recommendation',type:'open'},
+ {id:'s4',name:'Onboarding',type:'open'},
+ {id:'s5',name:'Client',type:'won'},
+ {id:'s6',name:'Not a fit',type:'lost'}];}
+function prospects(){
+ const L=(n,seg,title,emp,town,email,mobile,li,why,profile,owner)=>({id:uid(),real:true,name:n,segment:seg,title,employer:emp,town,age:'',years:'',signal:'Profile match',why,profile,owner,
+   linkedin:li,workEmail:email,personalEmail:'',mobile,added:false});
+ return [
+ L("Kevin Monahan","Pre-retiree","Associate vice president of student affairs and executive director, career and professional development center","Carnegie Mellon University","Pittsburgh, PA","kmonahan@andrew.cmu.edu","+14125120407","linkedin.com/in/ACoAAAAIplUB-nMaMdrA2mnb6rq9JYlmVBpSfLM","Associate vice president of student affairs and executive director, career and professional development center at Carnegie Mellon University with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, colleges, universities, and professional schools). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Matthew Hogan","Pre-retiree","Business analytics group manager - senior vice president","The PNC Financial Services Group, Inc.","West Mifflin, PA","matthew.hogan@pnc.com","+17249712364","linkedin.com/in/ACoAAADi96oBrYsaVsVF73t8iEjrRCn7lkvwgwo","Business analytics group manager - senior vice president at The PNC Financial Services Group, Inc. with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, commercial banking). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Cathy Niederberger","Pre-retiree","Executive vice president","The PNC Financial Services Group, Inc.","Pittsburgh, PA","cathy.niederberger@pnc.com","+14127205960","linkedin.com/in/ACoAAAC8aPEB2bu0uOux_wd-cDjllN78FNjNqV0","Executive vice president at The PNC Financial Services Group, Inc. with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, commercial banking). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Sophia Tambouratzis","Pre-retiree","Director","Carnegie Mellon University","Pittsburgh, PA","","+14128059601","linkedin.com/in/ACoAAAIu0poB2re7bNtLsbq7qJuo_9eq32gRQZU","Director at Carnegie Mellon University with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, colleges, universities, and professional schools). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Allison Frankoski","Pre-retiree","Director, MSIT program","Carnegie Mellon University","Pittsburgh, PA","allisonf@andrew.cmu.edu","+14122688983","linkedin.com/in/ACoAAAC8bYoB2ruVnbICHRMHTWGbgJRYM62werY","Director, MSIT program at Carnegie Mellon University with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, colleges, universities, and professional schools). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Dawn Butler","Pre-retiree","Senior director brand strategy, UPMC","UPMC","Clairton, PA","dawn.butler@upmc.com","+14123708779","linkedin.com/in/ACoAAADUmf8BensY09jNQ8CyJQtUuszjZzTgj7A","Senior director brand strategy, UPMC at UPMC with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, all other outpatient care centers). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Volker Hartkopf","Pre-retiree","Director, CBPD","Carnegie Mellon University","Monroeville, PA","hartkopf@cmu.edu","+14129836214","linkedin.com/in/ACoAAADX_TEBxcxHtjyysN9LIHFo4GkuQ3Pm02U","Director, CBPD at Carnegie Mellon University with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, colleges, universities, and professional schools). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Sara Fest","Pre-retiree","Vice president marketing communications","UPMC","Pittsburgh, PA","","+17035797149","linkedin.com/in/ACoAAABbIekBrs7VbN4dYWtZd786FODZZewjVuk","Vice president marketing communications at UPMC with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, all other outpatient care centers). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Robert Wooldridge","Pre-retiree","Director, CTTEC","Carnegie Mellon University","Pittsburgh, PA","raw@cmu.edu","+14129993787","linkedin.com/in/ACoAAACuUQcBprS8ViyDfYJ9eCM-RBJaE89by68","Director, CTTEC at Carnegie Mellon University with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, colleges, universities, and professional schools). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Angela Bodnar","Pre-retiree","Director - space management and capacity","DICK'S Sporting Goods, Inc.","Pittsburgh, PA","angela.bodnar@dickssportinggoods.com","+19802296220","linkedin.com/in/ACoAAAdPKvsBJWIumgzkKMf6cNRHGlLi4WIo3Rw","Director - space management and capacity at DICK'S Sporting Goods, Inc. with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, sporting goods stores). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Ed Novreske","Pre-retiree","Vice president, cyber monitoring and detection","The PNC Financial Services Group, Inc.","Coraopolis, PA","","+14438059135","linkedin.com/in/ACoAAAr7fAkBIXQdTl_rw-al6HINVEhLE4zIESQ","Vice president, cyber monitoring and detection at The PNC Financial Services Group, Inc. with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, commercial banking). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Michele Myers","Pre-retiree","Group product manager","DICK'S Sporting Goods, Inc.","Pittsburgh, PA","michele.myers@dcsg.com","+16142881892","linkedin.com/in/ACoAAACsRMYB_jUAbR7kH-q0dM3Gmo39-v6CEII","Group product manager at DICK'S Sporting Goods, Inc. with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, sporting goods stores). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Jim Famularo","Pre-retiree","Senior community marketing manager","DICK'S Sporting Goods, Inc.","Coraopolis, PA","jim.famularo@dcsg.com","+14125376124","linkedin.com/in/ACoAAAYKW4wBdvEObrxpjUP5gR95yNwFaEVn-Rw","Senior community marketing manager at DICK'S Sporting Goods, Inc. with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, sporting goods stores). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Josh Cambruzzi","Pre-retiree","Senior project manager","UPMC","Pittsburgh, PA","cambruzzij@upmc.edu","+14129169449","linkedin.com/in/ACoAACY4P0kBil2LHWzPtoiIfbk2P465jb6DqJ8","Senior project manager at UPMC with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, all other outpatient care centers). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Cindy Kozminski","Pre-retiree","Senior director, human resources","UPMC","Greenville, PA","kozminskic@upmc.com","","linkedin.com/in/ACoAACaKeKcBhKAJpjJOBLgMijw5P-Xo1xNTiVc","Senior director, human resources at UPMC with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, all other outpatient care centers). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Mary Loera","Pre-retiree","Senior information technology manager - Oracle center of excellence","PPG Industries, Inc.","Bethel Park, PA","loera@ppg.com","+14127367641","linkedin.com/in/ACoAAAEtkU8BmWpE9x_IBIoF1R46LNcV9lLZ4xE","Senior information technology manager - Oracle center of excellence at PPG Industries, Inc. with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, paint and coating manufacturing). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Doug Glance","Pre-retiree","Director of sourcing non-merchandise procurement","DICK'S Sporting Goods, Inc.","Coraopolis, PA","","+14127266186","linkedin.com/in/ACoAAAiH5OQBIRqureWaa08Jtrjz1lo7XJgzGDU","Director of sourcing non-merchandise procurement at DICK'S Sporting Goods, Inc. with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, sporting goods stores). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Hope Kleman","Pre-retiree","Senior manager, international logistics","DICK'S Sporting Goods, Inc.","Pittsburgh, PA","hope.kleman@dcsg.com","","linkedin.com/in/ACoAABxiwiYBe5YsRYfvclX75vBH0vFcLzp5WS4","Senior manager, international logistics at DICK'S Sporting Goods, Inc. with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, sporting goods stores). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Lisa Carper","Pre-retiree","Vice president - internal audit senior team manager","The PNC Financial Services Group, Inc.","Pittsburgh, PA","lisa.carper@pnc.com","","linkedin.com/in/ACoAAAHc-TwBFwUVKipgg458WKGBAFSOsaZiRoA","Vice president - internal audit senior team manager at The PNC Financial Services Group, Inc. with 25+ years of work experience, so likely within about 10 years of retiring.","Senior role at a large employer (10001+ employees, commercial banking). Typical planning topics at this stage: retirement income, Social Security timing, 401(k) or pension rollover choices, and a review of employer benefits.","Jesse"),
+ L("Jeff Gapinski","Business owner","Co-founder & chief revenue officer","HUEMOR","Pittsburgh, PA","jgapinski@huemor.rocks","+16316973024","linkedin.com/in/ACoAAAch6XcBbJrXZPlDRUjLWhPZX2bhF49DWm4","Co-founder & chief revenue officer at HUEMOR, a small firm (11-50 employees, revenue band 1M-5M).","Owner-level decision maker at a small company in advertising, public relations, and related services. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Deepak Pathak","Business owner","Co-founder & chief executive officer","Skild AI","Pittsburgh, PA","pathak@skild.ai","","linkedin.com/in/ACoAABturZUBOhAEin5M2u9sFR0t30-Pnl5sLdw","Co-founder & chief executive officer at Skild AI, a small firm (11-50 employees, revenue band 5M-10M).","Owner-level decision maker at a small company in software publishers. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Michael Cleary","Business owner","Co-founder & chief executive officer","HUEMOR","Pittsburgh, PA","mcleary@huemor.rocks","+19172138529","linkedin.com/in/ACoAAAWUywkB7g-FvwA1f7fm4kMGva0DodzBqR0","Co-founder & chief executive officer at HUEMOR, a small firm (11-50 employees, revenue band 1M-5M).","Owner-level decision maker at a small company in advertising, public relations, and related services. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Abraham-Gerard Meyer","Business owner","Chief executive officer and co-founder","Mental Wellness Society","Pittsburgh, PA","meyer@mentalwellnesssociety.com","+14124183622","linkedin.com/in/ACoAAANbyz8BAYaoiINYG5TzMqjW56qOEcVgNw0","Chief executive officer and co-founder at Mental Wellness Society, a small firm (11-50 employees, revenue band 1M-5M).","Owner-level decision maker at a small company in offices of mental health practitioners (except physicians). Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Kevin Ferra","Business owner","President & founder","Ferra Executive Search","Pittsburgh, PA","kevin@ferrasearch.com","+14123783582","linkedin.com/in/ACoAAABAsvAB1AMVFoyDBYNVikXk_Z58xThNWJk","President & founder at Ferra Executive Search, a small firm (11-50 employees, revenue band 1M-5M).","Owner-level decision maker at a small company in employment services. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Sabrina Saunders Mosby","Business owner","President & chief executive officer","Vibrant Pittsburgh","Pittsburgh, PA","sabrina.mosby@amwater.com","+14129445370","linkedin.com/in/ACoAAADWWIgBkgGnxPJ9U40lznhkDpVKEVnEG_w","President & chief executive officer at Vibrant Pittsburgh, a small firm (11-50 employees, revenue band 1M-5M).","Owner-level decision maker at a small company in other management consulting services. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("David Hilliker","Business owner","President & chief executive officer","ChemDAQ, Inc.","Pittsburgh, PA","dhilliker@chemdaq.com","+14128745852","linkedin.com/in/ACoAAAC8CuUBqewRTVWx753tR7eAuAYYdgg8E4w","President & chief executive officer at ChemDAQ, Inc., a small firm (11-50 employees, revenue band 10M-25M).","Owner-level decision maker at a small company in instruments and related products manufacturing for measuring, displaying, and controlling industrial process variables. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Francois Gau","Business owner","Founder and chief executive officer","GrowthHive","Pittsburgh, PA","francois@growthhive-strategy.com","+17248755358","linkedin.com/in/ACoAAACLoJQBUWvNxL377sW_15hOAZDubYl5b_o","Founder and chief executive officer at GrowthHive, a small firm (11-50 employees, revenue band 1M-5M).","Owner-level decision maker at a small company in marketing consulting services. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Jeremy Waldrup","Business owner","President and chief executive officer","Pittsburgh Downtown Partnership","Pittsburgh, PA","jwaldrup@downtownpittsburgh.com","+14124397132","linkedin.com/in/ACoAAABOxwgBl9-hmQixxHkdc2EKwi4UbYRg_g0","President and chief executive officer at Pittsburgh Downtown Partnership, a small firm (11-50 employees, revenue band 1M-5M).","Owner-level decision maker at a small company in civic and social organizations. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Kelly Fetick","Business owner","Founder and chief executive officer","Landis Consulting Group","Pittsburgh, PA","kfetick@landisconsultinggroup.com","+16108584234","linkedin.com/in/ACoAAACvT40B2Gg43JwEdBTsqTQaGbqOBQgHpLs","Founder and chief executive officer at Landis Consulting Group, a small firm (11-50 employees, revenue band 1M-5M).","Owner-level decision maker at a small company in employment services. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Abhinav Gupta","Business owner","Co-founder / president","Skild AI","Pittsburgh, PA","ag@skild.ai","+19175849332","linkedin.com/in/ACoAACcuewUB4KnJWnNd5XThOJYCc8yTjzVuQRc","Co-founder / president at Skild AI, a small firm (11-50 employees, revenue band 5M-10M).","Owner-level decision maker at a small company in software publishers. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Henry Watson","Business owner","President","Continuim Equity Partners","Pittsburgh, PA","watson@continuim.com","+14123706181","linkedin.com/in/ACoAAAVHSQcBX-AvjZSMHD3cDgfL2LZOc40_y-k","President at Continuim Equity Partners, a small firm (11-50 employees, revenue band 5M-10M).","Owner-level decision maker at a small company in miscellaneous intermediation. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("George Pilafas","Business owner","Co-founder and managing partner","Continuim Equity Partners","Pittsburgh, PA","george@continuim.com","+13125041948","linkedin.com/in/ACoAAAtWB94B22PPyFxfclXjaukxvJFWqKuet2I","Co-founder and managing partner at Continuim Equity Partners, a small firm (11-50 employees, revenue band 5M-10M).","Owner-level decision maker at a small company in miscellaneous intermediation. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Shikhar Bahl","Business owner","Research scientist, founding team","Skild AI","Pittsburgh, PA","sbahl@skild.ai","+14178925898","linkedin.com/in/ACoAABvDDdIBylH8jgwoDgPUWNTt6H6UXPQqFtY","Research scientist, founding team at Skild AI, a fast-growing startup (11-50 employees). May hold company equity, to confirm in discovery.","Owner-level decision maker at a small company in software publishers. Typical planning topics: owner pay vs. profit, retirement plans for owners, and longer-term succession or exit planning.","Aidan"),
+ L("Shilpashree Basavaradhya","Young professional","Senior software developer","The PNC Financial Services Group, Inc.","Mars, PA","shilpashree.basavaradhya@pnc.com","+15104429102","linkedin.com/in/ACoAABspNyMBr1Rfz1JwMHcL0-9Clfn6pxGkYT4","Senior software developer at The PNC Financial Services Group, Inc., roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (commercial banking). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Paul Duchow","Young professional","Senior process engineer","Alcoa Corporation","Bellevue, PA","paul.duchow@alcoa.com","+15098681189","linkedin.com/in/ACoAAC35jL8BuC5I99MBV-X4V_his9IY9SsYyqI","Senior process engineer at Alcoa Corporation, roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (aluminum sheet, plate, and foil manufacturing). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Jay Sell","Young professional","Finance associate senior - M&A","The PNC Financial Services Group, Inc.","Pittsburgh, PA","jay.sell@pnc.com","","linkedin.com/in/ACoAAB8e_84BmeSky3YI6i4aLCTcwVReHkE7vUE","Finance associate senior - M&A at The PNC Financial Services Group, Inc., roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (commercial banking). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Emily Pedano","Young professional","Accounting specialist senior","The PNC Financial Services Group, Inc.","Erie, PA","emily.pedano@pnc.com","+18149200015","linkedin.com/in/ACoAACa0I-kB0xw4kXzdlROsdzhj7BJAF59HCTs","Accounting specialist senior at The PNC Financial Services Group, Inc., roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (commercial banking). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Barry Soxman","Young professional","Senior technologist","Alcoa Corporation","Tarentum, PA","","+17243931064","linkedin.com/in/ACoAABfH_5oBmGI39KOrXnjo8Uajves-AT1uBF0","Senior technologist at Alcoa Corporation, roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (aluminum sheet, plate, and foil manufacturing). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Pamela Hrovoski","Young professional","Senior technologist","Alcoa Corporation","Export, PA","","+17247331507","linkedin.com/in/ACoAAAJWJ2QBozWHa2k3A3TBxUY-U5XWwba1fkM","Senior technologist at Alcoa Corporation, roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (aluminum sheet, plate, and foil manufacturing). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Edward Wight","Young professional","Senior manager, strategic finance","Alcoa Corporation","Pittsburgh, PA","edward.wight@alcoa.com","+17242722396","linkedin.com/in/ACoAABlconsBJD-y_41zMPyr0Sn5or1RtZaDO7Y","Senior manager, strategic finance at Alcoa Corporation, roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (aluminum sheet, plate, and foil manufacturing). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Santino Platt","Young professional","Senior pricing manager","WESCO International, Inc.","Pittsburgh, PA","splatt@wesco.com","+14126007889","linkedin.com/in/ACoAACNQCRcBCUcwrEdMJHbylolvc8TAuLFDZNU","Senior pricing manager at WESCO International, Inc., roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (electrical apparatus and equipment, wiring supplies, and related equipment merchant wholesalers). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Adison Mamula","Young professional","Senior investor relations analyst","Alcoa Corporation","Pittsburgh, PA","adison.mamula@alcoa.com","+17244138003","linkedin.com/in/ACoAACQnzQkBbjXQqAjcwNdUAa4_l2c6iBgx5Ns","Senior investor relations analyst at Alcoa Corporation, roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (aluminum sheet, plate, and foil manufacturing). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Gina Agabegi","Young professional","Master data manager","PPG Industries, Inc.","Pittsburgh, PA","","+16107168596","linkedin.com/in/ACoAAFIcts8BbHZzwzdGrpIj_qQ_nJ5fbNOajWg","Master data manager at PPG Industries, Inc., roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (paint and coating manufacturing). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Dave Ramsey","Young professional","Information technology manager","WESCO International, Inc.","Pittsburgh, PA","dave.ramsey@wesco.com","+16106575238","linkedin.com/in/ACoAACgGfVsBT9B14CNUnMcdV8z3x-4PY3XmybE","Information technology manager at WESCO International, Inc., roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (electrical apparatus and equipment, wiring supplies, and related equipment merchant wholesalers). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Kalista Walters","Young professional","Risk and control specialist senior, assistant vice president - operational risk management","The PNC Financial Services Group, Inc.","Pittsburgh, PA","kalista.walters@pnc.com","+13029454217","linkedin.com/in/ACoAACbr2dcBCNGhJPgvfs5CsztoaLHYGH_LEJA","Risk and control specialist senior, assistant vice president - operational risk management at The PNC Financial Services Group, Inc., roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (commercial banking). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Ryan Scarton","Young professional","Leader marketing engineer","Westinghouse Electric Company","Latrobe, PA","scartorv@westinghouse.com","+17243091760","linkedin.com/in/ACoAAAa2RKoBtMGefhuICiZBkZJ6roZdTzFKosY","Leader marketing engineer at Westinghouse Electric Company, roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (electromedical and electrotherapeutic apparatus manufacturing). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan"),
+ L("Kristen Elia","Young professional","Senior counsel","WESCO International, Inc.","Pittsburgh, PA","","+14403212641","linkedin.com/in/ACoAABfciGUBawhXUmwtkvXzZmK67lpiZXrYvlQ","Senior counsel at WESCO International, Inc., roughly 3 to 9 years into a career at a large employer.","Early- to mid-career professional at a 10001+-employee company (electrical apparatus and equipment, wiring supplies, and related equipment merchant wholesalers). Typical planning topics: employer 401(k) match, stock or equity plans, saving toward a home, and a first financial plan.","Aidan")];
+}
+function seed(){
+ const now=Date.now(),D=864e5;
+ const hh=[
+  {id:'h1',name:'The Whitaker Household',type:'Pre-retiree',city:'Mt. Lebanon, PA',members:'Tom, Anne',review:'',notes:'Both plan to retire within 5 years. Social Security timing is the big question.'},
+  {id:'h2',name:'Dev Raman',type:'Business owner',city:'Shadyside, PA',members:'Dev',review:'',notes:'Owns a small design shop. Thinking about succession.'},
+  {id:'h3',name:'Lena Hartmann',type:'Young professional',city:'Lawrenceville, PA',members:'Lena',review:'',notes:'Came in through the website.'},
+  {id:'h4',name:'The Brennan Household',type:'Client',city:'Sewickley, PA',members:'Pat, Jo',review:addDays(40),notes:'Retired. Working with their estate attorney.'},
+  {id:'h5',name:'The Okafor Family',type:'Client',city:'Fox Chapel, PA',members:'Chidi, Ada',review:addDays(-6),notes:'Two kids. College savings is a priority.'}];
+ const deals=[
+  {id:'d1',title:'Retirement income plan',hh:'h1',owner:'Jesse',source:'Client referral',stage:'s3',firstMeeting:addDays(-18),created:now-25*D},
+  {id:'d2',title:'Business succession planning',hh:'h2',owner:'Aidan',source:'Personal network',stage:'s2',firstMeeting:addDays(-4),created:now-12*D},
+  {id:'d3',title:'First financial plan',hh:'h3',owner:'Aidan',source:'Website',stage:'s1',firstMeeting:'',created:now-3*D},
+  {id:'d4',title:'Estate and tax review',hh:'h4',owner:'Jesse',source:'CPA / attorney',stage:'s5',firstMeeting:addDays(-80),wonAt:addDays(-45),created:now-90*D},
+  {id:'d5',title:'Family planning',hh:'h5',owner:'Jesse',source:'Client referral',stage:'s5',firstMeeting:addDays(-40),wonAt:addDays(-12),created:now-60*D},
+  {id:'d6',title:'Investment review',hh:'h3',owner:'Aidan',source:'LinkedIn / Sales Navigator',stage:'s6',firstMeeting:addDays(-30),created:now-45*D}];
+ const tasks=[
+  {id:'t1',title:'Send Social Security timing scenarios',due:addDays(-1),done:false,owner:'Jesse',deal:'d1'},
+  {id:'t2',title:'Follow up with Dev after planning meeting',due:today(),done:false,owner:'Aidan',deal:'d2'},
+  {id:'t3',title:'Intro call with Lena',due:addDays(2),done:false,owner:'Aidan',deal:'d3'},
+  {id:'t4',title:'Annual review: Okafor Family',due:addDays(-6),done:false,owner:'Jesse',deal:'d5'},
+  {id:'t5',title:'Annual review: Brennan Household',due:addDays(40),done:false,owner:'Jesse',deal:'d4'}];
+ return {v:1,sample:true,calls:[],hh,deals,tasks,stages:stages(),prospects:prospects(),drafts:seedDrafts(),notes:[
+  {id:'n1',deal:'d1',when:now-18*D,text:'Discovery meeting. Goals: retire at 62, travel, help grandkids with college.'}]};
+}
+function load(){
+ try{const raw=localStorage.getItem(KEY);if(raw){DB=JSON.parse(raw);if(!DB.drafts)DB.drafts=DB.sample?seedDrafts():[];if(!DB.calls)DB.calls=[];return}}catch(e){storageOK=false}
+ DB=seed();save();
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){storageOK=false}}
+const byId=(a,id)=>a.find(x=>x.id===id);
+const HH=id=>byId(DB.hh,id), DL=id=>byId(DB.deals,id), TK=id=>byId(DB.tasks,id), ST=id=>byId(DB.stages,id), PR=id=>byId(DB.prospects,id);
+const stype=d=>(ST(d.stage)||{}).type||'open';
+
+/* ---------- state ---------- */
+const UI={view:'dashboard',owner:'All',seg:'All',sig:'All',taskTab:'open',drawer:null,q:'',cseg:'All',callId:null,outcome:null,notes:'',cdate:'',stage:'connection',scriptSeg:null,panel:'script',asked:{},auto:true};
+function refresh(){save();renderNav();renderMain();if(UI.drawer)renderDrawer()}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2200)}
+
+/* ---------- nav ---------- */
+const NAV=[['dashboard','Dashboard',ICON.dash],['radar','Lead Radar',ICON.radar],['social','Social',ICON.social],['finder','Prospect Finder',ICON.find],['calls','Call Desk',ICON.phone],['outreach','Outreach',ICON.send],['pipeline','Pipeline',ICON.pipe],['households','Households',ICON.home],['tasks','Tasks',ICON.check],['settings','Settings',ICON.gear]];
+const dueCount=()=>DB.tasks.filter(t=>!t.done&&t.due&&t.due<=today()).length;
+function renderNav(){
+ const due=dueCount();
+ const items=NAV.map(([k,l,i])=>`<button class="nav ${UI.view===k?'on':''}" data-nav="${k}">${i}<span>${l}</span>${k==='tasks'&&due?`<span class="badge">${due}</span>`:''}</button>`).join('');
+ document.getElementById('side').innerHTML=`<div class="brand"><img src="https://www.silveroakfs.com/airo-assets/images/logo/horizontal/dark" alt="Silver Oak Financial" onerror="this.outerHTML='<span class=&quot;nm&quot;>Silver Oak Financial</span>'"><span class="by">by <b>TAZ</b> &middot; demo build</span></div>${items}<div class="foot">${storageOK?'Saved in this browser':'Browser storage is off, changes will not be kept'}</div>`;
+ document.getElementById('mobnav').innerHTML=NAV.filter(n=>['dashboard','radar','social','calls','pipeline','tasks'].includes(n[0])).map(([k,l,i])=>`<button class="nav ${UI.view===k?'on':''}" data-nav="${k}">${i}<span>${l.replace('Prospect Finder','Finder').replace('Lead Radar','Radar').replace('Call Desk','Calls').replace('Households','Homes').replace('Dashboard','Dash')}</span></button>`).join('');
+}
+function go(v){UI.view=v;UI.q='';closeDrawer();renderNav();renderMain();if(typeof renderTick==='function')renderTick();window.scrollTo(0,0)}
+
+/* ---------- shared bits ---------- */
+function topbar(title,extra=''){
+ return `<div class="top"><h1>${esc(title)}</h1><div class="sp"></div>${extra}</div>
+ ${DB.sample&&UI.view!=='radar'&&UI.view!=='social'?`<div class="banner"><b>Sample data.</b><span>Everything here is made up so you can click around. Clear it when you are ready to add your own.</span><span class="sp"></span><button class="btn sm" data-act="clear-sample">Clear sample data</button></div>`:''}`;
+}
+function ownerPills(){return `<div class="chips">${['All',...OWNERS].map(o=>`<button class="chip ${UI.owner===o?'on':''}" data-act="owner" data-id="${o}">${o==='All'?'Both of us':o}</button>`).join('')}</div>`}
+const ownerOk=o=>UI.owner==='All'||o===UI.owner;
+function dueBadge(t){
+ if(t.done)return '<span class="pill ok">Done</span>';
+ if(!t.due)return '<span class="pill">No date</span>';
+ if(t.due<today())return `<span class="pill bad">${fdate(t.due)}</span>`;
+ if(t.due===today())return '<span class="pill warn">Today</span>';
+ return `<span class="pill">${fdate(t.due)}</span>`;
+}
+function taskLine(t){
+ const d=t.deal&&DL(t.deal);
+ return `<div class="li"><button class="cbx ${t.done?'on':''}" data-act="toggle-task" data-id="${t.id}" aria-label="Mark done">${t.done?CHECK:''}</button><div class="grow"><div style="${t.done?'text-decoration:line-through;color:var(--muted)':''}">${esc(t.title)}</div><div class="sub">${esc(t.owner||'')}${d?` &middot; <button class="link" data-act="open-deal" data-id="${d.id}">${esc(d.title)}</button>`:''}</div></div>${dueBadge(t)}</div>`;
+}
+
+/* ---------- dashboard ---------- */
+function vDash(){
+ const ym=today().slice(0,7);
+ const deals=DB.deals.filter(d=>ownerOk(d.owner));
+ const open=deals.filter(d=>stype(d)==='open');
+ const meetings=deals.filter(d=>(d.firstMeeting||'').slice(0,7)===ym).length;
+ const cutoff=addDays(-90);
+ const clients=deals.filter(d=>stype(d)==='won'&&(d.wonAt||'')>=cutoff).length;
+ const tasks=DB.tasks.filter(t=>!t.done&&ownerOk(t.owner));
+ const overdue=tasks.filter(t=>t.due&&t.due<today()).length, dueT=tasks.filter(t=>t.due===today()).length;
+ const mx=Math.max(1,...DB.stages.filter(s=>s.type==='open').map(s=>open.filter(d=>d.stage===s.id).length));
+ const stageBars=DB.stages.filter(s=>s.type==='open').map(s=>{const n=open.filter(d=>d.stage===s.id).length;return `<div class="hbar"><span>${esc(s.name)}</span><div class="track"><div class="fill" style="width:${Math.round(100*n/mx)}%"></div></div><span class="n">${n}</span></div>`}).join('');
+ const src={};deals.forEach(d=>{const k=d.source||'Other';src[k]=src[k]||{n:0,won:0};src[k].n++;if(stype(d)==='won')src[k].won++});
+ const smx=Math.max(1,...Object.values(src).map(v=>v.n));
+ const srcBars=Object.entries(src).sort((a,b)=>b[1].n-a[1].n).map(([k,v])=>`<div class="hbar"><span>${esc(k)}</span><div class="track"><div class="fill g" style="width:${Math.round(100*v.n/smx)}%"></div></div><span class="n">${v.n}</span></div>`).join('')||'<div class="empty">No deals yet</div>';
+ const up=tasks.sort((a,b)=>(a.due||'9').localeCompare(b.due||'9')).slice(0,6).map(taskLine).join('')||'<div class="empty">Nothing due. Nice.</div>';
+ const reviews=DB.hh.filter(h=>h.type==='Client'&&h.review).sort((a,b)=>a.review.localeCompare(b.review)).map(h=>`<div class="li"><div class="grow"><button class="link" data-act="open-hh" data-id="${h.id}">${esc(h.name)}</button><div class="sub">Annual review</div></div>${h.review<today()?`<span class="pill bad">Overdue &middot; ${fdate(h.review)}</span>`:`<span class="pill">${fdate(h.review)}</span>`}</div>`).join('')||'<div class="empty">No reviews scheduled</div>';
+ return topbar('Dashboard',ownerPills())+`
+ <div class="kpis">
+  <div class="card pad kpi"><div class="l">First meetings this month</div><div class="v">${meetings} <span class="sub">of 5</span></div><div class="meter"><div style="width:${Math.min(100,meetings*20)}%"></div></div></div>
+  <div class="card pad kpi"><div class="l">New clients, last 90 days</div><div class="v">${clients} <span class="sub">of 5</span></div><div class="meter"><div style="width:${Math.min(100,clients*20)}%"></div></div></div>
+  <div class="card pad kpi"><div class="l">Open deals</div><div class="v">${open.length}</div><div class="s">${open.filter(d=>!d.firstMeeting).length} not yet met</div></div>
+  <div class="card pad kpi"><div class="l">Follow-ups needing you</div><div class="v">${overdue+dueT}</div><div class="s">${overdue?`<span style="color:var(--bad)">${overdue} overdue</span> &middot; `:''}${dueT} due today</div></div>
+ </div>
+ <div class="grid2">
+  <div class="card pad"><h3>Pipeline by stage</h3>${stageBars}</div>
+  <div class="card pad"><h3>Where deals come from</h3>${srcBars}</div>
+ </div>
+ <div class="grid2">
+  <div class="card pad"><h3>Follow-up reminders</h3><div class="list">${up}</div></div>
+  <div class="card pad"><h3>Annual review reminders</h3><div class="list">${reviews}</div></div>
+ </div>`;
+}
+
+/* ---------- prospect finder ---------- */
+function vFinder(){
+ const rows=DB.prospects.filter(p=>(UI.seg==='All'||p.segment===UI.seg)&&(UI.sig==='All'||p.signal===UI.sig));
+ const tr=rows.map(p=>`<tr data-act="open-prospect" data-id="${p.id}"><td><div class="namecell"><span class="av">${esc(initials(p.name))}</span><div><div style="font-weight:900">${esc(p.name)}</div><div class="sub">${esc(p.title)} &middot; ${esc(p.employer)}</div></div></div></td><td class="hide-m">${esc(p.town)}</td><td class="hide-m">${p.age||'-'}</td><td><span class="pill acc">${esc(p.signal)}</span><div class="sub">${esc(p.why)}</div></td><td>${p.added?'<span class="pill ok">In pipeline</span>':`<button class="btn sm pri" data-act="add-prospect" data-id="${p.id}">Add to pipeline</button>`}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">No prospects match those filters.</td></tr>';
+ return topbar('Prospect Finder',`<span class="pill">Week of ${fdate(addDays(-((new Date().getDay()+6)%7)))}</span>`)+`
+ <p class="sub" style="margin:-6px 0 14px">Who Silver Oak is looking for: people who live or work in western PA, in three groups. Each person below has the reason they were picked. Lists come from a licensed business-data provider. Before any outreach, check them against Do Not Call and your current clients.</p>
+ <div class="card pad" style="margin-bottom:14px"><h3>Target market</h3>
+  <div class="facts"><span class="k">Pre-retirees</span><span>Directors, VPs and senior managers with 25+ years of experience at large western PA employers. Planning topics: retirement income, Social Security timing, rollovers.</span>
+  <span class="k">Business owners</span><span>Founders, CEOs and presidents of firms with 11 to 50 employees. Planning topics: owner pay, owner retirement plans, succession.</span>
+  <span class="k">Young professionals</span><span>3 to 9 years into a career in finance, engineering, IT, healthcare or legal at larger employers. Planning topics: 401(k) match, equity plans, first plan.</span></div>
+  <div class="sub" style="margin-top:8px">${DB.prospects.filter(p=>p.real).length} real prospects loaded. Life-event signals (job change, turning 62, selling a business) come next from Traxy.</div></div>
+ <div class="toolbar"><div class="chips">${['All',...SEGMENTS.filter(s=>s!=='Client')].map(s=>`<button class="chip ${UI.seg===s?'on':''}" data-act="seg" data-id="${esc(s)}">${esc(s)}</button>`).join('')}</div>
+ <select class="inp" id="sigsel" style="max-width:240px"><option value="All">All signals</option>${SIGNALS.map(s=>`<option ${UI.sig===s?'selected':''}>${esc(s)}</option>`).join('')}</select></div>
+ <div class="card"><div class="tablewrap"><table><thead><tr><th>Prospect</th><th class="hide-m">Town</th><th class="hide-m">Age (est.)</th><th>Why they were picked</th><th></th></tr></thead><tbody>${tr}</tbody></table></div></div>
+ <div class="card pad" style="margin-top:14px"><h3>Outreach wording check</h3>
+  <p class="sub" style="margin-top:-6px">Your rules: nothing about returns, and never the word "guarantee". Paste a draft and check it before anything goes out.</p>
+  <textarea class="inp" id="wording" placeholder="Paste a LinkedIn message or email draft here"></textarea>
+  <div id="wordout"></div></div>`;
+}
+function wordingCheck(txt){
+ const bad=[[/guarante/i,'guarantee'],[/\breturns?\b/i,'returns'],[/outperform/i,'outperform'],[/risk[- ]free/i,'risk-free'],[/\bbeat the market\b/i,'beat the market']];
+ const hits=bad.filter(([re])=>re.test(txt)).map(b=>b[1]);
+ if(!txt.trim())return '';
+ return hits.length?`<div class="check bad"><b>Fix before sending.</b> Found: ${hits.map(h=>`"${esc(h)}"`).join(', ')}. Rephrase around planning and process instead.</div>`:'<div class="check ok"><b>Looks clean.</b> No flagged wording found. Your compliance contact still has the final say.</div>';
+}
+
+/* ---------- outreach (draft only) ---------- */
+function seedDrafts(){
+ const D=(who,owner,signal,text)=>({id:uid(),who,owner,signal,text,status:'pending'});
+ return [
+  D('Dana Whitfield','Jesse','Turning 62 in 5 months','Hi Dana, this is Jesse with Silver Oak Financial in Pittsburgh. I work with people in the years leading up to retirement, and a few planning questions tend to come up around age 62. Happy to share them, no pitch. Would a quick call next week be useful?'),
+  D('Priya Nandakumar','Aidan','Promotion','Congrats on the new role, Priya. I am Aidan with Silver Oak Financial here in Pittsburgh. A promotion is a good moment to look at the plan behind your paycheck. If it would help, I can share a simple checklist, no strings attached.'),
+  D('Tessa Brandt','Aidan','Job change','Hi Tessa, Aidan here at Silver Oak Financial. Congrats on the new position. A job change usually comes with decisions about the old 401(k) and new benefits. Glad to walk through the options in 15 minutes if that would help.')];
+}
+function vOutreach(){
+ const d=DB.drafts||[];
+ const pend=d.filter(x=>x.status==='pending').length, ok=d.filter(x=>x.status==='approved').length;
+ const conn=[['Aidan’s LinkedIn account','Not connected. One sign-in, done together on the call.','warn','https://app.heyreach.io'],['Jesse’s LinkedIn account','Not connected. One sign-in, whenever Jesse is ready.','warn','https://app.heyreach.io'],['Sales Navigator','Aidan already has it. It rides on his LinkedIn sign-in, so it lights up the moment his account connects.','warn',null],['Silver Oak outreach workspace','Ready: 2 seats reserved, waiting on the two sign-ins above.','ok',null],['Autopilot app for iPhone','Ready to add to your Home Screen. App Store version follows.','ok',null],['Compliance archiving','Not yet confirmed with your compliance contact.','bad',null]];
+ const steps=['Traxy finds and scores people','You review each draft here','HeyReach sends from Aidan’s or Jesse’s account'];
+ const cards=d.map(x=>{
+  const body=x.status==='pending'
+   ?`<textarea class="inp" id="dt-${x.id}" style="min-height:96px">${esc(x.text)}</textarea><div id="dc-${x.id}">${wordingCheck(x.text)}</div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn pri sm" data-act="approve-draft" data-id="${x.id}">Approve</button><button class="btn sm" data-act="skip-draft" data-id="${x.id}">Skip</button></div>`
+   :`<div class="notes">${esc(x.text)}</div><div style="margin-top:8px;display:flex;gap:8px;align-items:center">${x.status==='approved'?'<span class="pill ok">Approved. Waiting for connection, nothing sent</span>':'<span class="pill">Skipped</span>'}<button class="btn sm" data-act="undo-draft" data-id="${x.id}">Undo</button></div>`;
+  return `<div class="card pad" style="margin-bottom:12px"><div class="namecell" style="margin-bottom:10px"><span class="av">${esc(initials(x.who))}</span><div class="grow"><div style="font-weight:900">${esc(x.who)}</div><div class="sub">${esc(x.signal)} &middot; from ${esc(x.owner)}</div></div></div>${body}</div>`}).join('')||'<div class="card empty">No drafts yet.</div>';
+ return topbar('Outreach',`<span class="pill warn">Draft only</span>`)+`
+ <p class="sub" style="margin:-6px 0 14px">LinkedIn outreach in your voice. Nothing is sent from this draft. Every message waits for your approval and is checked against your wording rules.</p>
+ <div class="grid2">
+  <div class="card pad"><h3>How it works</h3><div class="list">${steps.map((s,i)=>`<div class="li"><span class="av">${i+1}</span><div class="grow">${esc(s)}</div></div>`).join('')}</div></div>
+  <div class="card pad"><h3>Setup status</h3><div class="list">${conn.map(c=>`<div class="li"><div class="grow">${esc(c[0])}<div class="sub">${esc(c[1])}</div></div>${c[3]?`<a class="btn sm" href="${c[3]}" target="_blank" rel="noopener" style="margin-right:8px">Connect</a>`:''}<span class="pill ${c[2]}">${c[2]==='ok'?'Ready':c[2]==='bad'?'Needs answer':'To do'}</span></div>`).join('')}</div></div>
+ </div>
+ <div class="grp">Drafts to review &middot; ${pend} waiting, ${ok} approved</div>${cards}`;
+}
+
+/* ---------- call desk (NEPQ) ---------- */
+const NEPQ_STAGES=[
+ {k:'connection',n:'Connection',goal:'Earn 30 seconds. No pitch. Say it is a cold call and ask permission.',tip:'Slow and calm. Ask, then stop talking and listen.'},
+ {k:'situation',n:'Situation',goal:'Learn where they are today, in their own words.',tip:'One question at a time. Do not fix anything yet.'},
+ {k:'problem',n:'Problem awareness',goal:'Let them name the gap themselves.',tip:'Repeat their words back: “You said…”'},
+ {k:'solution',n:'Solution awareness',goal:'What would better look like to them, and how much does it matter?',tip:'After the 1 to 10 question, always ask why that number and not a lower one.'},
+ {k:'consequence',n:'Consequence',goal:'Help them see what waiting costs in time and options.',tip:'Keep it about their goals and dates. Never about market results. No fear tactics.'},
+ {k:'transition',n:'Transition',goal:'Sum up in their words, then ask permission to explain how you work.',tip:'Use their exact phrases, not yours. Fill the [brackets] live.'},
+ {k:'commitment',n:'Commitment',goal:'Book the intro meeting. Nothing else.',tip:'Offer two times. Ask what could get in the way.'}];
+const COMMIT=["Would a 30-minute conversation make sense so you can see where you stand? Would Tuesday morning or Thursday afternoon be better?","What could get in the way of that day? Is there anyone you’d want on the call, like a spouse, partner or your CPA?","I’ll send the invite to your email. Which address is best?"];
+const SCRIPTS={
+'Pre-retiree':{
+ connection:["Hi {first}, it’s {rep} with {firm} here in Pittsburgh. We’ve never spoken, so this is a cold call. Do you have 30 seconds for me to tell you why I called? If it doesn’t make sense, you can hang up on me.","I work with people at places like {employer} who are somewhere in the last 5 to 15 years before retirement. I honestly don’t know if that’s you. Is retirement something you’ve started thinking about yet?"],
+ situation:["What have you done so far to get ready for retirement, if anything?","When do you picture stepping back from work?","Who has helped you with the money side so far: yourself, an advisor, or what {employer} offers?","In general terms, what do you have through work, like a 401(k) or a pension? No numbers needed."],
+ problem:["What part of retirement feels the least clear to you right now?","When you think about turning what you’ve saved into monthly income, how sure are you about how that would work?","How much of that have you written down or mapped out, versus carrying around in your head?","What has kept you from sitting down and working through it?"],
+ solution:["If you did have it mapped out, what would it need to show you for you to feel good about it?","Have you ever worked through a written retirement plan with someone? How did that go?","What would you want an advisor to do differently from what you’ve seen?","On a scale of 1 to 10, how important is it to get this figured out in the next year? Why that number and not a lower one?"],
+ consequence:["If the big decisions, like Social Security timing and what to do with the 401(k), get made without a plan, what do you think that could mean for your retirement date?","How would that change the things you want to be doing in retirement?","How long do you think you can leave this alone before it starts closing off options?"],
+ transition:["So if I heard you right, [what they said is unclear], and [what they want retirement to look like]. Is that fair?","What we do is start with a planning conversation about your income, your Social Security timing and your work plan. There’s no product and no pressure. Would it be okay if I told you how that works?"],
+ commitment:COMMIT,
+ voicemail:"Hi {first}, this is {rep} with {firm} in Pittsburgh. We haven’t spoken before. I work with people at {employer} on retirement planning, and I wanted to see if it’s something you’ve been thinking about. If it isn’t, no need to call back. You can find us at silveroakfs.com. Have a good day."},
+'Business owner':{
+ connection:["Hi {first}, it’s {rep} with {firm} here in Pittsburgh. We’ve never spoken, so this is a cold call. Do you have 30 seconds for me to tell you why I called? Then you can tell me whether to keep going.","I work with owners of smaller local businesses on how they pay themselves, save for their own retirement, and plan for the day they step back. I don’t know if any of that is on your plate. Is it something you get to, or does the business usually come first?"],
+ situation:["How long have you been running {employer}?","How do you pay yourself today: salary, distributions, a mix?","Outside the business, what do you have set up for your own retirement?","Who do you lean on for the money side: a CPA, an attorney, an advisor, or mostly yourself?"],
+ problem:["What part of your own finances gets the least attention because the business takes your time?","Roughly how much of what you’ve built is tied up in the business? A rough sense is fine.","Have you thought about what the business would need to look like for you to step back?","What has made that hard to get to?"],
+ solution:["If you had a clear plan for how you’re paid, how you save and how you eventually step away, what would that change for you?","Have you ever put together a plan like that? What happened?","On a scale of 1 to 10, how important is it to get this sorted in the next year? Why that number and not a lower one?"],
+ consequence:["If the business stays your only plan, what happens if you want or need to step away sooner than you expected?","How would that affect your family?","How long can you keep this on the back burner before it limits your options?"],
+ transition:["So if I heard you right, [what takes their attention], and [what they want for themselves]. Is that right?","What we do is a planning conversation about you personally, not just the business: how you’re paid, a retirement plan for yourself, and a longer-term exit. We’re glad to work with your CPA. Would it be okay if I explained how that works?"],
+ commitment:COMMIT,
+ voicemail:"Hi {first}, this is {rep} with {firm} in Pittsburgh. We haven’t spoken before. I work with local business owners on planning for themselves, not just the business, and I wanted to see if that’s on your mind. If it isn’t, no need to call back. You can find us at silveroakfs.com. Have a good day."},
+'Young professional':{
+ connection:["Hi {first}, it’s {rep} with {firm} here in Pittsburgh. We’ve never spoken, so this is a cold call. Can I take 30 seconds to tell you why I called? If it’s not for you, just say so.","I help people early in their careers at companies like {employer} get more out of their benefits and start a real plan. I don’t know if that’s on your radar. Is it?"],
+ situation:["How long have you been at {employer}?","What are you doing with the 401(k) there right now? Contributing, getting the match, not sure?","Do you get any stock or equity pay through work?","What’s the next big thing you’re saving toward: a home, a family, a career move?"],
+ problem:["How sure are you that you’re using your benefits the right way?","What do you wish you understood about your money that you don’t today?","Has anyone ever sat down and shown you a plan, or has it been mostly figuring it out as you go?"],
+ solution:["If you had a simple plan, what would it need to cover for you?","What have you tried on your own so far? How did it go?","On a scale of 1 to 10, how important is it to get this in place this year? Why that number and not a lower one?"],
+ consequence:["If you keep doing what you’re doing for another three to five years, where do you think that leaves you on [the goal they named]?","What do you think waiting costs you in time?","What would it mean to look back and feel you had a plan the whole way?"],
+ transition:["So if I heard you right, [what they’re unsure about], and [what they want to do]. Is that fair?","What we do is a short planning conversation about your benefits, your savings and your goals. There’s no product and no pressure. Would it be okay if I told you how that works?"],
+ commitment:COMMIT,
+ voicemail:"Hi {first}, this is {rep} with {firm} in Pittsburgh. We haven’t spoken before. I help people at {employer} get more out of their benefits and start a plan, and I wanted to see if that’s something you’ve been thinking about. If it isn’t, no need to call back. You can find us at silveroakfs.com. Have a good day."}
+};
+const OBJECTIONS=[
+ {k:'“I’m not interested”',say:["Totally fair. I did catch you out of the blue. Just so I understand, is it that planning isn’t a priority right now, or that you feel you already have it handled?","If handled: “Good to hear. What’s working best about how you’re handling it?”","If not a priority: “That makes sense. Would it be okay if I check back in a few months?”"]},
+ {k:'“I already have an advisor”',say:["That’s good to hear. How long have you worked together?","What do you like most about it?","Is there anything you wish were different? If not, I’ll leave you be. You’re welcome to reach out through silveroakfs.com if that changes."]},
+ {k:'“Just send me some information”',say:["Happy to. So I send you something useful, what would you most want to know?","I’ll send a short note. If it looks worth a look, would a 15-minute call next week make sense?","Only send material your compliance contact has approved."]},
+ {k:'“This is a bad time”',say:["No problem. When is a better 5 minutes, later today or tomorrow?","Log it as “call back later” with the date so it lands in Tasks."]},
+ {k:'“How did you get my number?”',say:["Fair question. Your work details came from a licensed business-data provider. I’m happy to take you off my list right now if you’d like.","If they say yes, log “Do not call” before you do anything else."]},
+ {k:'“Are you selling something? What does it cost?”',say:["Fair question. Today I’m only asking for 30 minutes to see if planning makes sense for you. I’ll walk you through how we’re paid in the first meeting, so there are no surprises.","Confirm with Jesse how fees should be described before you rely on this line."]}];
+const CALL_RULES=[
+ "Say who you are and that it is a cold call in the first 10 seconds.",
+ "Call between 8 am and 9 pm in their time zone.",
+ "Check the Do Not Call list and your current clients before dialing. The portal has not done this for you.",
+ "If they say stop, stop. Log “Do not call” right away.",
+ "No talk about returns, performance, guarantees or specific products on a first call.",
+ "Pennsylvania requires everyone on a call to agree to recording. Do not record unless they say yes.",
+ "Log every call here. Your compliance contact has not yet said how calls must be archived."];
+const OUTCOMES=[
+ {k:'na',label:'No answer'},{k:'vm',label:'Left voicemail'},{k:'ni',label:'Spoke: not interested',spoke:1},
+ {k:'cb',label:'Spoke: call back later',spoke:1},{k:'bk',label:'Spoke: meeting booked',spoke:1},{k:'wn',label:'Wrong number'},{k:'dnc',label:'Do not call'}];
+const OUT=Object.fromEntries(OUTCOMES.map(o=>[o.k,o]));
+const CALL_SEGS=['Pre-retiree','Business owner','Young professional'];
+const pcalls=p=>DB.calls.filter(c=>c.pid===p.id).sort((a,b)=>b.when-a.when);
+const digits=s=>String(s||'').replace(/\D/g,'').replace(/^1(?=\d{10}$)/,'');
+function fmtPhone(s){const d=digits(s);return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:String(s||'')}
+const areaOff=p=>{const d=digits(p.mobile);return d.length===10&&!['412','724','878','814'].includes(d.slice(0,3))};
+const firstName=p=>String(p.name||'').split(/\s+/)[0];
+function fill(s,p){
+ const m={first:firstName(p),employer:p.employer||'your company',title:p.title||'your role',rep:p.owner||'your advisor',firm:'Silver Oak Financial'};
+ return esc(String(s).replace(/\{(\w+)\}/g,(x,k)=>m[k]!=null?m[k]:x)).replace(/\[([^\]]+)\]/g,'<span class="adlib">[$1]</span>');
+}
+function callRank(p){
+ const l=pcalls(p)[0];
+ if(p.badNumber)return 5;
+ if(!l)return 0;
+ if(l.outcome==='cb')return 1;
+ if(l.outcome==='na'||l.outcome==='vm')return 2;
+ return 4;
+}
+function callQueue(){
+ return DB.prospects.filter(p=>!p.dnc&&ownerOk(p.owner)&&(UI.cseg==='All'||p.segment===UI.cseg))
+  .map((p,i)=>({p,i,r:callRank(p)})).sort((a,b)=>a.r-b.r||a.i-b.i).map(x=>x.p);
+}
+function callStatus(p){
+ const l=pcalls(p)[0];
+ if(p.badNumber)return '<span class="pill bad">Wrong number</span>';
+ if(!l)return '<span class="pill acc">New</span>';
+ const o=OUT[l.outcome];
+ return `<span class="pill ${l.outcome==='bk'?'ok':l.outcome==='cb'?'warn':''}">${esc(o?o.label:l.outcome)}</span>`;
+}
+function resetCall(){UI.outcome=null;UI.notes='';UI.cdate='';UI.stage='connection';UI.scriptSeg=null;UI.panel='script';UI.asked={}}
+function addToPipeline(p){
+ let h=DB.hh.find(x=>x.name===p.name);
+ if(!h){h={id:uid(),name:p.name,type:p.segment,city:p.town,members:p.name.split(' ')[0],review:'',notes:'From the Prospect Finder: '+p.signal+'. '+p.why};DB.hh.push(h)}
+ let d=p.added?DB.deals.find(x=>x.hh===h.id&&x.source==='Prospect Finder'):null;
+ if(!d){d={id:uid(),title:'First financial plan',hh:h.id,owner:p.owner,source:'Prospect Finder',stage:'s1',firstMeeting:'',created:Date.now()};DB.deals.push(d)}
+ p.added=true;return d;
+}
+function nextLead(fromId){
+ const q=callQueue();if(!q.length)return null;
+ const i=q.findIndex(x=>x.id===fromId);
+ const after=q.slice(i+1).concat(q.slice(0,Math.max(i,0)));
+ return after.find(x=>!pcalls(x).length)||after.find(x=>callRank(x)<=2)||null;
+}
+function vCalls(){
+ const q=callQueue();
+ let p=UI.callId&&PR(UI.callId);
+ if(!p||p.dnc||!q.some(x=>x.id===p.id))p=q[0]||null;
+ if(p&&UI.callId!==p.id){UI.callId=p.id;resetCall()}
+ if(!p)UI.callId=null;
+ const t0=new Date();t0.setHours(0,0,0,0);const mo=new Date();mo.setDate(1);mo.setHours(0,0,0,0);
+ const todayC=DB.calls.filter(c=>c.when>=t0.getTime());
+ const spoke=todayC.filter(c=>OUT[c.outcome]&&OUT[c.outcome].spoke).length;
+ const booked=DB.calls.filter(c=>c.outcome==='bk'&&c.when>=mo.getTime()).length;
+ const fresh=q.filter(x=>!pcalls(x).length).length;
+ const dncN=DB.prospects.filter(x=>x.dnc).length;
+ const kpis=`<div class="kpis">
+  <div class="card pad kpi"><div class="l">Calls today</div><div class="v">${todayC.length}</div><div class="s">${spoke} conversation${spoke===1?'':'s'}</div></div>
+  <div class="card pad kpi"><div class="l">Meetings booked this month</div><div class="v">${booked} <span style="font-size:15px;color:var(--muted)">of 5</span></div><div class="meter"><div style="width:${Math.min(100,booked*20)}%"></div></div></div>
+  <div class="card pad kpi"><div class="l">Not called yet</div><div class="v">${fresh}</div><div class="s">in this view</div></div>
+  <div class="card pad kpi"><div class="l">Do not call</div><div class="v">${dncN}</div><div class="s">removed from the queue</div></div></div>`;
+ const segChips=`<div class="chips" style="margin-bottom:10px">${['All',...CALL_SEGS].map(s=>`<button class="chip ${UI.cseg===s?'on':''}" data-act="cseg" data-id="${s}">${s==='All'?'All':esc(s)}</button>`).join('')}</div>`;
+ const qlist=q.map(x=>`<button class="qi ${p&&x.id===p.id?'on':''}" data-act="call-pick" data-id="${x.id}"><span class="av">${esc(initials(x.name))}</span><span class="grow"><b>${esc(x.name)}</b><span class="sub" style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.title)} &middot; ${esc(x.employer)}</span></span>${callStatus(x)}</button>`).join('')||'<div class="empty">No leads in this view.</div>';
+ const left=`<div class="card pad"><h3>Call queue &middot; ${q.length}</h3>${ownerPills()}<div style="height:8px"></div>${segChips}<div class="qlist">${qlist}</div></div>`;
+ let right;
+ if(!p){right='<div class="card empty">Pick a lead from the queue to start.</div>'}
+ else{
+  const hist=pcalls(p).slice(0,3).map(c=>`<div class="li"><div class="grow"><b>${esc((OUT[c.outcome]||{}).label||c.outcome)}</b>${c.date?` <span class="sub">&middot; ${esc(fdate(c.date))}</span>`:''}<div class="sub">${esc(c.notes||'No notes')}</div></div><span class="sub">${new Date(c.when).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span></div>`).join('');
+  const li=p.linkedin?`<a class="btn sm" target="_blank" rel="noopener" href="https://www.${esc(String(p.linkedin).replace(/^https?:\/\/(www\.)?/,''))}">LinkedIn</a>`:'';
+  const head=`<div class="card pad" style="margin-bottom:14px">
+   <div class="namecell" style="align-items:flex-start"><span class="av" style="width:46px;height:46px;font-size:16px">${esc(initials(p.name))}</span>
+    <div class="grow"><h2 style="font:700 20px 'Playfair Display',Georgia,serif">${esc(p.name)}</h2><div class="sub">${esc(p.title)} &middot; ${esc(p.employer)} &middot; ${esc(p.town)}</div>
+    <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><span class="pill acc">${esc(p.segment)}</span><span class="pill">Owner: ${esc(p.owner)}</span>${callStatus(p)}${areaOff(p)?'<span class="pill warn">Mobile area code is outside western PA, verify</span>':''}</div></div></div>
+   <div style="margin:12px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center">${p.mobile?`<a class="btn pri" href="tel:${esc(digits(p.mobile))}">${ICON.phone}Call ${esc(fmtPhone(p.mobile))}</a>`:'<span class="pill warn">No mobile number</span>'}${p.workEmail?`<a class="btn sm" href="mailto:${esc(p.workEmail)}">Email</a>`:''}${li}<button class="btn sm" data-act="open-prospect" data-id="${p.id}">Full profile</button></div>
+   <div class="notes" style="font-size:13px"><b>Why picked.</b> ${esc(p.why)}</div>
+   ${hist?`<div class="list" style="margin-top:10px">${hist}</div>`:''}</div>`;
+  const sseg=UI.scriptSeg||(SCRIPTS[p.segment]?p.segment:'Pre-retiree'), S=SCRIPTS[sseg];
+  const panels=[['script','Script'],['voicemail','Voicemail'],['objections','Objections'],['rules','Ground rules']];
+  const ptabs=`<div class="chips" style="margin-bottom:12px">${panels.map(([k,l])=>`<button class="chip ${UI.panel===k?'on':''}" data-act="panel" data-id="${k}">${l}</button>`).join('')}</div>`;
+  let body='';
+  if(UI.panel==='script'){
+   const si=Math.max(0,NEPQ_STAGES.findIndex(s=>s.k===UI.stage)), st=NEPQ_STAGES[si];
+   const stg=`<div class="chips" style="margin-bottom:12px">${NEPQ_STAGES.map((s,i)=>`<button class="chip ${i===si?'on':''}" data-act="stage" data-id="${s.k}">${i+1}. ${esc(s.n)}</button>`).join('')}</div>`;
+   const qs=S[st.k].map((t,i)=>{const key=p.id+'|'+st.k+'|'+i;return `<div class="q ${UI.asked[key]?'done':''}" data-act="ask" data-id="${key}">${fill(t,p)}</div>`}).join('');
+   const nx=NEPQ_STAGES[si+1], pv=NEPQ_STAGES[si-1];
+   body=`<div class="chips" style="margin-bottom:12px"><span class="sub" style="align-self:center">Script for</span>${CALL_SEGS.map(s=>`<button class="chip ${s===sseg?'on':''}" data-act="script-seg" data-id="${s}">${esc(s)}</button>`).join('')}</div>${stg}
+    <div class="stg"><div class="stg-g"><b>Goal.</b> ${esc(st.goal)}</div><div class="sub"><b>Tip.</b> ${esc(st.tip)}</div></div>${qs}
+    <div class="sub" style="margin:6px 0 10px">Tap a question once you have asked it. Words in <span class="adlib">[brackets]</span> are for you to fill in live.</div>
+    <div style="display:flex;gap:8px;justify-content:space-between">${pv?`<button class="btn sm" data-act="stage" data-id="${pv.k}">&larr; ${esc(pv.n)}</button>`:'<span></span>'}${nx?`<button class="btn pri sm" data-act="stage" data-id="${nx.k}">Next: ${esc(nx.n)} &rarr;</button>`:''}</div>`;
+  }else if(UI.panel==='voicemail'){
+   body=`<p class="sub" style="margin-top:0">Keep it under 25 seconds. No product talk. No pressure to call back.</p><div class="q" style="cursor:default">${fill(S.voicemail,p)}</div>`;
+  }else if(UI.panel==='objections'){
+   body=OBJECTIONS.map(o=>`<div class="card pad" style="margin-bottom:10px;box-shadow:none"><b>${o.k}</b>${o.say.map(s=>`<div class="obj">${fill(s,p)}</div>`).join('')}</div>`).join('');
+  }else{
+   body=`<div class="list">${CALL_RULES.map((r,i)=>`<div class="li"><span class="av">${i+1}</span><div class="grow">${esc(r)}</div></div>`).join('')}</div><div class="sub" style="margin-top:10px">These are working rules for the draft, not legal advice. Your compliance contact has the final say.</div>`;
+  }
+  const script=`<div class="card pad" style="margin-bottom:14px"><h3>Call guide &middot; NEPQ-style questions</h3>${ptabs}${body}</div>`;
+  const needDate=UI.outcome==='cb'||UI.outcome==='bk';
+  const log=`<div class="card pad"><h3>Log this call</h3>
+   <div class="chips" style="margin-bottom:10px">${OUTCOMES.map(o=>`<button class="chip ${UI.outcome===o.k?'on':''}" data-act="outcome" data-id="${o.k}">${esc(o.label)}</button>`).join('')}</div>
+   ${needDate?`<div style="margin-bottom:10px"><label class="sub" style="display:block;font-weight:700;margin-bottom:4px">${UI.outcome==='bk'?'Meeting date':'Call back on'}</label><input class="inp" type="date" id="call-date" value="${esc(UI.cdate)}" style="max-width:200px"></div>`:''}
+   <textarea class="inp" id="call-notes" placeholder="What did they say? Use their words." style="min-height:84px">${esc(UI.notes)}</textarea>
+   <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap"><button class="btn pri" data-act="log-call" data-id="${p.id}">${UI.auto?'Save and next lead':'Save call'}</button><button class="chip ${UI.auto?'on':''}" data-act="auto">Auto-advance: ${UI.auto?'On':'Off'}</button><span class="sub">Booked meetings go to your pipeline and Tasks. Call backs go to Tasks.</span></div></div>`;
+  right=head+script+log;
+ }
+ return topbar('Call Desk',`<span class="pill warn">Phone dialer not connected</span>`)+`
+ <p class="sub" style="margin:-6px 0 14px">Pick a lead, tap Call to dial from your phone, follow the guide, then log how it went. Nothing is recorded or sent from this draft.</p>
+ ${kpis}<div class="callgrid">${left}<div>${right}</div></div>`;
+}
+
+/* ---------- pipeline ---------- */
+function vPipe(){
+ const cols=DB.stages.map(s=>{
+  const ds=DB.deals.filter(d=>d.stage===s.id&&ownerOk(d.owner));
+  const cards=ds.map(d=>{const h=HH(d.hh);return `<div class="deal" draggable="true" data-deal="${d.id}" data-act="open-deal" data-id="${d.id}"><div class="tt">${esc(d.title)}</div><div class="sub">${esc(h?h.name:'No household')}</div><div class="row"><span class="pill acc">${esc(d.owner)}</span><span class="pill">${esc(d.source||'')}</span></div></div>`}).join('');
+  const tag=s.type==='won'?'<span class="pill ok">Client</span>':s.type==='lost'?'<span class="pill bad">Closed</span>':'';
+  return `<div class="colm" data-stage="${s.id}"><div class="colh"><b>${esc(s.name)}</b>${tag}<span class="sub" style="margin-left:auto">${ds.length}</span></div><div class="cards">${cards}</div>${s.type==='open'?`<button class="btn sm" style="margin:0 8px 10px" data-act="new-deal" data-id="${s.id}">+ Add deal</button>`:''}</div>`}).join('');
+ return topbar('Pipeline',ownerPills()+`<button class="btn pri" data-act="new-deal">${ICON.plus}New deal</button>`)+`<p class="sub" style="margin:-6px 0 12px">One shared pipeline for both of you. Drag a card to change its stage.</p><div class="board">${cols}</div>`;
+}
+function bindDnD(){
+ document.querySelectorAll('.deal').forEach(el=>{
+  el.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',el.dataset.deal);el.classList.add('dragging')});
+  el.addEventListener('dragend',()=>el.classList.remove('dragging'));
+ });
+ document.querySelectorAll('.colm').forEach(col=>{
+  col.addEventListener('dragover',e=>{e.preventDefault();col.classList.add('drop')});
+  col.addEventListener('dragleave',e=>{if(!col.contains(e.relatedTarget))col.classList.remove('drop')});
+  col.addEventListener('drop',e=>{e.preventDefault();col.classList.remove('drop');const d=DL(e.dataTransfer.getData('text/plain'));if(d)moveDeal(d,col.dataset.stage)});
+ });
+}
+function moveDeal(d,stageId){
+ if(d.stage===stageId)return;
+ const s=ST(stageId);d.stage=stageId;
+ if(stageId==='s2'&&!d.firstMeeting)d.firstMeeting=today();
+ if(s.type==='won'){d.wonAt=today();const h=HH(d.hh);if(h){h.type='Client';if(!h.review)h.review=addDays(365);DB.tasks.push({id:uid(),title:'Annual review: '+h.name.replace(/^The /,'The '),due:h.review,done:false,owner:d.owner,deal:d.id})}}
+ else delete d.wonAt;
+ refresh();toast('Moved to '+s.name);
+}
+
+/* ---------- households ---------- */
+function householdRows(){
+ const q=UI.q.toLowerCase();
+ const rows=DB.hh.filter(h=>!q||[h.name,h.city,h.members,h.type].join(' ').toLowerCase().includes(q)).sort((a,b)=>a.name.localeCompare(b.name));
+ if(!rows.length)return '<tr><td colspan="5" class="empty">No households yet.</td></tr>';
+ return rows.map(h=>{const n=DB.deals.filter(d=>d.hh===h.id&&stype(d)==='open').length;
+  return `<tr data-act="open-hh" data-id="${h.id}"><td><div class="namecell"><span class="av">${esc(initials(h.name.replace(/^The /,'')))}</span><div><div style="font-weight:900">${esc(h.name)}</div><div class="sub">${esc(h.members||'')}</div></div></div></td><td class="hide-m">${esc(h.type)}</td><td class="hide-m">${esc(h.city||'')}</td><td>${n?`<span class="pill acc">${n} open</span>`:''}</td><td>${h.review?(h.review<today()?`<span class="pill bad">Review overdue</span>`:`<span class="pill">${fdate(h.review)}</span>`):''}</td></tr>`}).join('');
+}
+function vHouseholds(){
+ return topbar('Households',`<button class="btn pri" data-act="new-hh">${ICON.plus}New household</button>`)+`<div class="toolbar"><input id="q" class="inp" style="max-width:360px" placeholder="Search households"></div>
+ <div class="card"><div class="tablewrap"><table><thead><tr><th>Household</th><th class="hide-m">Type</th><th class="hide-m">Town</th><th>Deals</th><th>Next annual review</th></tr></thead><tbody id="rows">${householdRows()}</tbody></table></div></div>`;
+}
+
+/* ---------- tasks ---------- */
+function vTasks(){
+ const tabs=`<div class="chips"><button class="chip ${UI.taskTab==='open'?'on':''}" data-act="task-tab" data-id="open">To do</button><button class="chip ${UI.taskTab==='done'?'on':''}" data-act="task-tab" data-id="done">Done</button></div>`;
+ const T=today();let body='';
+ if(UI.taskTab==='done'){const d=DB.tasks.filter(t=>t.done&&ownerOk(t.owner));body=d.length?`<div class="card" style="padding:0 14px"><div class="list">${d.map(taskLine).join('')}</div></div>`:'<div class="card empty">No completed tasks yet.</div>'}
+ else{const o=DB.tasks.filter(t=>!t.done&&ownerOk(t.owner));
+  const g=[['Overdue',o.filter(t=>t.due&&t.due<T)],['Today',o.filter(t=>t.due===T)],['Upcoming',o.filter(t=>t.due&&t.due>T)],['No date',o.filter(t=>!t.due)]];
+  body=g.filter(x=>x[1].length).map(([l,a])=>`<div class="grp">${l} &middot; ${a.length}</div><div class="card" style="padding:0 14px"><div class="list">${a.sort((x,y)=>(x.due||'').localeCompare(y.due||'')).map(taskLine).join('')}</div></div>`).join('')||'<div class="card empty">You are all caught up.</div>'}
+ return topbar('Tasks',ownerPills()+tabs+`<button class="btn pri" data-act="new-task">${ICON.plus}New task</button>`)+body;
+}
+
+/* ---------- settings ---------- */
+function vSettings(){
+ const plan=[['LinkedIn outreach, 2 senders','Each of you sends from your own LinkedIn, with Sales Navigator searches feeding your lists. Draft-only until compliance confirms.'],['Shared pipeline for both of you','One login each, same pipeline, in the pilot.'],['Outlook email and calendar sync','In the pilot.'],['Autopilot app for iPhone','Hot leads, approvals and tap-to-call in your pocket. Home Screen today, App Store next.'],['Social Studio','Facebook, Instagram and TikTok posts planned and scheduled for Silver Oak.'],['RightCapital link on each household','In the pilot.'],['Compliance archiving of outreach','To confirm with your compliance contact before any outreach goes live.']];
+ return topbar('Settings')+`<div class="grid2">
+  <div class="card pad"><h3>What is real in this draft</h3><p class="sub" style="margin-top:-6px">Stages, fields, reminders, sources and the Prospect Finder layout follow your intake answers. Data is stored in this browser only, so this draft is one person on one device.</p>
+   <div class="list">${plan.map(([a,b])=>`<div class="li"><div class="grow"><div style="font-weight:900">${esc(a)}</div><div class="sub">${esc(b)}</div></div><span class="pill warn">Planned</span></div>`).join('')}</div></div>
+  <div class="card pad"><h3>Your data</h3><p class="sub" style="margin-top:-6px">Keep it light: do not store SSNs, account numbers or statements here. Those belong in RightCapital or your custodian.</p>
+   <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="export-json">Download backup</button><button class="btn" data-act="import-json">Restore from backup</button></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">${DB.sample?'<button class="btn" data-act="clear-sample">Clear sample data</button>':'<button class="btn" data-act="load-sample">Load sample data</button>'}<button class="btn danger" data-act="wipe">Erase everything</button></div>
+   <input type="file" id="importfile" accept="application/json,.json" hidden></div></div>`;
+}
+
+function renderMain(){
+ const v={dashboard:vDash,radar:vRadar,social:vSocial,finder:vFinder,calls:vCalls,outreach:vOutreach,pipeline:vPipe,households:vHouseholds,tasks:vTasks,settings:vSettings}[UI.view];
+ document.getElementById('main').innerHTML=v()+'<div class="taz-foot">Silver Oak by TAZ &middot; demo build &middot; Powered by <b>TAZ</b></div>';
+ if(UI.view==='pipeline')bindDnD();
+ const q=document.getElementById('q');if(q){q.value=UI.q;q.oninput=()=>{UI.q=q.value;document.getElementById('rows').innerHTML=householdRows()}}
+ const w=document.getElementById('wording');if(w)w.oninput=()=>{document.getElementById('wordout').innerHTML=wordingCheck(w.value)};
+}
+
+/* ---------- drawer ---------- */
+function openDrawer(kind,id){UI.drawer={kind,id};renderDrawer();document.getElementById('drawer').classList.add('show');document.getElementById('overlay').classList.add('show');document.getElementById('drawer').setAttribute('aria-hidden','false')}
+function closeDrawer(){UI.drawer=null;document.getElementById('drawer').classList.remove('show');document.getElementById('overlay').classList.remove('show');document.getElementById('drawer').setAttribute('aria-hidden','true')}
+function renderDrawer(){
+ const {kind,id}=UI.drawer,el=document.getElementById('drawer');
+ const rec=kind==='deal'?DL(id):kind==='hh'?HH(id):PR(id);
+ if(!rec){closeDrawer();return}
+ el.innerHTML=({deal:dDeal,hh:dHH,prospect:dProspect})[kind](rec);
+}
+function fact(k,v){return `<span class="k">${esc(k)}</span><span>${v?esc(v):'<span class="sub">-</span>'}</span>`}
+function dProspect(p){
+ return `<div class="dh"><span class="av" style="width:44px;height:44px;font-size:15px">${esc(initials(p.name))}</span><div style="flex:1;min-width:0"><div class="sub">Prospect${p.real?'':' (sample)'}</div><h2>${esc(p.name)}</h2><div class="sub">${esc(p.title)} &middot; ${esc(p.employer)}</div></div><button class="x" data-act="close-drawer" aria-label="Close">&times;</button></div>
+ <div class="db"><div style="margin-bottom:14px">${p.added?'<span class="pill ok">In pipeline</span>':`<button class="btn pri sm" data-act="add-prospect" data-id="${p.id}">Add to pipeline</button>`}${p.dnc?' <span class="pill bad">Do not call</span>':` <button class="btn sm" data-act="call-lead" data-id="${p.id}">${ICON.phone}Open in Call Desk</button>`}</div>
+ <div class="notes" style="margin-bottom:14px"><b>${esc(p.signal)}</b>: ${esc(p.why)}${p.profile?`<div class="sub" style="margin-top:8px"><b>Profile.</b> ${esc(p.profile)}</div>`:''}</div>
+ <div class="facts">${fact('Segment',p.segment)}${fact('Suggested owner',p.owner)}${fact('Estimated age',p.age)}${fact('Years at employer',p.years)}${fact('Town / ZIP',p.town)}${fact('LinkedIn',p.linkedin)}${fact('Work email',p.workEmail)}${fact('Personal email',p.personalEmail)}${fact('Mobile phone',p.mobile)}</div>
+ <div class="sub">${p.real?'Work details come from a licensed business-data provider and should be verified before outreach. No life-event signal has been checked yet.':'All contact details in this draft are made up. Live lists come from licensed data providers and public records.'}</div></div>`;
+}
+function dDeal(d){
+ const h=HH(d.hh),opts=DB.stages.map(s=>`<option value="${s.id}" ${s.id===d.stage?'selected':''}>${esc(s.name)}</option>`).join('');
+ const ns=DB.notes.filter(n=>n.deal===d.id).sort((a,b)=>b.when-a.when);
+ const ts=DB.tasks.filter(t=>t.deal===d.id).sort((a,b)=>a.done-b.done||(a.due||'9').localeCompare(b.due||'9'));
+ return `<div class="dh"><div style="flex:1;min-width:0"><div class="sub">Deal</div><h2>${esc(d.title)}</h2></div><button class="x" data-act="close-drawer" aria-label="Close">&times;</button></div>
+ <div class="db"><div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap"><select class="inp" id="deal-stage" data-id="${d.id}" style="max-width:260px">${opts}</select><button class="btn sm danger" data-act="del-deal" data-id="${d.id}">Delete</button></div>
+ <div class="facts"><span class="k">Household</span><span>${h?`<button class="link" data-act="open-hh" data-id="${h.id}">${esc(h.name)}</button>`:'-'}</span>${fact('Owner',d.owner)}${fact('Source',d.source)}${fact('First meeting',d.firstMeeting?fdate(d.firstMeeting):'')}</div>
+ <div class="sec"><h4>Tasks <button class="btn sm" data-act="new-task" data-id="${d.id}">${ICON.plus}Task</button></h4><div class="list">${ts.map(taskLine).join('')||'<div class="sub">No tasks.</div>'}</div></div>
+ <div class="sec"><h4>Notes</h4><textarea class="inp" id="note-text" placeholder="What happened?" style="min-height:64px"></textarea><div style="text-align:right;margin-top:8px"><button class="btn pri sm" data-act="add-note" data-id="${d.id}">Add note</button></div>
+ <div class="list" style="margin-top:8px">${ns.map(n=>`<div class="li"><div class="grow"><div style="white-space:pre-wrap">${esc(n.text)}</div><div class="sub">${new Date(n.when).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div></div></div>`).join('')||'<div class="sub">Nothing logged yet.</div>'}</div></div></div>`;
+}
+function dHH(h){
+ const deals=DB.deals.filter(d=>d.hh===h.id);
+ return `<div class="dh"><span class="av" style="width:44px;height:44px;font-size:15px">${esc(initials(h.name.replace(/^The /,'')))}</span><div style="flex:1;min-width:0"><div class="sub">Household</div><h2>${esc(h.name)}</h2><div class="sub">${esc([h.type,h.city].filter(Boolean).join(' · '))}</div></div><button class="x" data-act="close-drawer" aria-label="Close">&times;</button></div>
+ <div class="db"><div class="facts">${fact('People',h.members)}${fact('Type',h.type)}<span class="k">Next annual review</span><span>${h.review?esc(fdate(h.review)):'<span class="sub">-</span>'} <button class="btn sm" style="margin-left:8px" data-act="set-review" data-id="${h.id}">${h.review?'Change':'Set reminder'}</button></span></div>
+ ${h.notes?`<div class="notes">${esc(h.notes)}</div>`:''}
+ <div class="sec"><h4>Deals <button class="btn sm" data-act="new-deal" data-ref="${h.id}">${ICON.plus}Deal</button></h4><div class="list">${deals.map(d=>`<div class="li"><div class="grow"><button class="link" data-act="open-deal" data-id="${d.id}">${esc(d.title)}</button><div class="sub">${esc(d.owner)} &middot; ${esc(d.source||'')}</div></div><span class="pill ${stype(d)==='won'?'ok':stype(d)==='lost'?'bad':'acc'}">${esc((ST(d.stage)||{}).name||'')}</span></div>`).join('')||'<div class="sub">No deals.</div>'}</div></div>
+ <div style="margin-top:20px"><button class="btn danger sm" data-act="del-hh" data-id="${h.id}">Delete household</button></div></div>`;
+}
+
+/* ---------- forms ---------- */
+let FORM=null;
+function openForm({title,fields,values={},onSave,saveLabel='Save'}){
+ FORM={fields,onSave};
+ const f=fields.map(x=>{
+  const v=values[x.key]==null?'':values[x.key];
+  let input;
+  if(x.type==='select')input=`<select class="inp" name="${x.key}">${x.options.map(o=>`<option value="${esc(o.value)}" ${String(o.value)===String(v)?'selected':''}>${esc(o.label)}</option>`).join('')}</select>`;
+  else if(x.type==='textarea')input=`<textarea class="inp" name="${x.key}">${esc(v)}</textarea>`;
+  else input=`<input class="inp" name="${x.key}" type="${x.type||'text'}" value="${esc(v)}" placeholder="${esc(x.ph||'')}" ${x.list?`list="dl-${x.key}"`:''}>${x.list?`<datalist id="dl-${x.key}">${x.list.map(o=>`<option value="${esc(o)}">`).join('')}</datalist>`:''}`;
+  return `<div class="fld ${x.full?'full':''}"><label>${esc(x.label)}${x.req?' *':''}</label>${input}</div>`;
+ }).join('');
+ document.getElementById('mbox').innerHTML=`<h2>${esc(title)}</h2><form class="mform" id="mform" autocomplete="off">${f}<button type="submit" hidden></button></form><div class="mfoot"><button class="btn" data-act="close-modal">Cancel</button><button class="btn pri" data-act="save-form">${esc(saveLabel)}</button></div>`;
+ document.getElementById('modal').classList.add('show');
+ document.getElementById('mform').onsubmit=e=>{e.preventDefault();submitForm()};
+ setTimeout(()=>{const first=document.querySelector('#mform .inp');if(first)first.focus()},30);
+}
+function closeModal(){document.getElementById('modal').classList.remove('show');FORM=null}
+function submitForm(){
+ if(!FORM)return;
+ const data={};new FormData(document.getElementById('mform')).forEach((v,k)=>data[k]=typeof v==='string'?v.trim():v);
+ const miss=FORM.fields.find(x=>x.req&&!data[x.key]);
+ if(miss){toast(miss.label+' is required');return}
+ const ok=FORM.onSave(data);if(ok===false)return;
+ closeModal();refresh();
+}
+const opt=(arr)=>arr.map(x=>({value:x,label:x}));
+function dealForm(stageId,hhId){
+ openForm({title:'New deal',saveLabel:'Create deal',values:{stage:typeof stageId==='string'&&ST(stageId)?stageId:'s1',hh:hhId||'',owner:'Jesse',source:'Client referral'},
+  fields:[{key:'title',label:'Deal name',req:true,full:true,ph:'e.g. Retirement income plan'},
+   {key:'hhName',label:'Household (pick or type new)',list:DB.hh.map(h=>h.name),full:true},
+   {key:'owner',label:'Owner',type:'select',options:opt(OWNERS)},{key:'stage',label:'Stage',type:'select',options:DB.stages.map(s=>({value:s.id,label:s.name}))},
+   {key:'source',label:'Source',type:'select',options:opt(SOURCES),full:true}],
+  onSave:v=>{
+   let h=DB.hh.find(x=>x.name.toLowerCase()===(v.hhName||'').toLowerCase());
+   if(!h&&v.hhName){h={id:uid(),name:v.hhName,type:'Pre-retiree',city:'',members:'',review:'',notes:''};DB.hh.push(h)}
+   if(!h&&hhId)h=HH(hhId);
+   const d={id:uid(),title:v.title,hh:h?h.id:'',owner:v.owner,source:v.source,stage:v.stage,firstMeeting:v.stage==='s2'?today():'',created:Date.now()};
+   DB.deals.push(d);toast('Deal created');
+  }});
+ if(hhId&&HH(hhId)){const i=document.querySelector('#mform [name="hhName"]');if(i)i.value=HH(hhId).name}
+}
+function hhForm(){
+ openForm({title:'New household',saveLabel:'Add household',values:{type:'Pre-retiree'},
+  fields:[{key:'name',label:'Household name',req:true,full:true,ph:'e.g. The Smith Household'},{key:'type',label:'Type',type:'select',options:opt(SEGMENTS)},{key:'city',label:'Town'},{key:'members',label:'People',full:true,ph:'e.g. Tom, Anne'},{key:'notes',label:'Notes',type:'textarea',full:true}],
+  onSave:v=>{if(DB.hh.find(x=>x.name.toLowerCase()===v.name.toLowerCase())){toast('That household already exists');return false}
+   DB.hh.push({id:uid(),name:v.name,type:v.type,city:v.city,members:v.members,review:v.type==='Client'?addDays(365):'',notes:v.notes});toast('Household added')}});
+}
+function taskForm(dealId){
+ openForm({title:'New task',saveLabel:'Add task',values:{due:addDays(1),owner:'Jesse',deal:typeof dealId==='string'&&DL(dealId)?dealId:''},
+  fields:[{key:'title',label:'Follow-up',req:true,full:true,ph:'e.g. Call back about the plan'},{key:'due',label:'Due date',type:'date'},{key:'owner',label:'Owner',type:'select',options:opt(OWNERS)},
+   {key:'deal',label:'Related deal',type:'select',full:true,options:[{value:'',label:'-'}].concat(DB.deals.map(d=>({value:d.id,label:d.title})))}],
+  onSave:v=>{DB.tasks.push({id:uid(),title:v.title,due:v.due,owner:v.owner,deal:v.deal||'',done:false});toast('Task added')}});
+}
+function reviewForm(hid){
+ const h=HH(hid);
+ openForm({title:'Annual review reminder',saveLabel:'Save reminder',values:{date:h.review||addDays(365),owner:'Jesse'},
+  fields:[{key:'date',label:'Review date',type:'date',req:true},{key:'owner',label:'Owner',type:'select',options:opt(OWNERS)}],
+  onSave:v=>{h.review=v.date;DB.tasks=DB.tasks.filter(t=>!(t.auto===h.id));DB.tasks.push({id:uid(),title:'Annual review: '+h.name,due:v.date,owner:v.owner,deal:'',done:false,auto:h.id});toast('Reminder set')}});
+}
+
+/* ---------- actions ---------- */
+function download(name,text,type){const b=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+const ACT={
+ 'owner':id=>{UI.owner=id;renderMain()},
+ 'seg':id=>{UI.seg=id;renderMain()},
+ 'task-tab':id=>{UI.taskTab=id;renderMain()},
+ 'open-deal':id=>openDrawer('deal',id),'open-hh':id=>openDrawer('hh',id),'open-prospect':id=>openDrawer('prospect',id),
+ 'close-drawer':()=>closeDrawer(),'close-modal':()=>closeModal(),'save-form':()=>submitForm(),
+ 'new-deal':(id,a)=>dealForm(id,a.dataset.ref),'new-hh':()=>hhForm(),'new-task':id=>taskForm(id),'set-review':id=>reviewForm(id),
+ 'approve-draft':id=>{const x=(DB.drafts||[]).find(z=>z.id===id),t=document.getElementById('dt-'+id);if(!x||!t)return;
+  if(/guarante|\breturns?\b|outperform|risk[- ]free|beat the market/i.test(t.value)){x.text=t.value;toast('Fix the flagged wording first');document.getElementById('dc-'+id).innerHTML=wordingCheck(t.value);return}
+  x.text=t.value;x.status='approved';refresh();toast('Approved. Nothing is sent until the account is connected')},
+ 'skip-draft':id=>{const x=(DB.drafts||[]).find(z=>z.id===id);if(x){x.status='skipped';refresh()}},
+ 'undo-draft':id=>{const x=(DB.drafts||[]).find(z=>z.id===id);if(x){x.status='pending';refresh()}},
+ 'toggle-task':id=>{const t=TK(id);if(!t)return;t.done=!t.done;refresh();if(t.done)toast('Done')},
+ 'add-note':id=>{const v=document.getElementById('note-text').value.trim();if(!v){toast('Write a quick note first');return}DB.notes.push({id:uid(),deal:id,when:Date.now(),text:v});refresh();toast('Note added')},
+ 'del-deal':id=>{if(!confirm('Delete this deal and its tasks?'))return;DB.deals=DB.deals.filter(d=>d.id!==id);DB.tasks=DB.tasks.filter(t=>t.deal!==id);DB.notes=DB.notes.filter(n=>n.deal!==id);closeDrawer();refresh();toast('Deal deleted')},
+ 'del-hh':id=>{if(!confirm('Delete this household? Its deals stay, unlinked.'))return;DB.hh=DB.hh.filter(h=>h.id!==id);DB.deals.forEach(d=>{if(d.hh===id)d.hh=''});closeDrawer();refresh();toast('Household deleted')},
+ 'add-prospect':(id,a,e)=>{e.stopPropagation();const p=PR(id);if(!p||p.added)return;addToPipeline(p);refresh();toast('Added to pipeline, owner '+p.owner)},
+ 'call-lead':id=>{UI.callId=id;resetCall();closeDrawer();go('calls')},
+ 'cseg':id=>{UI.cseg=id;renderMain()},
+ 'call-pick':id=>{UI.callId=id;resetCall();renderMain();window.scrollTo(0,0)},
+ 'panel':id=>{UI.panel=id;renderMain()},
+ 'stage':id=>{UI.stage=id;renderMain()},
+ 'script-seg':id=>{UI.scriptSeg=id;renderMain()},
+ 'ask':(id,a)=>{UI.asked[id]=!UI.asked[id];a.classList.toggle('done',!!UI.asked[id])},
+ 'outcome':id=>{UI.outcome=id;if(id!=='cb'&&id!=='bk')UI.cdate='';renderMain()},
+ 'auto':()=>{UI.auto=!UI.auto;renderMain()},
+ 'log-call':id=>{
+  const p=PR(id);if(!p)return;const o=UI.outcome;
+  if(!o){toast('Pick how the call went');return}
+  if((o==='cb'||o==='bk')&&!UI.cdate){toast(o==='bk'?'Pick the meeting date':'Pick a call back date');return}
+  const notes=(UI.notes||'').trim();
+  DB.calls.push({id:uid(),pid:p.id,when:Date.now(),outcome:o,notes,owner:p.owner,date:UI.cdate||''});
+  if(o==='dnc')p.dnc=true;
+  if(o==='wn')p.badNumber=true;
+  if(o==='cb')DB.tasks.push({id:uid(),title:'Call back '+p.name,due:UI.cdate,owner:p.owner,deal:'',done:false});
+  if(o==='bk'){const d=addToPipeline(p);d.firstMeeting=UI.cdate;DB.tasks.push({id:uid(),title:'Intro meeting with '+p.name,due:UI.cdate,owner:p.owner,deal:d.id,done:false})}
+  const nx=UI.auto?nextLead(p.id):null;
+  UI.callId=nx?nx.id:(p.dnc?null:p.id);resetCall();
+  save();renderNav();renderMain();window.scrollTo(0,0);
+  toast(o==='bk'?'Meeting booked. Added to pipeline and Tasks':o==='dnc'?'Removed from the queue':'Call logged')},
+ 'clear-sample':()=>{if(!confirm('Clear all sample data? You keep your stages.'))return;DB={v:1,sample:false,calls:DB.calls||[],hh:[],deals:[],tasks:[],notes:[],prospects:DB.prospects.filter(p=>p.real),stages:DB.stages};refresh();toast('Sample data cleared')},
+ 'load-sample':()=>{if(!confirm('Replace your current data with sample data?'))return;DB=seed();refresh()},
+ 'wipe':()=>{if(!confirm('Erase everything in this draft? Download a backup first if you might need it.'))return;DB={v:1,sample:false,calls:[],hh:[],deals:[],tasks:[],notes:[],prospects:[],stages:stages()};refresh();toast('Erased')},
+ 'export-json':()=>{download('silver-oak-backup-'+today()+'.json',JSON.stringify(DB,null,2),'application/json');toast('Backup downloaded')},
+ 'import-json':()=>document.getElementById('importfile').click()
+};
+/* ================= DEMO LAYER: Lead Radar, Social, marquees =================
+   Everything below is made-up demo data (fictional people, invented numbers).
+   Real accounts connect later through Metricool, HeyReach and website tracking. */
+const DKEY='silver-oak-demo-v1';
+let DS={posts:{},added:{},sim:[]};
+try{const r=JSON.parse(localStorage.getItem(DKEY)||'null');if(r)DS=Object.assign(DS,r)}catch(e){}
+const dsave=()=>{try{localStorage.setItem(DKEY,JSON.stringify({posts:DS.posts,added:DS.added}))}catch(e){}};
+if(SOURCES.indexOf('Social media')<0)SOURCES.splice(5,0,'Social media');
+Object.assign(UI,{rseg:'All',rch:'All',rid:null,pch:'All',postId:null,rtemp:'All'});
+
+const CH={fb:{n:'Facebook',s:'FB',c:'#3b5b9d'},ig:{n:'Instagram',s:'IG',c:'#a8386f'},tt:{n:'TikTok',s:'TT',c:'#2b2b2b'},li:{n:'LinkedIn',s:'IN',c:'#2a6fa8'},web:{n:'Website',s:'WEB',c:'#8a6914'},em:{n:'Email',s:'EM',c:'#5c7a5a'}};
+const SIGW={follow:[5,'Followed the page'],like:[3,'Liked a post'],comment:[12,'Commented on a post'],share:[15,'Shared a post'],dm:[30,'Sent a direct message'],click:[18,'Clicked a link in a post'],visit:[15,'Visited the website'],contact:[25,'Viewed the Contact page'],book:[40,'Opened the booking link'],open:[6,'Opened an email'],reply:[30,'Replied to an email'],jobchg:[20,'Changed jobs (public post)']};
+const TEMPC={hot:'#b5451b',warm:'#c9a24a',cool:'#8c9a8a'};
+const MIN=60000;
+/* lead: name, segment, owner, town, role, events [minutesAgo, channel, type, detail] */
+const RAW=[
+['Denise Kowalczyk','Pre-retiree','Jesse','Mt. Lebanon','Nurse manager, regional hospital',[[6,'fb','comment','"Does this apply if I am 3 years from retiring?"'],[22,'web','contact'],[50,'web','book'],[1500,'fb','like']]],
+['Ray Pellegrino','Business owner','Aidan','Cranberry Twp','Owner, HVAC contractor, 22 employees',[[14,'li','dm','"Do you work with owners who are thinking about selling?"'],[95,'web','visit'],[400,'ig','comment','"Needed this one."'],[2900,'fb','follow']]],
+['Marcy Dunleavy','Pre-retiree','Jesse','Upper St. Clair','Assistant superintendent, school district',[[31,'em','reply','"Can we talk next week about my pension choices?"'],[60,'web','book'],[300,'fb','share']]],
+['Tyrell Branch','Young professional','Aidan','Lawrenceville','Software engineer, 4 years in',[[9,'tt','share'],[40,'ig','dm','"How do I start with a new baby and student loans?"'],[44,'tt','comment','"Part 2 please"'],[700,'tt','follow']]],
+['Gwen Hartigan','Business owner','Aidan','Wexford','Co-owner, dental practice',[[120,'web','contact'],[121,'web','visit'],[800,'li','dm'],[1000,'fb','like']]],
+['Paul Szymanski','Pre-retiree','Jesse','Bethel Park','Plant supervisor, 28 years at employer',[[180,'fb','comment','"What about Social Security timing?"'],[600,'web','visit'],[2100,'fb','like']]],
+['Anika Rao','Young professional','Aidan','Squirrel Hill','Physician assistant',[[55,'ig','comment','"Saving this for later."'],[200,'ig','like'],[1800,'tt','follow'],[2600,'ig','share']]],
+['Dale Whitfield','Business owner','Aidan','Moon Twp','Owner, trucking company',[[240,'web','visit'],[260,'li','comment'],[3000,'em','open']]],
+['Lorraine Fiske','Pre-retiree','Jesse','Monroeville','VP finance, manufacturer',[[420,'em','open'],[430,'web','click'],[5000,'fb','like']]],
+['Josh Mercer','Young professional','Aidan','Shadyside','Marketing manager',[[90,'tt','like'],[190,'tt','comment'],[1500,'ig','follow']]],
+['Carol Brandt','Pre-retiree','Jesse','Sewickley','Retired teacher, planning for a spouse',[[2400,'fb','comment','"Is there a checklist?"'],[2500,'fb','like'],[6000,'web','visit']]],
+['Neil Ostrowski','Business owner','Aidan','Gibsonia','Owner, landscape company',[[600,'fb','like'],[3400,'web','visit'],[7000,'ig','follow']]],
+['Priya Nair','Young professional','Aidan','Oakland','Postdoc turned data scientist',[[1300,'li','jobchg'],[1400,'ig','like'],[4800,'tt','follow']]],
+['Frank DeLuca','Pre-retiree','Jesse','Greensburg','Regional sales director',[[3600,'em','open'],[5200,'fb','like'],[9000,'fb','follow']]],
+['Beth Gallagher','Business owner','Aidan','Cranberry Twp','Owner, boutique marketing firm',[[4100,'ig','comment'],[4200,'ig','like'],[8000,'li','dm']]],
+['Omar Haddad','Young professional','Aidan','South Side','Civil engineer, newly married',[[2200,'ig','follow'],[3000,'ig','like']]],
+['Joan Petrakis','Pre-retiree','Jesse','Murrysville','Hospital administrator',[[8000,'em','open'],[9500,'fb','like']]],
+['Kevin Lindgren','Business owner','Aidan','Canonsburg','Owner, two restaurants',[[6500,'fb','follow'],[7200,'web','visit']]],
+['Sofia Marino','Young professional','Aidan','Bloomfield','Nurse practitioner',[[10000,'tt','like'],[12000,'tt','follow']]],
+['Walt Novak','Pre-retiree','Jesse','Washington, PA','Union electrician, 30 years',[[9000,'fb','like'],[12500,'fb','follow']]]
+];
+const ANON=[ /* social activity not tied to a known lead yet */
+[3,'ig','New follower from Pittsburgh','follow'],[11,'fb','Comment on "3 questions before you pick a retirement date"','comment'],[17,'tt','Reel passed 10,000 views','like'],[26,'ig','4 saves on the carousel "Open enrollment checklist"','like'],[38,'fb','Post shared into a Mt. Lebanon neighborhood group','share'],[58,'tt','8 new followers today','follow'],[75,'ig','Story link clicked 12 times','click'],[110,'fb','New page like','follow'],[150,'tt','Comment: "Wait, what is a Roth conversion?"','comment'],[210,'ig','Direct message: "Do you meet virtually?"','dm']
+];
+const mkLeads=()=>{const now=Date.now();return RAW.map((r,i)=>({id:'d'+(i+1),name:r[0],seg:r[1],owner:r[2],town:r[3],role:r[4],ev:r[5].map(e=>({t:now-e[0]*MIN,ch:e[1],k:e[2],x:e[3]||''}))}))};
+let LEADS=mkLeads();
+function dscore(l){const now=Date.now();let s=0;for(const e of l.ev){const h=(now-e.t)/3600000;s+=SIGW[e.k][0]*(h<24?1:h<72?.8:h<168?.55:.3)}return Math.min(100,Math.round(s))}
+const dtemp=s=>s>=60?'hot':s>=25?'warm':'cool';
+const dleads=()=>LEADS.map(l=>{const ev=l.ev.slice().sort((a,b)=>b.t-a.t);const s=dscore(l);return Object.assign({},l,{ev,score:s,temp:dtemp(s),last:ev[0].t})});
+const DLD=id=>dleads().find(l=>l.id===id);
+const agoStr=t=>{const m=Math.round((Date.now()-t)/MIN);return m<1?'just now':m<60?m+'m ago':m<1440?Math.round(m/60)+'h ago':Math.round(m/1440)+'d ago'};
+const evText=(e)=>SIGW[e.k][1]+(e.x?': '+e.x:'');
+const chBadge=c=>`<span class="ch" style="background:${CH[c].c}" title="${CH[c].n}">${CH[c].s}</span>`;
+const SEGC={'Pre-retiree':'Pre-retiree','Business owner':'Business owner','Young professional':'Young professional'};
+function feedEvents(){
+ const ev=[];
+ dleads().forEach(l=>l.ev.forEach(e=>ev.push({t:e.t,ch:e.ch,who:l.name,text:evText(e),lid:l.id,k:e.k})));
+ const now=Date.now();ANON.forEach(a=>ev.push({t:now-a[0]*MIN,ch:a[1],who:'',text:a[2],k:a[3]}));
+ DS.sim.forEach(e=>ev.push(e));
+ return ev.sort((a,b)=>b.t-a.t);
+}
+/* ---------- marquees ---------- */
+function mq(items,cls,label){
+ if(!items.length)return '';
+ let g=items.join('');while((g.match(/class="ti/g)||[]).length<8)g+=items.join('');
+ const secs=Math.max(40,(g.match(/class="ti/g)||[]).length*8);
+ return `<div class="trk ${cls}"><span class="tlab">${label}</span><div class="mq"><div class="mqi" style="animation-duration:${secs}s"><span class="mqg">${g}</span><span class="mqg" aria-hidden="true">${g}</span></div></div></div>`;
+}
+function renderTick(){
+ const el=document.getElementById('tick');if(!el)return;
+ const hot=dleads().filter(l=>l.temp==='hot').sort((a,b)=>b.score-a.score).map(l=>`<button class="ti" data-act="radar-open" data-id="${l.id}"><span class="flame">HOT ${l.score}</span><b>${esc(l.name)}</b><span class="tm">${esc(l.seg)}</span>${chBadge(l.ev[0].ch)}<span class="tx">${esc(evText(l.ev[0]))}</span><span class="ago">${agoStr(l.last)}</span></button>`);
+ const soc=feedEvents().slice(0,14).map(e=>`<button class="ti" data-act="${e.lid?'radar-open':'go-social'}" data-id="${e.lid||''}">${chBadge(e.ch)}${e.who?`<b>${esc(e.who)}</b>`:''}<span class="tx">${esc(e.text)}</span><span class="ago">${agoStr(e.t)}</span></button>`);
+ el.innerHTML=mq(hot,'t1','Hot leads')+mq(soc,'t2','Social live');
+}
+/* ---------- charts ---------- */
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const DAYS=14;
+function dailySignals(){
+ const r=rng(11),base={fb:9,ig:7,tt:6,web:8,em:3,li:2},out=[];
+ const now=new Date();const cnt={};feedEvents().forEach(e=>{const d=new Date(e.t);const k=Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate())-new Date(d.getFullYear(),d.getMonth(),d.getDate()))/86400000);if(k===0){cnt[e.ch]=(cnt[e.ch]||0)+1}});
+ for(let i=DAYS-1;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const row={d,v:{}};
+  Object.keys(base).forEach(c=>{row.v[c]=i===0?(cnt[c]||0):Math.round(base[c]*(.6+r()*.9)*(1+(DAYS-i)/40)*([0,6].includes(d.getDay())?.6:1))});out.push(row)}
+ return out;
+}
+function stackChart(){
+ const data=dailySignals(),cs=['fb','ig','tt','web','em','li'],W=600,H=210,pl=30,pb=26,pt=10,bw=(W-pl-6)/DAYS;
+ const tot=data.map(x=>cs.reduce((a,c)=>a+x.v[c],0)),mx=Math.max(10,...tot),sy=v=>(H-pb-pt)*v/mx;
+ let svg=`<svg viewBox="0 0 ${W} ${H}" class="chart" role="img" aria-label="Signals per day by channel, last 14 days">`;
+ for(let g=0;g<=4;g++){const y=H-pb-(H-pb-pt)*g/4;svg+=`<line x1="${pl}" x2="${W}" y1="${y}" y2="${y}" stroke="#e8ddcf"/><text x="${pl-5}" y="${y+4}" text-anchor="end" font-size="10" fill="#7a6a5a">${Math.round(mx*g/4)}</text>`}
+ data.forEach((x,i)=>{let y=H-pb;const bx=pl+i*bw+3;
+  cs.forEach(c=>{const h=sy(x.v[c]);y-=h;const dim=UI.rch!=='All'&&UI.rch!==c;svg+=`<rect x="${bx}" y="${y}" width="${bw-6}" height="${Math.max(0,h)}" fill="${CH[c].c}" opacity="${dim?.18:1}"><title>${CH[c].n}: ${x.v[c]} on ${x.d.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</title></rect>`});
+  if(i%2===(DAYS-1)%2||i===DAYS-1)svg+=`<text x="${bx+(bw-6)/2}" y="${H-8}" text-anchor="middle" font-size="10" fill="#7a6a5a">${x.d.getMonth()+1}/${x.d.getDate()}</text>`});
+ return svg+'</svg>';
+}
+function lineChart(){
+ const W=600,H=210,pl=36,pb=26,pt=12,N=30,cs=['fb','ig','tt'];const r=rng(5);
+ const base={fb:[1900,.9],ig:[1400,1.3],tt:[900,2.1]};
+ const ser={};cs.forEach(c=>{let v=base[c][0];ser[c]=[];for(let i=0;i<N;i++){v=Math.max(200,v*(1+(r()-.42)*.12*base[c][1]/1.3)+base[c][1]*30);if(c==='tt'&&(i===21||i===22))v*=1.45;ser[c].push(Math.round(v))}});
+ const show=UI.pch==='All'?cs:[UI.pch].filter(c=>cs.includes(c));
+ const mx=Math.max(...show.flatMap(c=>ser[c])),x=i=>pl+(W-pl-8)*i/(N-1),y=v=>H-pb-(H-pb-pt)*v/mx;
+ let svg=`<svg viewBox="0 0 ${W} ${H}" class="chart" role="img" aria-label="Reach per day, last 30 days">`;
+ for(let g=0;g<=4;g++){const yy=H-pb-(H-pb-pt)*g/4;svg+=`<line x1="${pl}" x2="${W}" y1="${yy}" y2="${yy}" stroke="#e8ddcf"/><text x="${pl-5}" y="${yy+4}" text-anchor="end" font-size="10" fill="#7a6a5a">${Math.round(mx*g/4/100)/10}k</text>`}
+ show.forEach(c=>{const pts=ser[c].map((v,i)=>x(i)+','+y(v)).join(' ');svg+=`<polygon points="${x(0)},${H-pb} ${pts} ${x(N-1)},${H-pb}" fill="${CH[c].c}" opacity=".08"/><polyline points="${pts}" fill="none" stroke="${CH[c].c}" stroke-width="2.4" stroke-linejoin="round"/><circle cx="${x(N-1)}" cy="${y(ser[c][N-1])}" r="4" fill="${CH[c].c}"/>`});
+ [0,7,14,21,29].forEach(i=>{const d=new Date();d.setDate(d.getDate()-(N-1-i));svg+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle" font-size="10" fill="#7a6a5a">${d.getMonth()+1}/${d.getDate()}</text>`});
+ return {svg:svg+'</svg>',ser};
+}
+/* ---------- Lead Radar ---------- */
+const NEXT={book:'Call within the hour. They opened your booking link, so this is the warmest moment you will get.',reply:'Reply today from your own inbox, then offer two times for a first conversation.',dm:'Answer the message personally today. Ask what prompted the question before offering anything.',contact:'They looked at the Contact page. A short, friendly note with a link to book is enough.',comment:'Reply to the comment in public, then follow up in a direct message the next day.',visit:'Not ready yet. Keep showing up with helpful posts and watch for a second visit.',default:'Keep them in the feed. Nothing to do until they take another step.'};
+function nextStep(l){for(const k of ['book','reply','dm','contact','comment','visit'])if(l.ev.some(e=>e.k===k))return NEXT[k];return NEXT.default}
+function draftFor(l){
+ const first=l.name.split(' ')[0];
+ const topic=l.seg==='Pre-retiree'?'the timing questions that come up a few years before retirement':l.seg==='Business owner'?'planning around a business you have built':'getting started with a plan when life is busy';
+ return `Hi ${first}, thanks for reaching out. I noticed your interest in ${topic}. That is a common place to start. Would a short, no-pressure conversation this week be useful? I can share a few questions to think about beforehand. Here is my calendar: [booking link]`;
+}
+const ring=(s,t,sz)=>`<span class="ring ${sz||''}" style="--p:${s};--c:${TEMPC[t]}"><b>${s}</b></span>`;
+function leadRow(l,sel){
+ const chs=[...new Set(l.ev.map(e=>e.ch))];
+ return `<button class="lrow ${sel?'on':''}" data-act="radar-pick" data-id="${l.id}">${ring(l.score,l.temp)}<span class="grow"><b>${esc(l.name)}</b> <span class="pill ${l.seg==='Pre-retiree'?'acc':''}">${esc(l.seg)}</span><span class="sub" style="display:block">${chBadge(l.ev[0].ch)} ${esc(evText(l.ev[0]))} &middot; ${agoStr(l.last)}</span></span><span class="chs">${chs.map(chBadge).join('')}</span></button>`;
+}
+function radarDetail(l){
+ if(!l)return '<div class="card pad"><div class="empty">Pick a lead to see why they are warm and what to do next.</div></div>';
+ const pts={};const now=Date.now();l.ev.forEach(e=>{const h=(now-e.t)/3600000,m=h<24?1:h<72?.8:h<168?.55:.3;pts[e.k]=(pts[e.k]||0)+SIGW[e.k][0]*m});
+ const rows=Object.entries(pts).sort((a,b)=>b[1]-a[1]),mx=Math.max(...rows.map(r=>r[1]));
+ const added=!!DS.added[l.id];
+ const d=draftFor(l);
+ return `<div class="card pad rdetail">
+  <div style="display:flex;gap:14px;align-items:center">${ring(l.score,l.temp,'big')}<div class="grow"><h3 style="margin:0;border:0;padding:0">${esc(l.name)}</h3><div class="sub">${esc(l.role)} &middot; ${esc(l.town)}, PA</div><div class="chips" style="margin-top:6px"><span class="pill acc">${esc(l.seg)}</span><span class="pill">Owner: ${esc(l.owner)}</span><span class="pill" style="background:${TEMPC[l.temp]};color:#fff">${l.temp.toUpperCase()}</span></div></div></div>
+  <div class="check ok" style="margin-top:12px;border-color:var(--gold2);background:#fbf3df"><b>Next step.</b> ${esc(nextStep(l))}</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0"><button class="btn pri sm" data-act="radar-add" data-id="${l.id}" ${added?'disabled':''}>${added?'In pipeline':'Add to pipeline'}</button><button class="btn sm" data-act="radar-task" data-id="${l.id}">Follow-up task for today</button></div>
+  <h4 class="rh">Why the score is ${l.score}</h4>
+  ${rows.map(([k,v])=>`<div class="hbar" style="grid-template-columns:150px 1fr 34px"><span>${esc(SIGW[k][1])}</span><div class="track"><div class="fill g" style="width:${Math.round(100*v/mx)}%"></div></div><span class="n">+${Math.round(v)}</span></div>`).join('')}
+  <h4 class="rh">Activity</h4>
+  ${l.ev.map(e=>`<div class="li" style="padding:7px 0">${chBadge(e.ch)}<div class="grow">${esc(evText(e))}</div><span class="sub">${agoStr(e.t)}</span></div>`).join('')}
+  <h4 class="rh">Draft a reply</h4>
+  <textarea class="inp" id="rdraft" style="min-height:110px">${esc(d)}</textarea><div id="rcheck">${wordingCheck(d)}</div>
+  <div style="display:flex;gap:8px;margin-top:8px"><button class="btn sm" data-act="radar-copy">Copy text</button><span class="sub" style="align-self:center">Nothing is sent from this demo.</span></div>
+ </div>`;
+}
+function vRadar(){
+ const all=dleads().filter(l=>ownerOk(l.owner)&&(UI.rseg==='All'||l.seg===UI.rseg)&&(UI.rch==='All'||l.ev.some(e=>e.ch===UI.rch)));
+ const hot=all.filter(l=>l.temp==='hot').sort((a,b)=>b.score-a.score),warm=all.filter(l=>l.temp==='warm').sort((a,b)=>b.score-a.score),cool=all.filter(l=>l.temp==='cool').sort((a,b)=>b.score-a.score);
+ const sel=all.find(l=>l.id===UI.rid)||hot[0]||all[0]||null;
+ const day=Date.now()-86400000;
+ const sig24=all.reduce((a,l)=>a+l.ev.filter(e=>e.t>=day).length,0);
+ const books=all.reduce((a,l)=>a+l.ev.filter(e=>e.k==='book'&&e.t>=Date.now()-7*86400000).length,0);
+ const avg=all.length?Math.round(all.reduce((a,l)=>a+l.score,0)/all.length):0;
+ const tf=UI.rtemp;
+ const sect=(t,label,list)=>(tf==='All'||tf===t)?`<div class="grp" style="margin-top:14px;color:${TEMPC[t]}">${label} &middot; ${list.length}</div>${list.map(l=>leadRow(l,sel&&sel.id===l.id)).join('')||'<div class="empty" style="padding:12px">None right now</div>'}`:'';
+ const chCount={};all.forEach(l=>{const w={};l.ev.forEach(e=>w[e.ch]=(w[e.ch]||0)+SIGW[e.k][0]);const top=Object.entries(w).sort((a,b)=>b[1]-a[1])[0][0];if(l.temp!=='cool')chCount[top]=(chCount[top]||0)+1});
+ const cmx=Math.max(1,...Object.values(chCount));
+ const bins=Array(10).fill(0);all.forEach(l=>bins[Math.min(9,Math.floor(l.score/10))]++);const bmx=Math.max(1,...bins);
+ return topbar('Lead Radar',ownerPills()+'<button class="btn pri" data-act="sim">Simulate new activity</button>')+`
+ <div class="banner demo"><b>Demo data.</b><span>Every lead, comment and number on this page is made up to show how it will look once Silver Oak's accounts are connected.</span></div>
+ <div class="kpis">
+  <div class="card pad kpi"><div class="l">Hot right now</div><div class="v" style="color:${TEMPC.hot}">${hot.length}</div><div class="s">score 60 or higher</div></div>
+  <div class="card pad kpi"><div class="l">Warming up</div><div class="v">${warm.length}</div><div class="s">score 25 to 59</div></div>
+  <div class="card pad kpi"><div class="l">Signals in 24 hours</div><div class="v">${sig24}</div><div class="s">comments, visits, messages</div></div>
+  <div class="card pad kpi"><div class="l">Booking links opened, 7 days</div><div class="v">${books}</div><div class="s">average score ${avg}</div></div>
+ </div>
+ <div class="toolbar"><div class="chips">${['All','Pre-retiree','Business owner','Young professional'].map(s=>`<button class="chip ${UI.rseg===s?'on':''}" data-act="rseg" data-id="${s}">${s==='All'?'All groups':s}</button>`).join('')}</div><div class="sp"></div><div class="chips">${['All','hot','warm','cool'].map(s=>`<button class="chip ${tf===s?'on':''}" data-act="rtemp" data-id="${s}">${s==='All'?'All heat':s[0].toUpperCase()+s.slice(1)}</button>`).join('')}</div></div>
+ <div class="toolbar"><div class="chips"><button class="chip ${UI.rch==='All'?'on':''}" data-act="rch" data-id="All">All channels</button>${Object.keys(CH).map(c=>`<button class="chip ${UI.rch===c?'on':''}" data-act="rch" data-id="${c}">${CH[c].n}</button>`).join('')}</div></div>
+ <div class="radargrid">
+  <div class="card pad" style="max-height:none"><h3>Heat board</h3>${sect('hot','Hot',hot)}${sect('warm','Warm',warm)}${sect('cool','Cool',cool)}</div>
+  <div class="rsticky">${radarDetail(sel)}</div>
+ </div>
+ <div class="grid2" style="margin-top:14px">
+  <div class="card pad"><h3>Signals per day, last 14 days</h3>${stackChart()}<div class="chips" style="margin-top:8px">${Object.keys(CH).map(c=>`<button class="chip sm ${UI.rch===c?'on':''}" data-act="rch" data-id="${UI.rch===c?'All':c}">${chBadge(c)} ${CH[c].n}</button>`).join('')}</div></div>
+  <div class="card pad"><h3>Warm and hot leads by main channel</h3>${Object.keys(CH).map(c=>`<button class="hbar linkbar" data-act="rch" data-id="${c}" style="grid-template-columns:110px 1fr 30px"><span>${chBadge(c)} ${CH[c].n}</span><div class="track"><div class="fill" style="width:${Math.round(100*(chCount[c]||0)/cmx)}%;background:${CH[c].c}"></div></div><span class="n">${chCount[c]||0}</span></button>`).join('')}
+   <h3 style="margin-top:18px">Score spread</h3><div class="hist">${bins.map((n,i)=>`<div class="hb" title="${i*10} to ${i*10+9}: ${n} leads"><div style="height:${Math.round(100*n/bmx)}%;background:${TEMPC[dtemp(i*10+5)]}"></div><span>${i*10}</span></div>`).join('')}</div></div>
+ </div>
+ <div class="card pad" style="margin-top:14px"><h3>How the score works</h3><div class="sub" style="font-size:13px;line-height:1.6">Each action adds points: opening the booking link <b>+40</b>, replying to an email or sending a message <b>+30</b>, viewing the Contact page <b>+25</b>, commenting <b>+12</b>, a like <b>+3</b>. Recent activity counts fully and fades over about a week. Pre-retirees, business owners and young professionals are scored the same way. You can change the points together.</div></div>`;
+}
+/* ---------- Social ---------- */
+const PLAT=[{c:'fb',f:1840,d:'+62',r:'48.2k',e:'3.1%'},{c:'ig',f:2310,d:'+118',r:'61.9k',e:'4.4%'},{c:'tt',f:1260,d:'+204',r:'94.7k',e:'6.2%'}];
+const DISC='Securities offered through licensed representatives. Financial planning services provided by Silver Oak Financial.';
+const POSTS=[
+{id:'p1',off:0,ch:'ig',type:'Reel',st:'scheduled',title:'3 questions to ask before picking a retirement date',text:'Retirement is not one date, it is a series of decisions. Three questions worth asking before you pick a date: What does a good Tuesday look like? When will health coverage start? How will the first year of income be paid? Save this and bring it to your next planning conversation.'},
+{id:'p2',off:1,ch:'fb',type:'Post',st:'scheduled',title:'Open enrollment checklist',text:'Open enrollment is a good moment to look at the whole picture, not just the plan options. Our short checklist covers benefits, beneficiaries and cash flow. Comment CHECKLIST and we will send it over.'},
+{id:'p3',off:2,ch:'tt',type:'Video',st:'approved',title:'Roth conversion in 30 seconds',text:'What is a Roth conversion, and who thinks about it? 30 seconds, no jargon. Everyone is different, so this is education, not advice for your situation.'},
+{id:'p4',off:3,ch:'fb',type:'Post',st:'approved',title:'Meet Jesse: why I became a planner',text:'I became a planner because I kept meeting people who were afraid to ask basic questions. If that is you, there is no such thing as a silly one. Come say hello.'},
+{id:'p5',off:4,ch:'ig',type:'Carousel',st:'draft',title:'Business owners: planning around the company you built',text:'Your business is probably your biggest asset and your biggest question mark. Four things owners often put off: succession, a retirement plan for yourself, tax timing, and a written plan for the unexpected.'},
+{id:'p6',off:5,ch:'tt',type:'Video',st:'draft',title:'Draft needing a rewrite',text:'Stay ahead of the market with returns that beat the market. We guarantee a plan that works.'},
+{id:'p7',off:7,ch:'fb',type:'Post',st:'draft',title:'Social Security timing questions we hear most',text:'Should I claim at 62, full retirement age or 70? The answer depends on health, other income and your spouse. Here are the questions that help you think it through.'},
+{id:'p8',off:8,ch:'ig',type:'Reel',st:'draft',title:'First financial plan at 30: where to start',text:'Student loans, a new job, maybe a baby on the way. Where do you start? Pick one question to answer this week: what do I owe, what do I earn, what do I want next year?'},
+{id:'p9',off:10,ch:'tt',type:'Video',st:'draft',title:'Three money questions to ask before you buy a house',text:'Before you start touring open houses: how much cash do you want left over, what happens if rates change, and what else is on the list for the next five years?'},
+{id:'p10',off:12,ch:'fb',type:'Post',st:'draft',title:'Pittsburgh coffee chat: free planning conversation',text:'We are setting aside a few mornings this month for relaxed conversations over coffee. No sales pitch. Message us to find a time.'}
+];
+const PAST=[
+{t:'3 questions to ask before picking a retirement date',ch:'ig',r:'18.4k',e:'7.9%',l:6},{t:'Roth conversion in 30 seconds',ch:'tt',r:'41.0k',e:'9.1%',l:9},{t:'Open enrollment checklist',ch:'fb',r:'9.7k',e:'4.8%',l:4},{t:'Social Security timing: 3 questions',ch:'fb',r:'7.2k',e:'3.9%',l:3},{t:'What to ask a financial planner',ch:'ig',r:'12.5k',e:'5.2%',l:2}
+];
+const pstate=p=>DS.posts[p.id]||{status:p.st,text:p.text};
+const STL={draft:['Draft','pill warn'],approved:['Compliance approved','pill acc'],scheduled:['Scheduled','pill ok']};
+function vSocial(){
+ const pf=UI.pch,pfp=lineChart();
+ const feed=feedEvents().filter(e=>pf==='All'||e.ch===pf).slice(0,9);
+ const reachTot=PLAT.filter(p=>pf==='All'||p.c===pf);
+ const cal=[];for(let i=0;i<14;i++){const d=new Date();d.setDate(d.getDate()+i);cal.push({i,d,posts:POSTS.filter(p=>p.off===i&&(pf==='All'||p.ch===pf))})}
+ const sel=POSTS.find(p=>p.id===UI.postId);
+ const sched=POSTS.filter(p=>pstate(p).status==='scheduled').length,appr=POSTS.filter(p=>pstate(p).status==='approved').length,drafts=POSTS.filter(p=>pstate(p).status==='draft').length;
+ return topbar('Social',`<button class="btn pri" data-act="sim">Simulate new activity</button>`)+`
+ <div class="banner demo"><b>Demo data.</b><span>Followers, reach and posts are made up. Once Aidan and Jesse connect Facebook, Instagram and TikTok, the same screen fills with their own numbers through Metricool.</span></div>
+ <div class="kpis">${PLAT.map(p=>`<button class="card pad kpi pk ${pf===p.c?'sel':''}" data-act="pch" data-id="${pf===p.c?'All':p.c}" style="text-align:left;border-top-color:${CH[p.c].c}"><div class="l">${chBadge(p.c)} ${CH[p.c].n}</div><div class="v">${p.f.toLocaleString()}</div><div class="s"><b style="color:var(--ok)">${p.d}</b> followers in 30 days &middot; reach ${p.r} &middot; engagement ${p.e}</div></button>`).join('')}
+  <div class="card pad kpi"><div class="l">Posts this fortnight</div><div class="v">${sched+appr+drafts}</div><div class="s">${sched} scheduled &middot; ${appr} approved &middot; ${drafts} drafts</div></div></div>
+ <div class="grid2">
+  <div class="card pad"><h3>Reach per day, last 30 days${pf==='All'?'':' &middot; '+CH[pf].n}</h3>${pfp.svg}<div class="chips" style="margin-top:8px">${['fb','ig','tt'].map(c=>`<span class="sub">${chBadge(c)} ${CH[c].n}</span>`).join('')}</div></div>
+  <div class="card pad"><h3>Live activity</h3>${feed.map(e=>`<div class="li" style="padding:8px 0">${chBadge(e.ch)}<div class="grow">${e.who?`<button class="link" data-act="radar-open" data-id="${e.lid}">${esc(e.who)}</button> `:''}<span>${esc(e.text)}</span></div><span class="sub">${agoStr(e.t)}</span></div>`).join('')||'<div class="empty">Nothing yet</div>'}</div>
+ </div>
+ <div class="card pad" style="margin-top:14px"><h3>Content calendar, next 14 days</h3>
+  <div class="cal">${cal.map(c=>`<div class="cd ${c.i===0?'today':''}"><div class="cdh">${c.d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</div>${c.posts.map(p=>{const s=pstate(p).status;return `<button class="cp ${UI.postId===p.id?'on':''} st-${s}" data-act="post-pick" data-id="${p.id}">${chBadge(p.ch)}<span>${esc(p.title)}</span></button>`}).join('')}</div>`).join('')}</div>
+  <div class="chips" style="margin-top:10px"><span class="pill warn">Draft</span><span class="pill acc">Compliance approved</span><span class="pill ok">Scheduled</span></div>
+ </div>
+ ${sel?postEditor(sel):''}
+ <div class="grid2" style="margin-top:14px">
+  <div class="card pad"><h3>Best posts, last 30 days</h3><div class="tablewrap"><table><thead><tr><th>Post</th><th>Reach</th><th>Engaged</th><th>Leads</th></tr></thead><tbody>${PAST.filter(p=>pf==='All'||p.ch===pf).map(p=>`<tr><td>${chBadge(p.ch)} ${esc(p.t)}</td><td>${p.r}</td><td>${p.e}</td><td><b>${p.l}</b></td></tr>`).join('')}</tbody></table></div></div>
+  <div class="card pad"><h3>How posts get approved</h3><div class="flow"><div class="fs"><b>1</b>Draft<span class="sub">Written by you or suggested by TAZ</span></div><div class="fa">&rarr;</div><div class="fs"><b>2</b>Wording check<span class="sub">Flags guarantees, returns and similar phrases</span></div><div class="fa">&rarr;</div><div class="fs"><b>3</b>Compliance approved<span class="sub">Your compliance contact signs off</span></div><div class="fa">&rarr;</div><div class="fs"><b>4</b>Scheduled<span class="sub">Goes out through Metricool</span></div></div><div class="sub" style="margin-top:10px">Posts are advertisements under the SEC Marketing Rule, so keep a copy of everything that goes out. How to archive them is still to be confirmed with Silver Oak's compliance contact.</div></div>
+ </div>`;
+}
+function postEditor(p){
+ const s=pstate(p),txt=s.text,bad=wordingCheck(txt).indexOf('Fix before')>-1;
+ return `<div class="card pad" style="margin-top:14px;border-top:3px solid ${CH[p.ch].c}"><h3>${chBadge(p.ch)} ${esc(p.title)} <span class="sub" style="font:400 13px Lato">${esc(p.type)} on ${CH[p.ch].n}</span></h3>
+ <div class="postprev"><div class="pph"><span class="av">SO</span><div><b>Silver Oak Financial</b><div class="sub">${esc(CH[p.ch].n)} &middot; ${STL[s.status][0]}</div></div></div><textarea class="inp" id="ptext" data-id="${p.id}" style="min-height:120px">${esc(txt)}</textarea><div class="disc">${esc(DISC)}</div></div>
+ <div id="pcheck">${wordingCheck(txt)}</div>
+ <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center"><span class="pill ${STL[s.status][1].replace('pill ','')}">${STL[s.status][0]}</span>
+  ${s.status==='draft'?`<button class="btn pri sm" id="pappr" data-act="post-approve" data-id="${p.id}" ${bad?'disabled':''}>Mark compliance approved</button>`:''}
+  ${s.status==='approved'?`<button class="btn pri sm" data-act="post-schedule" data-id="${p.id}">Schedule (demo)</button>`:''}
+  ${s.status!=='draft'?`<button class="btn sm" data-act="post-back" data-id="${p.id}">Back to draft</button>`:''}
+  <span class="sub">Nothing is posted from this demo.</span></div></div>`;
+}
+/* ---------- actions ---------- */
+function rerender(){renderNav();renderMain();renderTick()}
+Object.assign(ACT,{
+ 'radar-open':id=>{if(id)UI.rid=id;UI.rseg='All';UI.rch='All';UI.rtemp='All';go('radar');window.scrollTo(0,0)},
+ 'radar-pick':id=>{UI.rid=id;renderMain()},
+ 'go-social':()=>go('social'),
+ 'rseg':id=>{UI.rseg=id;renderMain()},'rtemp':id=>{UI.rtemp=id;renderMain()},
+ 'rch':id=>{UI.rch=UI.rch===id?'All':id;renderMain()},
+ 'pch':id=>{UI.pch=id;renderMain()},
+ 'post-pick':id=>{UI.postId=UI.postId===id?null:id;renderMain()},
+ 'post-approve':id=>{const p=POSTS.find(x=>x.id===id),t=document.getElementById('ptext');const txt=t?t.value:pstate(p).text;if(wordingCheck(txt).indexOf('Fix before')>-1){toast('Fix the flagged wording first');return}DS.posts[id]={status:'approved',text:txt};dsave();renderMain();toast('Marked compliance approved')},
+ 'post-schedule':id=>{const p=POSTS.find(x=>x.id===id),s=pstate(p);DS.posts[id]={status:'scheduled',text:s.text};dsave();renderMain();toast('Scheduled (demo only, nothing posts)')},
+ 'post-back':id=>{const p=POSTS.find(x=>x.id===id),s=pstate(p);DS.posts[id]={status:'draft',text:s.text};dsave();renderMain()},
+ 'radar-add':id=>{const l=DLD(id);if(!l||DS.added[id])return;
+  const h={id:uid(),name:l.name,type:l.seg,city:l.town,members:l.name.split(' ')[0],review:'',notes:'From Lead Radar (demo). '+l.role+'. Latest: '+evText(l.ev[0])};
+  const d={id:uid(),title:'First financial plan',hh:h.id,owner:l.owner,source:'Social media',stage:'s1',firstMeeting:'',created:Date.now()};
+  DB.hh.push(h);DB.deals.push(d);DS.added[id]=d.id;dsave();refresh();rerender();toast(l.name+' added to pipeline, owner '+l.owner)},
+ 'radar-task':id=>{const l=DLD(id);if(!l)return;DB.tasks.push({id:uid(),title:'Follow up with '+l.name+' (Lead Radar)',due:today(),owner:l.owner,deal:'',done:false});refresh();toast('Task added for today')},
+ 'radar-copy':()=>{const t=document.getElementById('rdraft');if(!t)return;try{navigator.clipboard.writeText(t.value);toast('Copied')}catch(e){t.select();toast('Select and copy')}},
+ 'sim':()=>{
+  const pool=[['fb','comment','"Is this worth doing at 55?"'],['ig','dm','"Do you meet virtually?"'],['web','book',''],['tt','share',''],['em','reply','"Tuesday works for me."'],['web','contact',''],['li','dm','']];
+  const before=dleads();const l=LEADS[Math.floor(Math.random()*LEADS.length)],ev=pool[Math.floor(Math.random()*pool.length)];
+  const wasHot=before.find(x=>x.id===l.id).temp;
+  l.ev.push({t:Date.now(),ch:ev[0],k:ev[1],x:ev[2]});
+  const after=dleads().find(x=>x.id===l.id);
+  DS.sim.push({t:Date.now(),ch:ev[0],who:l.name,text:evText(l.ev[l.ev.length-1]),lid:l.id,k:ev[1]});
+  UI.rid=l.id;rerender();
+  toast(wasHot!=='hot'&&after.temp==='hot'?l.name+' just turned HOT ('+after.score+')':l.name+': '+SIGW[ev[1]][1].toLowerCase()+' (score '+after.score+')');
+ }
+});
+document.addEventListener('input',e=>{
+ if(e.target.id==='rdraft'){document.getElementById('rcheck').innerHTML=wordingCheck(e.target.value)}
+ if(e.target.id==='ptext'){const v=e.target.value;document.getElementById('pcheck').innerHTML=wordingCheck(v);const b=document.getElementById('pappr');if(b)b.disabled=wordingCheck(v).indexOf('Fix before')>-1;const p=POSTS.find(x=>x.id===e.target.dataset.id);if(p){const s=pstate(p),was=s.status;DS.posts[p.id]={status:v===s.text?was:'draft',text:v};dsave();if(was!=='draft'&&v!==s.text){renderMain();const t=document.getElementById('ptext');if(t){t.focus();t.setSelectionRange(v.length,v.length)}toast('Edited, so it needs approval again')}}}
+});
+
+document.addEventListener('click',e=>{
+ const n=e.target.closest('[data-nav]');if(n){go(n.dataset.nav);return}
+ const a=e.target.closest('[data-act]');if(!a)return;
+ if(a.tagName==='BUTTON')e.preventDefault();
+ (ACT[a.dataset.act]||(()=>{}))(a.dataset.id,a,e);
+});
+document.getElementById('overlay').addEventListener('click',closeDrawer);
+document.addEventListener('input',e=>{if(e.target.id==='call-notes')UI.notes=e.target.value});
+document.addEventListener('change',e=>{if(e.target.id==='call-date')UI.cdate=e.target.value});
+document.getElementById('modal').addEventListener('mousedown',e=>{if(e.target.id==='modal')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(FORM)closeModal();else if(UI.drawer)closeDrawer()}});
+document.addEventListener('change',e=>{
+ const t=e.target;
+ if(t.id==='deal-stage'){const d=DL(t.dataset.id);if(d)moveDeal(d,t.value)}
+ else if(t.id==='sigsel'){UI.sig=t.value;renderMain()}
+ else if(t.id==='importfile'&&t.files[0]){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||!Array.isArray(d.deals)||!Array.isArray(d.stages))throw 0;if(!confirm('Replace everything with this backup?'))return;DB=d;refresh();toast('Backup restored')}catch(err){toast('That file is not a backup from this draft')}t.value=''};r.readAsText(t.files[0])}
+});
+load();renderNav();renderMain();renderTick();
+</script>
+<script>window.TAZ_DEMO={workspace:"silver-oak",pricing:false,requestsWebhook:"https://cloud.activepieces.com/api/v1/webhooks/8unh4SJmaRyIrOit64AeN"};</script>
+<script>
+/* TAZ layer v0.3: dollar wallet with margin shown, Ask TAZ, Request a change, Guided demo. One self-contained script; drop it in before </body>.
+   Demo mode (default): works offline with a simulated balance, nothing leaves the browser.
+   Live mode: set window.TAZ_CONFIG = { api:'https://<worker>', workspace:'<uuid>', token:()=>supabaseJwt } before this script. */
+(function(){
+  var C=window.TAZ_CONFIG||{}, LIVE=!!(C.api&&C.workspace), D=window.TAZ_DEMO||{}, SHOWP=D.pricing!==false, HOOK=D.requestsWebhook||null;
+  var CV=16; /* one internal credit unit = 16 cents */
+  var usd=function(c){return '$'+(c/100).toFixed(2)};
+  var INC=16000; /* included per seat per month on the Premium plan, cents */
+  var S={bal:12740,open:false,msgs:[],feat:null}; /* balance in cents */
+  try{var sv=JSON.parse(localStorage.getItem('taz_layer3')||'null');if(sv&&!LIVE){S.bal=sv.bal;S.msgs=sv.msgs||[]}}catch(e){}
+  var save=function(){try{localStorage.setItem('taz_layer3',JSON.stringify({bal:S.bal,msgs:S.msgs.slice(-30)}))}catch(e){}};
+  var $=function(s){return document.querySelector(s)};
+  var esc=function(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+  var view=function(){return typeof UI!=='undefined'?UI.view:undefined};
+  var hasDB=function(){return typeof DB!=='undefined'&&DB&&DB.tasks};
+  var CORE=['CRM and pipeline','Tasks and reminders','Call Desk scripts and call log','Email and calendar sync','Dashboards on your own data','Lead Radar on saved leads','Ask TAZ (ask and navigate)','Compliance wording check','Request a change','Backups and security'];
+  var METERED=[['Lead lookup',7,11],['Verify an email or number',4,6],['Ask TAZ report',12,18],['Prospect research brief',32,48]];
+  var BAD=/\b(guarantee[sd]?|guaranteed returns?|risk[- ]free|outperform(s|ed)?|beat the market|can'?t lose|sure thing)\b/ig;
+
+  /* ---------- API (live) or simulation (demo) ---------- */
+  function call(path,body){
+    var h={'content-type':'application/json'}, t=typeof C.token==='function'?C.token():C.token; if(t)h.authorization='Bearer '+t;
+    return fetch(C.api.replace(/\/$/,'')+path,{method:'POST',headers:h,body:JSON.stringify(Object.assign({workspace_id:C.workspace},body))})
+      .then(function(r){return r.json().then(function(j){if(!r.ok){var e=new Error(j.error||r.status);e.status=r.status;throw e}return j})});
+  }
+  function refresh(){ if(!LIVE){paint();return} fetch(C.api.replace(/\/$/,'')+'/v1/credits/balance?workspace_id='+C.workspace,{headers:{authorization:'Bearer '+(typeof C.token==='function'?C.token():C.token)}})
+    .then(function(r){return r.json()}).then(function(j){S.bal=j.balance*CV;paint()}).catch(function(){paint()}); }
+  window.TAZ={ /* call from any portal button that costs credits: TAZ.consume('lead_lookup').then(...) */
+    consume:function(action,qty){qty=qty||1;var cost={lead_lookup:18,enrich:10,report:30,research_brief:80}[action]||0;
+      if(LIVE)return call('/v1/credits/consume',{action:action,qty:qty}).then(function(j){S.bal=j.balance*CV;paint();return j});
+      if(S.bal<cost*qty)return Promise.reject(new Error('insufficient funds: need '+usd(cost*qty)+', have '+usd(S.bal)));
+      S.bal-=cost*qty;save();paint();return Promise.resolve({balance:S.bal})},
+    balance:function(){return S.bal}, wording:function(t){return (String(t).match(BAD)||[])}
+  };
+
+  /* ---------- Ask TAZ ---------- */
+  var PAGES={dashboard:['dashboard','home','overview'],radar:['radar','lead radar','hot leads'],social:['social','posts'],finder:['finder','prospect','prospects'],calls:['call desk','calls','call'],outreach:['outreach','emails'],pipeline:['pipeline','deals'],households:['households','clients','household'],tasks:['tasks','to do','todo'],settings:['settings']};
+  function demoAnswer(q){
+    var l=q.toLowerCase();
+    var nav=/\b(go to|open|show me|take me|navigate)\b/.test(l);
+    for(var k in PAGES){ if(PAGES[k].some(function(w){return l.indexOf(w)>-1}) && (nav||l.length<22)){ if(typeof go==='function'){go(k)} return {text:'Opening '+k+'.',cost:0}; } }
+    if(/\b(report|summary of|summarize)\b/.test(l)){ if(SHOWP&&S.bal<30)return {text:'A report costs $0.30 and your wallet has '+usd(S.bal)+'. You can add funds in Settings.',cost:0};
+      S.bal-=30;save();paint(); return {text:'Report (demo): 3 households have a review due this month, 2 deals are waiting on paperwork, 4 tasks are due this week. In the live version this table is built from your own records.',cost:30}; }
+    if(/\b(draft|write|follow[- ]?up|email)\b/.test(l)) return {text:'Hi, thanks for your time today. I put together the next steps we talked about and will send them over by Friday. Does Tuesday at 10 work for a short call?\n\n(Draft only. Nothing is sent from here.)',cost:0};
+    if(/\b(task|due|today)\b/.test(l)){ var n=(hasDB())?DB.tasks.filter(function(t){return !t.done}).length:0; return {text:'You have '+n+' open tasks. Say "open tasks" and I will take you there.',cost:0}; }
+    return {text:'I can take you to a page ("open the pipeline"), draft a follow-up, or build a report. Asking and navigating are free.',cost:0};
+  }
+  function ask(q){
+    S.msgs.push({r:'u',t:q}); paint();
+    var done=function(a){ if(a.text)S.msgs.push({r:'a',t:a.text,c:a.cost||0}); if(a.action&&a.action.name==='go'&&typeof go==='function')go(a.action.input.page); save();paint(); };
+    if(!LIVE){ setTimeout(function(){done(demoAnswer(q))},350); return; }
+    var mode=/\b(go to|open|take me)\b/i.test(q)?'navigate':/\b(draft|write)\b/i.test(q)?'draft':/\breport\b/i.test(q)?'report':'ask';
+    call('/v1/ask',{mode:mode,messages:[{role:'user',content:q}],context:{page:view()}}).then(function(j){S.bal=j.balance*CV;done({text:j.text||'',action:j.action,cost:mode==='report'?30:0})})
+      .catch(function(e){done({text:e.status===402?'Not enough in the wallet for that. Add funds in Settings.':e.status===423?'This workspace is read-only until the latest payment clears.':'Something went wrong. Try again in a moment.'})});
+  }
+
+  /* ---------- Request a change ---------- */
+  function nextBizDay(){var d=new Date();do{d.setDate(d.getDate()+1)}while(d.getDay()===0||d.getDay()===6);return d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'})}
+  function requestModal(){
+    var m=$('#taz-modal'); m.innerHTML='<div class="tz-box"><h3>Request a change</h3><p class="tz-sub">Tell us what you want different. We reply by '+nextBizDay()+'.</p>'+
+      '<label>What is it?<input id="tz-rt" placeholder="Add Instagram to the source filter"></label><label>Details<textarea id="tz-rb" rows="4" placeholder="Where you are, what you expected, what you want instead"></textarea></label>'+
+      '<div class="tz-row"><button class="tz-btn ghost" id="tz-rc">Cancel</button><button class="tz-btn" id="tz-rs">Send request</button></div><div id="tz-rm" class="tz-sub"></div></div>'; m.classList.add('on');
+    $('#tz-rc').onclick=function(){m.classList.remove('on')};
+    $('#tz-rs').onclick=function(){var t=$('#tz-rt').value.trim(); if(!t){$('#tz-rm').textContent='Add a short title first.';return}
+      var body={page:view(),title:t,body:$('#tz-rb').value};
+      var ok=function(eta){ $('#tz-rm').innerHTML='Sent. We will respond by <b>'+esc(eta)+'</b>.'; $('#tz-rs').disabled=true; setTimeout(function(){m.classList.remove('on')},2200) };
+      if(LIVE) call('/v1/requests',body).then(function(j){ok(j.respond_by?new Date(j.respond_by).toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'}):nextBizDay())}).catch(function(){$('#tz-rm').textContent='Could not send. Try again.'});
+      else if(HOOK){ fetch(HOOK,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(Object.assign({workspace:D.workspace||'silver-oak',from:D.user||'portal visitor',at:new Date().toISOString(),url:location.href},body))}).then(function(){ok(nextBizDay())}).catch(function(){$('#tz-rm').textContent='Could not send. Try again, or just email us.'}); }
+      else { try{var a=JSON.parse(localStorage.getItem('taz_requests')||'[]');a.push(Object.assign({at:new Date().toISOString()},body));localStorage.setItem('taz_requests',JSON.stringify(a))}catch(e){} ok(nextBizDay()); }
+    };
+  }
+
+  /* ---------- UI ---------- */
+  var css='#tz-tourbtn{position:fixed;left:18px;bottom:18px;z-index:60;background:#fff;color:var(--oak,#5c3d1e);border:1px solid var(--gold2,#c9a24a);border-radius:99px;padding:9px 15px;font:800 13px Lato,system-ui;cursor:pointer;box-shadow:0 4px 14px rgba(60,36,14,.2)}'+
+   '#tz-tour{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:95;width:min(760px,calc(100vw - 24px));background:var(--oak-d,#3b2412);color:#f6efe4;border-radius:16px;padding:12px 14px;display:none;align-items:center;gap:14px;box-shadow:0 14px 40px rgba(0,0,0,.35)}#tz-tour.on{display:flex}.tz-tn{background:var(--gold2,#c9a24a);color:#2b2118;font:800 12px Lato,system-ui;border-radius:99px;padding:5px 10px;white-space:nowrap}.tz-tt{flex:1;display:flex;flex-direction:column;gap:2px;font:14px Lato,system-ui}.tz-tt b{font-size:15px}.tz-tt span{opacity:.85;font-size:13px;line-height:1.35}.tz-tb{display:flex;gap:6px}.tz-tb button{background:#ffffff1f;color:#fff;border:0;border-radius:10px;padding:9px 12px;font:700 13px Lato,system-ui;cursor:pointer}.tz-tb button#tz-tx{background:var(--gold2,#c9a24a);color:#2b2118}.tz-tb button:disabled{opacity:.35}'+
+   '@media(max-width:800px){#tz-tourbtn{bottom:130px}#tz-tour{bottom:76px;flex-wrap:wrap}}'+
+   '#taz-chip{position:fixed;bottom:22px;right:150px;z-index:60;background:var(--oak,#5c3d1e);color:#f6efe4;border:0;border-radius:99px;padding:7px 14px;font:700 13px Lato,system-ui;cursor:pointer;box-shadow:0 4px 14px rgba(60,36,14,.25)}'+
+   '#taz-chip small{opacity:.7;font-weight:600;margin-left:4px}#taz-fab{position:fixed;right:18px;bottom:18px;z-index:60;background:var(--gold2,#c9a24a);color:#2b2118;border:0;border-radius:99px;padding:12px 18px;font:800 14px Lato,system-ui;cursor:pointer;box-shadow:0 8px 22px rgba(60,36,14,.3)}'+
+   '#taz-panel{position:fixed;top:0;right:0;bottom:0;width:min(400px,100vw);z-index:70;background:var(--panel,#fff);border-left:1px solid var(--line,#e8ddcf);box-shadow:-10px 0 30px rgba(40,24,8,.18);transform:translateX(105%);transition:transform .2s;display:flex;flex-direction:column}#taz-panel.on{transform:none}'+
+   '.tz-h{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line,#e8ddcf);background:var(--oak-d,#3b2412);color:#f6efe4}.tz-h b{font-size:15px}.tz-h button{margin-left:auto;background:none;border:0;color:#f6efe4;font-size:20px;cursor:pointer}'+
+   '.tz-body{flex:1;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}.tz-m{max-width:88%;padding:9px 12px;border-radius:12px;font-size:13.5px;white-space:pre-wrap}.tz-m.u{align-self:flex-end;background:var(--soft,#efe4d6)}.tz-m.a{align-self:flex-start;background:#f7f2ea;border:1px solid var(--line,#e8ddcf)}'+
+   '.tz-m small{display:block;margin-top:5px;color:var(--muted,#7a6a5a)}.tz-warn{margin-top:6px;padding:6px 8px;background:var(--warns,#fdf1dc);border-radius:8px;font-size:12px;color:#7a4a05}'+
+   '.tz-foot{border-top:1px solid var(--line,#e8ddcf);padding:10px 12px}.tz-foot form{display:flex;gap:8px}.tz-foot input{flex:1;border:1px solid var(--line,#e8ddcf);border-radius:8px;padding:9px 10px}.tz-btn{background:var(--oak,#5c3d1e);color:#fff;border:0;border-radius:8px;padding:9px 14px;font-weight:700;cursor:pointer}.tz-btn.ghost{background:transparent;color:var(--oak,#5c3d1e);border:1px solid var(--line,#e8ddcf)}.tz-btn:disabled{opacity:.5}'+
+   '.tz-links{display:flex;gap:12px;margin-top:8px;font-size:12px}.tz-links a{color:var(--oak2,#7a5530);cursor:pointer;text-decoration:underline}'+
+   '@media(max-width:800px){#taz-fab{bottom:78px;right:12px}#taz-chip{bottom:84px;right:auto;left:12px}.tz-pop{bottom:128px;right:12px;left:12px;width:auto}}#taz-modal{position:fixed;inset:0;z-index:90;background:rgba(30,18,8,.45);display:none;align-items:center;justify-content:center;padding:16px}#taz-modal.on{display:flex}.tz-box{background:#fff;border-radius:14px;padding:20px;width:min(440px,100%)}.tz-box h3{margin:0 0 4px}.tz-box label{display:block;margin-top:10px;font-weight:700;font-size:12.5px}.tz-box input,.tz-box textarea{display:block;width:100%;margin-top:4px;border:1px solid var(--line,#e8ddcf);border-radius:8px;padding:9px 10px;font-weight:400}.tz-row{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}.tz-sub{color:var(--muted,#7a6a5a);font-size:12.5px;margin:4px 0}'+
+   '.tz-list{margin:6px 0 0;padding-left:18px;font-size:12.5px;line-height:1.7}.tz-pop{position:fixed;bottom:66px;right:150px;max-height:70vh;overflow:auto;z-index:61;width:min(320px,calc(100vw - 32px));background:#fff;border:1px solid var(--line,#e8ddcf);border-radius:12px;padding:14px 16px;box-shadow:0 12px 30px rgba(40,24,8,.2);display:none}.tz-pop.on{display:block}.tz-pop h4{margin:10px 0 2px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--gold,#8a6914)}';
+
+  /* ---------- Guided demo: presenter drives with arrow keys or the buttons ---------- */
+  var STEPS=[
+   ['dashboard','Your day at a glance','Hot leads, tasks due and the pipeline on one screen, built around the answers you gave us.'],
+   ['radar','Lead Radar','Saved leads that just did something: opened an email, visited a page, changed jobs. Call the warm ones first.'],
+   ['social','Social','Facebook, Instagram and TikTok activity and the posts planned for Silver Oak.'],
+   ['finder','Prospect Finder','Describe who you want to reach. Each lookup shows its data cost and our margin before you spend.'],
+   ['calls','Call Desk','Question bank by segment, voicemail and objection scripts, and one-tap call outcomes.'],
+   ['outreach','Outreach and connections','Sequences that run on your behalf, and where each of you connects your own LinkedIn. Sales Navigator rides on Aidan\'s sign-in. Nothing goes out until you approve it.'],
+   ['pipeline','Pipeline','Every conversation by stage, with the next step always visible.'],
+   ['households','Households','Client households and review dates in one place.'],
+   ['tasks','Tasks','Follow-ups created automatically from calls and replies.'],
+   ['settings','Settings','What is live in this draft, what arrives in the pilot, and your data: export it or clear it anytime.'],
+   ['wallet','Your wallet, in dollars','$160 a seat each month. Every charge is the real data cost plus our margin, shown openly. Calls are a flat add-on, never metered by the minute.'],
+   ['ask','Ask TAZ','Ask for a page, a draft or a report. Asking is free.'],
+   ['change','Request a change','Tell us what you want different. We reply within two business days.']
+  ];
+  if(!SHOWP)STEPS=STEPS.filter(function(x){return x[0]!=='wallet'});
+  var T={on:false,i:0};
+  function tourShow(){
+    var st=STEPS[T.i]; $('#taz-pop').classList.remove('on');
+    if(st[0]==='wallet'){$('#taz-pop').classList.add('on')} else if(st[0]==='ask'){S.open=true;paint()} else if(st[0]==='change'){S.open=false;paint();requestModal()} else {S.open=false;$('#taz-modal').classList.remove('on');paint();if(typeof go==='function')go(st[0])}
+    var b=$('#tz-tour'); b.innerHTML='<div class="tz-tn">'+(T.i+1)+' of '+STEPS.length+'</div><div class="tz-tt"><b>'+esc(st[1])+'</b><span>'+esc(st[2])+'</span></div><div class="tz-tb"><button id="tz-tp" '+(T.i?'':'disabled')+'>&#9664;</button><button id="tz-tx">'+(T.i<STEPS.length-1?'Next &#9654;':'Done')+'</button><button id="tz-te" aria-label="End">&times;</button></div>';
+    $('#tz-tp').onclick=function(){tourGo(-1)};$('#tz-tx').onclick=function(){tourGo(1)};$('#tz-te').onclick=tourEnd;
+  }
+  function tourGo(d){var n=T.i+d;if(n<0)return;if(n>=STEPS.length){tourEnd();return}T.i=n;tourShow()}
+  function tourStart(){T.on=true;T.i=0;$('#tz-tour').classList.add('on');$('#tz-tourbtn').style.display='none';tourShow()}
+  function tourEnd(){T.on=false;$('#tz-tour').classList.remove('on');$('#tz-tourbtn').style.display='';$('#taz-pop').classList.remove('on');S.open=false;$('#taz-modal').classList.remove('on');paint()}
+  document.addEventListener('keydown',function(e){
+    if(/INPUT|TEXTAREA/.test((e.target||{}).tagName||''))return;
+    if(!T.on){ if(e.key==='g'&&e.altKey){tourStart()} return }
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();tourGo(1)}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();tourGo(-1)}
+    else if(e.key==='Escape'){tourEnd()}
+  });
+  function mount(){
+    var st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+    var d=document.createElement('div');d.innerHTML='<button id="taz-chip" aria-label="Credits"></button><div class="tz-pop" id="taz-pop"></div><button id="taz-fab">Ask TAZ</button><aside id="taz-panel" aria-label="Ask TAZ"></aside><div id="taz-modal"></div><button id="tz-tourbtn">&#9654; Guided demo</button><div id="tz-tour"></div>';
+    while(d.firstChild)document.body.appendChild(d.firstChild);
+    $('#tz-tourbtn').onclick=tourStart;
+    if(/[?&]tour=1/.test(location.search))setTimeout(tourStart,400);
+    $('#taz-chip').onclick=function(){$('#taz-pop').classList.toggle('on')};
+    $('#taz-fab').onclick=function(){S.open=!S.open;paint();if(S.open)setTimeout(function(){var i=$('#tz-q');i&&i.focus()},50)};
+    document.addEventListener('click',function(e){ if(!e.target.closest('#taz-pop,#taz-chip'))$('#taz-pop').classList.remove('on') });
+    paint(); refresh();
+  }
+  function paint(){
+    var chip=$('#taz-chip'); if(!chip)return;
+    chip.style.display=SHOWP?'':'none'; chip.innerHTML='Wallet '+usd(S.bal)+'<small>'+(LIVE?'':'demo')+'</small>';
+    $('#taz-pop').innerHTML='<b>'+usd(S.bal)+' left</b> <span class="tz-sub">of '+usd(INC)+' included this month</span><div class="tz-sub">Your wallet is dollars and cents, so you always know what you spent. Every charge is the data cost plus our margin, shown below.</div><h4>Always free</h4><ul class="tz-list">'+CORE.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul><h4>What things cost</h4><ul class="tz-list">'+METERED.map(function(x){return '<li>'+x[0]+': <b>'+usd(x[1]+x[2])+'</b><br><span class="tz-sub">data cost '+usd(x[1])+' + TAZ margin '+usd(x[2])+'</span></li>'}).join('')+'</ul><div class="tz-sub">Calls are a flat monthly add-on, not metered by the minute.</div>';
+    var p=$('#taz-panel'); p.classList.toggle('on',S.open);
+    var msgs=S.msgs.length?S.msgs:[{r:'a',t:'Hi, I am TAZ. Ask me to open a page, draft a follow-up, or build a report. I never send anything for you.',c:0}];
+    p.innerHTML='<div class="tz-h"><b>Ask TAZ</b><button id="tz-x" aria-label="Close">&times;</button></div><div class="tz-body" id="tz-body">'+msgs.map(function(m){
+      var w=m.r==='a'?(m.t.match(BAD)||[]):[]; return '<div class="tz-m '+m.r+'">'+esc(m.t)+(m.c&&SHOWP?'<small>Charged '+usd(m.c)+' (data cost $0.12 + TAZ margin $0.18)</small>':'')+(w.length?'<div class="tz-warn">Wording check: "'+esc(w[0])+'" can read as a promise. Rephrase before using this.</div>':'')+'</div>'}).join('')+'</div>'+
+      '<div class="tz-foot"><form id="tz-f"><input id="tz-q" autocomplete="off" placeholder="Ask, or say &quot;open the pipeline&quot;"><button class="tz-btn">Send</button></form><div class="tz-links"><a id="tz-req">Request a change</a><span class="tz-sub">'+(SHOWP?'Asking is free. Reports are $0.30.':'Asking is free.')+'</span></div></div>';
+    $('#tz-x').onclick=function(){S.open=false;paint()};
+    $('#tz-f').onsubmit=function(e){e.preventDefault();var i=$('#tz-q'),v=i.value.trim();if(v){i.value='';ask(v)}};
+    $('#tz-req').onclick=requestModal;
+    var b=$('#tz-body'); if(b)b.scrollTop=b.scrollHeight;
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
+})();
+
+</script>
+</body>
+</html>
