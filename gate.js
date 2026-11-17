@@ -4,6 +4,10 @@
   var KEY = 'silveroak_access_ok';
   var BOOK = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ18mCDkEBQFG4RxnJ9TRyP6zUriKzbRVll5_IIetLTdkZVUoCnUuQobePhEg0luR7kIgT0X8rtg';
   var base = (document.currentScript && document.currentScript.src) ? document.currentScript.src.replace(/gate\.js.*$/, '') : '';
+  window.TAZ_TRACK = { client: 'Silver Oak Financial', person: function () { try { return localStorage.getItem('so_person') || ''; } catch (e) { return ''; } } };
+  window.tazQ = window.tazQ || [];
+  function T() { var a = [].slice.call(arguments); if (window.tazTrack) window.tazTrack.apply(null, a); else window.tazQ.push(a); }
+  (function () { var s = document.createElement('script'); s.src = base + 'taz-track.js'; s.async = true; document.documentElement.appendChild(s); })();
   var css = document.createElement('style');
   css.textContent =
     'html.so-lock body>*:not(#so-gate){display:none!important}' +
@@ -14,6 +18,7 @@
     '#so-gate p{color:#7a6a5a;margin:0 0 18px;line-height:1.55}' +
     '#so-gate input{width:100%;padding:12px 14px;border:1px solid #e8ddcf;border-radius:10px;font-size:16px;margin-bottom:10px;box-sizing:border-box}' +
     '#so-gate button{width:100%;padding:12px;border:0;border-radius:10px;background:#5c3d1e;color:#fff;font-weight:700;font-size:16px;cursor:pointer}' +
+    '#so-gate .who{display:flex;gap:10px}#so-gate .who button{flex:1;background:#fff;color:#3b2412;border:2px solid #c9a24a}#so-gate .who button:hover{background:#fdf1dc}' +
     '#so-gate .err{color:#d24343;font-size:14px;min-height:20px;margin:6px 0 0}' +
     '#so-note{position:fixed;left:12px;right:12px;bottom:12px;z-index:9998;background:#3b2412;color:#fff;border-radius:14px;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;font-family:Lato,-apple-system,"Segoe UI",Arial,sans-serif;font-size:15px;box-shadow:0 8px 28px rgba(0,0,0,.25);border-left:6px solid #c9a24a}' +
     '#so-note a{color:#3b2412;background:#c9a24a;text-decoration:none;font-weight:700;padding:9px 14px;border-radius:9px;white-space:nowrap}' +
@@ -32,6 +37,7 @@
   function unlock() {
     document.documentElement.classList.remove('so-lock');
     var g = document.getElementById('so-gate'); if (g) g.remove();
+    T('unlocked');
     try { if (sessionStorage.getItem('so_note_hidden')) return; } catch (e) {}
     var onAgreement = /agreement\.html/.test(location.pathname);
     var n = document.createElement('div'); n.id = 'so-note';
@@ -47,17 +53,25 @@
     var b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
     return Array.from(new Uint8Array(b)).map(function (x) { return x.toString(16).padStart(2, '0'); }).join('');
   }
+  function who(done) {
+    var p = ''; try { p = localStorage.getItem('so_person') || ''; } catch (e) {}
+    if (p) return done();
+    var old = document.getElementById('so-gate'); if (old) old.remove();
+    var g = gate('<img class="me" src="' + base + 'xander.jpg" alt=""><small>SILVER OAK FINANCIAL BY TAZ</small><h2>Who&rsquo;s here?</h2><p>Pick your name so the portal opens to your view.</p>' +
+      '<div class="who"><button data-p="Aidan McGinnis">Aidan</button><button data-p="Jesse Goodall">Jesse</button></div>');
+    [].forEach.call(g.querySelectorAll('.who button'), function (b) { b.onclick = function () { try { localStorage.setItem('so_person', b.dataset.p); } catch (e) {} done(); }; });
+  }
   function start() {
     var ok = false; try { ok = sessionStorage.getItem(KEY) === HASH || localStorage.getItem(KEY) === HASH; } catch (e) {}
-    if (ok) return unlock();
+    if (ok) return who(unlock);
     var g = gate('<img class="me" src="' + base + 'xander.jpg" alt=""><small>SILVER OAK FINANCIAL BY TAZ</small><h2>Welcome, Aidan and Jesse</h2><p>This portal is private to Silver Oak. Enter the password from your TAZ email to open it.</p>' +
       '<form><input type="password" autocomplete="current-password" placeholder="Password" aria-label="Password"><button>Open portal</button><div class="err"></div></form>');
     var f = g.querySelector('form'), i = g.querySelector('input'), e = g.querySelector('.err');
     i.focus();
     f.onsubmit = async function (ev) {
       ev.preventDefault();
-      if ((await sha(i.value.trim())) === HASH) { try { sessionStorage.setItem(KEY, HASH); localStorage.setItem(KEY, HASH); } catch (x) {} unlock(); }
-      else { e.textContent = 'That password did not match. Reply to your TAZ email and I will resend it.'; i.select(); }
+      if ((await sha(i.value.trim())) === HASH) { try { sessionStorage.setItem(KEY, HASH); localStorage.setItem(KEY, HASH); } catch (x) {} who(unlock); }
+      else { T('wrong_password', ''); e.textContent = 'That password did not match. Reply to your TAZ email and I will resend it.'; i.select(); }
     };
   }
   if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
